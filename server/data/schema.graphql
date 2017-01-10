@@ -1,94 +1,91 @@
-input AddFeatureInput {
-  name: String!
-  description: String!
-  url: String!
-  clientMutationId: String
+schema {
+  query: BlogSchema
+  mutation: BlogMutations
 }
 
-type AddFeaturePayload {
-  featureEdge: FeatureEdge
-  viewer: User
-  clientMutationId: String
-}
-
-# Feature integrated in our starter kit
-type Feature implements Node {
-  # The ID of an object
-  id: ID!
-
-  # Name of the feature
+# Represent the type of an author of a story or a comment
+type Author {
+  _id: String
   name: String
-
-  # Description of the feature
-  description: String
-
-  # Url of the feature
-  url: String
+  twitterHandle: String
 }
 
-# A connection to a list of items.
-type FeatureConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
+type BlogMutations {
+  # Create a new blog post
+  createPost(
+    _id: String!
+    title: String!
+    content: String!
+    summary: String
+    category: Category
 
-  # A list of edges.
-  edges: [FeatureEdge]
+    # Id of the author
+    author: String!
+  ): Post
+
+  # Create a new author
+  createAuthor(_id: String!, name: String!, twitterHandle: String): Author
 }
 
-# An edge in a connection.
-type FeatureEdge {
-  # The item at the end of the edge
-  node: Feature
+# Root of the Blog Schema
+type BlogSchema {
+  # List of posts in the blog
+  posts(category: Category): [Post]
 
-  # A cursor for use in pagination
-  cursor: String!
+  # Latest post in the blog
+  latestPost: Post
+
+  # Recent posts in the blog
+  recentPosts(
+    # Number of recent items
+    count: Int!
+  ): [Post]
+
+  # Post by _id
+  post(_id: String!): Post
+
+  # Available authors in the blog
+  authors: [Author]
+
+  # Author by _id
+  author(_id: String!): Author
 }
 
-type Mutation {
-  addFeature(input: AddFeatureInput!): AddFeaturePayload
+# A Category of the story
+enum Category {
+  METEOR
+  PRODUCT
+  USER_STORY
+  OTHER
 }
 
-# An object with an ID
-interface Node {
-  # The id of the object.
-  id: ID!
+# Represent the type of a comment
+type Comment implements HasAuthor {
+  _id: String
+  content: String
+  author: Author
+  timestamp: Float
+
+  # Replies for the comment
+  replies: [Comment]
 }
 
-# Information about pagination in a connection.
-type PageInfo {
-  # When paginating forwards, are there more items?
-  hasNextPage: Boolean!
-
-  # When paginating backwards, are there more items?
-  hasPreviousPage: Boolean!
-
-  # When paginating backwards, the cursor to continue.
-  startCursor: String
-
-  # When paginating forwards, the cursor to continue.
-  endCursor: String
+# This type has an author
+interface HasAuthor {
+  author: Author
 }
 
-type Query {
-  # Fetches an object given its ID
-  node(
-    # The ID of an object
-    id: ID!
-  ): Node
-  viewer: User
-}
-
-# A person who uses our app
-type User implements Node {
-  # The ID of an object
-  id: ID!
-
-  # Features that I have
-  features(after: String, first: Int, before: String, last: Int): FeatureConnection
-
-  # Users's username
-  username: String
-
-  # User's website
-  website: String
+# Represent the type of a blog post
+type Post implements HasAuthor {
+  _id: String
+  title: String
+  category: Category
+  summary: String
+  content: String
+  timestamp: Float
+  comments(
+    # Limit the comments returing
+    limit: Int
+  ): [Comment]
+  author: Author
 }

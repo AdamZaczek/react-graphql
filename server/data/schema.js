@@ -1,179 +1,276 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
+
+import PostsList from './mockedData/posts';
+import AuthorsMap from './mockedData/authors';
+import {CommentList, ReplyList} from './mockedData/comments';
+
 import {
-  GraphQLBoolean,
-  GraphQLFloat,
-  GraphQLID,
-  GraphQLInt,
   GraphQLList,
-  GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLString
+  GraphQLString,
+  GraphQLInt,
+  GraphQLFloat,
+  GraphQLEnumType,
+  GraphQLNonNull,
+  GraphQLInterfaceType
 } from 'graphql';
 
-import {
-  connectionArgs,
-  connectionDefinitions,
-  connectionFromArray,
-  fromGlobalId,
-  globalIdField,
-  mutationWithClientMutationId,
-  nodeDefinitions,
-  cursorForObjectInConnection
-} from 'graphql-relay';
-
-import {
-  User,
-  Feature,
-  getUser,
-  getFeature,
-  getFeatures,
-  addFeature
-} from './database';
-
-
-/**
- * We get the node interface and field from the Relay library.
- *
- * The first method defines the way we resolve an ID to its object.
- * The second defines the way we resolve an object to its GraphQL type.
- */
-const { nodeInterface, nodeField } = nodeDefinitions(
-  (globalId) => {
-    const { type, id } = fromGlobalId(globalId);
-    if (type === 'User') {
-      return getUser(id);
-    } else if (type === 'Feature') {
-      return getFeature(id);
-    }
-    return null;
-  },
-  (obj) => {
-    if (obj instanceof User) {
-      return userType;
-    } else if (obj instanceof Feature) {
-      return featureType;
-    }
-    return null;
+const Category = new GraphQLEnumType({
+  name: 'Category',
+  description: 'A Category of the story',
+  values: {
+    METEOR: {value: 'meteor'},
+    PRODUCT: {value: 'product'},
+    USER_STORY: {value: 'user-story'},
+    OTHER: {value: 'other'}
   }
-);
-
-/**
- * Define your own types here
- */
-
-const userType = new GraphQLObjectType({
-  name: 'User',
-  description: 'A person who uses our app',
-  fields: () => ({
-    id: globalIdField('User'),
-    features: {
-      type: featureConnection,
-      description: 'Features that I have',
-      args: connectionArgs,
-      resolve: (_, args) => connectionFromArray(getFeatures(), args)
-    },
-    username: {
-      type: GraphQLString,
-      description: 'Users\'s username'
-    },
-    website: {
-      type: GraphQLString,
-      description: 'User\'s website'
-    }
-  }),
-  interfaces: [nodeInterface]
 });
 
-const featureType = new GraphQLObjectType({
-  name: 'Feature',
-  description: 'Feature integrated in our starter kit',
+const Author = new GraphQLObjectType({
+  name: 'Author',
+  description: 'Represent the type of an author of a story or a comment',
   fields: () => ({
-    id: globalIdField('Feature'),
-    name: {
-      type: GraphQLString,
-      description: 'Name of the feature'
-    },
-    description: {
-      type: GraphQLString,
-      description: 'Description of the feature'
-    },
-    url: {
-      type: GraphQLString,
-      description: 'Url of the feature'
-    }
-  }),
-  interfaces: [nodeInterface]
+    _id: {type: GraphQLString},
+    name: {type: GraphQLString},
+    twitterHandle: {type: GraphQLString}
+  })
 });
 
-/**
- * Define your own connection types here
- */
-const { connectionType: featureConnection, edgeType: featureEdge } = connectionDefinitions({ name: 'Feature', nodeType: featureType });
+const HasAuthor = new GraphQLInterfaceType({
+  name: 'HasAuthor',
+  description: 'This type has an author',
+  fields: () => ({
+    author: {type: Author}
+  }),
+  resolveType: (obj) => {
+    if(obj.title) {
+      return Post;
+    } else if(obj.replies) {
+      return Comment;
+    } else {
+      return null;
+    }
+  }
+});
 
-/**
- * Create feature example
- */
-
-const addFeatureMutation = mutationWithClientMutationId({
-  name: 'AddFeature',
-  inputFields: {
-    name: { type: new GraphQLNonNull(GraphQLString) },
-    description: { type: new GraphQLNonNull(GraphQLString) },
-    url: { type: new GraphQLNonNull(GraphQLString) },
-  },
-
-  outputFields: {
-    featureEdge: {
-      type: featureEdge,
-      resolve: (obj) => {
-        const cursorId = cursorForObjectInConnection(getFeatures(), obj);
-        return { node: obj, cursor: cursorId };
+const Comment = new GraphQLObjectType({
+  name: 'Comment',
+  interfaces: [HasAuthor],
+  description: 'Represent the type of a comment',
+  fields: () => ({
+    _id: {type: GraphQLString},
+    content: {type: GraphQLString},
+    author: {
+      type: Author,
+      resolve: function({author}) {
+        return AuthorsMap[author];
       }
     },
-    viewer: {
-      type: userType,
-      resolve: () => getUser(1)
-    }
-  },
-
-  mutateAndGetPayload: ({ name, description, url }) => addFeature(name, description, url)
-});
-
-
-/**
- * This is the type that will be the root of our query,
- * and the entry point into our schema.
- */
-const queryType = new GraphQLObjectType({
-  name: 'Query',
-  fields: () => ({
-    node: nodeField,
-    // Add your own root fields here
-    viewer: {
-      type: userType,
-      resolve: () => getUser(1)
+    timestamp: {type: GraphQLFloat},
+    replies: {
+      type: new GraphQLList(Comment),
+      description: 'Replies for the comment',
+      resolve: function() {
+        return ReplyList;
+      }
     }
   })
 });
 
-/**
- * This is the type that will be the root of our mutations,
- * and the entry point into performing writes in our schema.
- */
-const mutationType = new GraphQLObjectType({
-  name: 'Mutation',
+const Post = new GraphQLObjectType({
+  name: 'Post',
+  interfaces: [HasAuthor],
+  description: 'Represent the type of a blog post',
   fields: () => ({
-    addFeature: addFeatureMutation
-    // Add your own mutations here
+    _id: {type: GraphQLString},
+    title: {type: GraphQLString},
+    category: {type: Category},
+    summary: {type: GraphQLString},
+    content: {type: GraphQLString},
+    timestamp: {
+      type: GraphQLFloat,
+      resolve: function(post) {
+        if(post.date) {
+          return new Date(post.date['$date']).getTime();
+        } else {
+          return null;
+        }
+      }
+    },
+    comments: {
+      type: new GraphQLList(Comment),
+      args: {
+        limit: {type: GraphQLInt, description: 'Limit the comments returing'}
+      },
+      resolve: function(post, {limit}) {
+        if(limit >= 0) {
+          return CommentList.slice(0, limit);
+        }
+
+        return CommentList;
+      }
+    },
+    author: {
+      type: Author,
+      resolve: function({author}) {
+        return AuthorsMap[author];
+      }
+    }
   })
 });
 
-/**
- * Finally, we construct our schema (whose starting query type is the query
- * type we defined above) and export it.
- */
-export default new GraphQLSchema({
-  query: queryType,
-  mutation: mutationType
+const Query = new GraphQLObjectType({
+  name: 'BlogSchema',
+  description: 'Root of the Blog Schema',
+  fields: () => ({
+    posts: {
+      type: new GraphQLList(Post),
+      description: 'List of posts in the blog',
+      args: {
+        category: {type: Category}
+      },
+      resolve: function(source, {category}) {
+        if(category) {
+          //return _.filter(PostsList, post => post.category === category);
+          return PostsList.filter(post => {
+            return (post.category === category);
+          });
+        } else {
+          return PostsList;
+        }
+      }
+    },
+
+    latestPost: {
+      type: Post,
+      description: 'Latest post in the blog',
+      resolve: function() {
+        PostsList.sort((a, b) => {
+          var bTime = new Date(b.date['$date']).getTime();
+          var aTime = new Date(a.date['$date']).getTime();
+
+          return bTime - aTime;
+        });
+
+        return PostsList[0];
+      }
+    },
+
+    recentPosts: {
+      type: new GraphQLList(Post),
+      description: 'Recent posts in the blog',
+      args: {
+        count: {type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent items'}
+      },
+      resolve: function(source, {count}) {
+        PostsList.sort((a, b) => {
+          var bTime = new Date(b.date['$date']).getTime();
+          var aTime = new Date(a.date['$date']).getTime();
+
+          return bTime - aTime;
+        });
+
+        return PostsList.slice(0, count);
+      }
+    },
+
+    post: {
+      type: Post,
+      description: 'Post by _id',
+      args: {
+        _id: {type: new GraphQLNonNull(GraphQLString)}
+      },
+      resolve: function(source, {_id}) {
+        //return _.filter(PostsList, post => post._id === _id)[0];
+        return PostsList.filter(post => {
+          return (post._id === id);
+        })[0];
+      }
+    },
+
+    authors: {
+      type: new GraphQLList(Author),
+      description: 'Available authors in the blog',
+      resolve: function() {
+        return [...AuthorsMap];
+      }
+    },
+
+    author: {
+      type: Author,
+      description: 'Author by _id',
+      args: {
+        _id: {type: new GraphQLNonNull(GraphQLString)}
+      },
+      resolve: function(source, {_id}) {
+        return AuthorsMap[_id];
+      }
+    }
+  })
 });
+
+const Mutation = new GraphQLObjectType({
+  name: 'BlogMutations',
+  fields: {
+    createPost: {
+      type: Post,
+      description: 'Create a new blog post',
+      args: {
+        _id: {type: new GraphQLNonNull(GraphQLString)},
+        title: {type: new GraphQLNonNull(GraphQLString)},
+        content: {type: new GraphQLNonNull(GraphQLString)},
+        summary: {type: GraphQLString},
+        category: {type: Category},
+        author: {type: new GraphQLNonNull(GraphQLString), description: 'Id of the author'}
+      },
+      resolve: function(source, {...args}) {
+        let post = args;
+        var alreadyExists = _.findIndex(PostsList, p => p._id === post._id) >= 0;
+        if(alreadyExists) {
+          throw new Error('Post already exists: ' + post._id);
+        }
+
+        if(!AuthorsMap[post.author]) {
+          throw new Error('No such author: ' + post.author);
+        }
+
+        if(!post.summary) {
+          post.summary = post.content.substring(0, 100);
+        }
+
+        post.comments = [];
+        post.date = {$date: new Date().toString()}
+
+        PostsList.push(post);
+        return post;
+      }
+    },
+
+    createAuthor: {
+      type: Author,
+      description: 'Create a new author',
+      args: {
+        _id: {type: new GraphQLNonNull(GraphQLString)},
+        name: {type: new GraphQLNonNull(GraphQLString)},
+        twitterHandle: {type: GraphQLString}
+      },
+      resolve: function(source, {...args}) {
+        let author = args;
+        if(AuthorsMap[args._id]) {
+          throw new Error('Author already exists: ' + author._id);
+        }
+
+        AuthorsMap[author._id] = author;
+        return author;
+      }
+    }
+  }
+});
+
+const Schema = new GraphQLSchema({
+  query: Query,
+  mutation: Mutation
+});
+
+export default Schema;

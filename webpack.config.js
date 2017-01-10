@@ -1,6 +1,3 @@
-/*jshint esversion: 6 */
-/*global require*/
-
 'use strict';
 
 const path = require('path');
