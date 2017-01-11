@@ -5,18 +5,18 @@
         "name": "BlogSchema"
       },
       "mutationType": {
-        "name": "BlogMutations"
+        "name": "NobodysStoriesMutations"
       },
       "subscriptionType": null,
       "types": [
         {
           "kind": "OBJECT",
           "name": "BlogSchema",
-          "description": "Root of the Blog Schema",
+          "description": "Root of the Nobodys Stories",
           "fields": [
             {
               "name": "posts",
-              "description": "List of posts in the blog",
+              "description": "List of stories in the Nobodys Stories",
               "args": [
                 {
                   "name": "category",
@@ -43,7 +43,7 @@
             },
             {
               "name": "latestPost",
-              "description": "Latest post in the blog",
+              "description": "Latest story in the Nobodys Stories",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -55,7 +55,7 @@
             },
             {
               "name": "recentPosts",
-              "description": "Recent posts in the blog",
+              "description": "Recent story in the Nobodys Stories",
               "args": [
                 {
                   "name": "count",
@@ -113,7 +113,7 @@
             },
             {
               "name": "authors",
-              "description": "Available authors in the blog",
+              "description": "Available authors in the Nobodys Stories",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -163,7 +163,7 @@
         {
           "kind": "ENUM",
           "name": "Category",
-          "description": "A Category of the story",
+          "description": "A Category of the blog",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -198,7 +198,7 @@
         {
           "kind": "OBJECT",
           "name": "Post",
-          "description": "Represent the type of a blog post",
+          "description": "Represent the type of a story",
           "fields": [
             {
               "name": "_id",
@@ -278,7 +278,7 @@
               "args": [
                 {
                   "name": "limit",
-                  "description": "Limit the comments returing",
+                  "description": "Limit the returning comments",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -360,7 +360,7 @@
         {
           "kind": "OBJECT",
           "name": "Author",
-          "description": "Represent the type of an author of a story or a comment",
+          "description": "Represent the type of an author of a blog post or a comment",
           "fields": [
             {
               "name": "_id",
@@ -517,12 +517,12 @@
         },
         {
           "kind": "OBJECT",
-          "name": "BlogMutations",
+          "name": "NobodysStoriesMutations",
           "description": null,
           "fields": [
             {
               "name": "createPost",
-              "description": "Create a new blog post",
+              "description": "Create a new story",
               "args": [
                 {
                   "name": "_id",

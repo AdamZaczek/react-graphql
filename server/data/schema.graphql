@@ -1,41 +1,24 @@
 schema {
   query: BlogSchema
-  mutation: BlogMutations
+  mutation: NobodysStoriesMutations
 }
 
-# Represent the type of an author of a story or a comment
+# Represent the type of an author of a blog post or a comment
 type Author {
   _id: String
   name: String
   twitterHandle: String
 }
 
-type BlogMutations {
-  # Create a new blog post
-  createPost(
-    _id: String!
-    title: String!
-    content: String!
-    summary: String
-    category: Category
-
-    # Id of the author
-    author: String!
-  ): Post
-
-  # Create a new author
-  createAuthor(_id: String!, name: String!, twitterHandle: String): Author
-}
-
-# Root of the Blog Schema
+# Root of the Nobodys Stories
 type BlogSchema {
-  # List of posts in the blog
+  # List of stories in the Nobodys Stories
   posts(category: Category): [Post]
 
-  # Latest post in the blog
+  # Latest story in the Nobodys Stories
   latestPost: Post
 
-  # Recent posts in the blog
+  # Recent story in the Nobodys Stories
   recentPosts(
     # Number of recent items
     count: Int!
@@ -44,14 +27,14 @@ type BlogSchema {
   # Post by _id
   post(_id: String!): Post
 
-  # Available authors in the blog
+  # Available authors in the Nobodys Stories
   authors: [Author]
 
   # Author by _id
   author(_id: String!): Author
 }
 
-# A Category of the story
+# A Category of the blog
 enum Category {
   METEOR
   PRODUCT
@@ -75,7 +58,24 @@ interface HasAuthor {
   author: Author
 }
 
-# Represent the type of a blog post
+type NobodysStoriesMutations {
+  # Create a new story
+  createPost(
+    _id: String!
+    title: String!
+    content: String!
+    summary: String
+    category: Category
+
+    # Id of the author
+    author: String!
+  ): Post
+
+  # Create a new author
+  createAuthor(_id: String!, name: String!, twitterHandle: String): Author
+}
+
+# Represent the type of a story
 type Post implements HasAuthor {
   _id: String
   title: String
@@ -84,7 +84,7 @@ type Post implements HasAuthor {
   content: String
   timestamp: Float
   comments(
-    # Limit the comments returing
+    # Limit the returning comments
     limit: Int
   ): [Comment]
   author: Author
