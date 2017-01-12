@@ -2,9 +2,9 @@
 
 //Will get rid of underscore soon
 import * as _ from 'underscore';
-import PostsList from './mockedData/posts';
+import StoriesList from './mockedData/stories';
 import AuthorsMap from './mockedData/authors';
-import {CommentList, ReplyList} from './mockedData/comments';
+//import {CommentList, ReplyList} from './mockedData/comments';
 
 import {
   GraphQLList,
@@ -20,7 +20,7 @@ import {
 
 const Category = new GraphQLEnumType({
   name: 'Category',
-  description: 'A Category of the blog',
+  description: 'A Category of the Nobodys Stories',
   values: {
     METEOR: {value: 'meteor'},
     PRODUCT: {value: 'product'},
@@ -31,7 +31,7 @@ const Category = new GraphQLEnumType({
 
 const Author = new GraphQLObjectType({
   name: 'Author',
-  description: 'Represent the type of an author of a blog post or a comment',
+  description: 'Represent the type of an author of a story or a comment',
   fields: () => ({
     _id: {type: GraphQLString},
     name: {type: GraphQLString},
@@ -56,32 +56,32 @@ const HasAuthor = new GraphQLInterfaceType({
   }
 });
 
-const Comment = new GraphQLObjectType({
-  name: 'Comment',
-  interfaces: [HasAuthor],
-  description: 'Represent the type of a comment',
-  fields: () => ({
-    _id: {type: GraphQLString},
-    content: {type: GraphQLString},
-    author: {
-      type: Author,
-      resolve: function({author}) {
-        return AuthorsMap[author];
-      }
-    },
-    timestamp: {type: GraphQLFloat},
-    replies: {
-      type: new GraphQLList(Comment),
-      description: 'Replies for the comment',
-      resolve: function() {
-        return ReplyList;
-      }
-    }
-  })
-});
+// const Comment = new GraphQLObjectType({
+//   name: 'Comment',
+//   interfaces: [HasAuthor],
+//   description: 'Represent the type of a comment',
+//   fields: () => ({
+//     _id: {type: GraphQLString},
+//     content: {type: GraphQLString},
+//     author: {
+//       type: Author,
+//       resolve: function({author}) {
+//         return AuthorsMap[author];
+//       }
+//     },
+//     timestamp: {type: GraphQLFloat},
+//     replies: {
+//       type: new GraphQLList(Comment),
+//       description: 'Replies for the comment',
+//       resolve: function() {
+//         return ReplyList;
+//       }
+//     }
+//   })
+// });
 
-const Post = new GraphQLObjectType({
-  name: 'Post',
+const Story = new GraphQLObjectType({
+  name: 'Story',
   interfaces: [HasAuthor],
   description: 'Represent the type of a story',
   fields: () => ({
@@ -92,27 +92,27 @@ const Post = new GraphQLObjectType({
     content: {type: GraphQLString},
     timestamp: {
       type: GraphQLFloat,
-      resolve: function(post) {
-        if(post.date) {
-          return new Date(post.date['$date']).getTime();
+      resolve: function(story) {
+        if(story.date) {
+          return new Date(story.date['$date']).getTime();
         } else {
           return null;
         }
       }
     },
-    comments: {
-      type: new GraphQLList(Comment),
-      args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning comments'}
-      },
-      resolve: function(post, {limit}) {
-        if(limit >= 0) {
-          return CommentList.slice(0, limit);
-        }
-
-        return CommentList;
-      }
-    },
+    // comments: {
+    //   type: new GraphQLList(Comment),
+    //   args: {
+    //     limit: {type: GraphQLInt, description: 'Limit the returning comments'}
+    //   },
+    //   resolve: function(post, {limit}) {
+    //     if(limit >= 0) {
+    //       return CommentList.slice(0, limit);
+    //     }
+    //
+    //     return CommentList;
+    //   }
+    // },
     author: {
       type: Author,
       resolve: function({author}) {
@@ -123,68 +123,68 @@ const Post = new GraphQLObjectType({
 });
 
 const Query = new GraphQLObjectType({
-  name: 'BlogSchema',
+  name: 'NobodysStoriesSchema',
   description: 'Root of the Nobodys Stories',
   fields: () => ({
-    posts: {
-      type: new GraphQLList(Post),
+    stories: {
+      type: new GraphQLList(Story),
       description: 'List of stories in the Nobodys Stories',
       args: {
         category: {type: Category}
       },
       resolve: function(source, {category}) {
         if(category) {
-          return PostsList.filter(post => {
-            return (post.category === category);
+          return PostsList.filter(story => {
+            return (story.category === category);
           });
         } else {
-          return PostsList;
+          return StoriesList;
         }
       }
     },
 
-    latestPost: {
-      type: Post,
+    latestStory: {
+      type: Story,
       description: 'Latest story in the Nobodys Stories',
       resolve: function() {
-        PostsList.sort((a, b) => {
+        StoriesList.sort((a, b) => {
           var bTime = new Date(b.date['$date']).getTime();
           var aTime = new Date(a.date['$date']).getTime();
 
           return bTime - aTime;
         });
 
-        return PostsList[0];
+        return StoriesList[0];
       }
     },
 
-    recentPosts: {
-      type: new GraphQLList(Post),
+    recentStories: {
+      type: new GraphQLList(Story),
       description: 'Recent story in the Nobodys Stories',
       args: {
-        count: {type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent items'}
+        count: {type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories'}
       },
       resolve: function(source, {count}) {
-        PostsList.sort((a, b) => {
+        StoriesList.sort((a, b) => {
           var bTime = new Date(b.date['$date']).getTime();
           var aTime = new Date(a.date['$date']).getTime();
 
           return bTime - aTime;
         });
 
-        return PostsList.slice(0, count);
+        return StoriesList.slice(0, count);
       }
     },
 
-    post: {
-      type: Post,
-      description: 'Post by _id',
+    story: {
+      type: Story,
+      description: 'Story by _id',
       args: {
         _id: {type: new GraphQLNonNull(GraphQLString)}
       },
       resolve: function(source, {_id}) {
-        return PostsList.filter(post => {
-          return (post._id === id);
+        return StoriesList.filter(story => {
+          return (story._id === id);
         })[0];
       }
     },
@@ -213,8 +213,8 @@ const Query = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'NobodysStoriesMutations',
   fields: {
-    createPost: {
-      type: Post,
+    createStory: {
+      type: Story,
       description: 'Create a new story',
       args: {
         _id: {type: new GraphQLNonNull(GraphQLString)},
@@ -225,25 +225,25 @@ const Mutation = new GraphQLObjectType({
         author: {type: new GraphQLNonNull(GraphQLString), description: 'Id of the author'}
       },
       resolve: function(source, {...args}) {
-        let post = args;
-        var alreadyExists = _.findIndex(PostsList, p => p._id === post._id) >= 0;
+        let story = args;
+        var alreadyExists = _.findIndex(StoriesList, p => p._id === story._id) >= 0;
         if(alreadyExists) {
-          throw new Error('Story already exists: ' + post._id);
+          throw new Error('Story already exists: ' + story._id);
         }
 
-        if(!AuthorsMap[post.author]) {
-          throw new Error('No such author: ' + post.author);
+        if(!AuthorsMap[story.author]) {
+          throw new Error('No such author: ' + story.author);
         }
 
-        if(!post.summary) {
-          post.summary = post.content.substring(0, 100);
+        if(!story.summary) {
+          story.summary = story.content.substring(0, 100);
         }
 
-        post.comments = [];
-        post.date = {$date: new Date().toString()}
+//        post.comments = [];
+        story.date = {$date: new Date().toString()}
 
-        PostsList.push(post);
-        return post;
+        StoriesList.push(story);
+        return story;
       }
     },
 
@@ -274,3 +274,6 @@ const Schema = new GraphQLSchema({
 });
 
 export default Schema;
+
+//something like this should help me debug query, I can console.log(query) etc
+//export Query;

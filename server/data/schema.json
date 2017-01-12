@@ -2,7 +2,7 @@
   "data": {
     "__schema": {
       "queryType": {
-        "name": "BlogSchema"
+        "name": "NobodysStoriesSchema"
       },
       "mutationType": {
         "name": "NobodysStoriesMutations"
@@ -11,11 +11,11 @@
       "types": [
         {
           "kind": "OBJECT",
-          "name": "BlogSchema",
+          "name": "NobodysStoriesSchema",
           "description": "Root of the Nobodys Stories",
           "fields": [
             {
-              "name": "posts",
+              "name": "stories",
               "description": "List of stories in the Nobodys Stories",
               "args": [
                 {
@@ -34,7 +34,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Post",
+                  "name": "Story",
                   "ofType": null
                 }
               },
@@ -42,24 +42,24 @@
               "deprecationReason": null
             },
             {
-              "name": "latestPost",
+              "name": "latestStory",
               "description": "Latest story in the Nobodys Stories",
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Post",
+                "name": "Story",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "recentPosts",
+              "name": "recentStories",
               "description": "Recent story in the Nobodys Stories",
               "args": [
                 {
                   "name": "count",
-                  "description": "Number of recent items",
+                  "description": "Number of recent stories",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -77,7 +77,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Post",
+                  "name": "Story",
                   "ofType": null
                 }
               },
@@ -85,8 +85,8 @@
               "deprecationReason": null
             },
             {
-              "name": "post",
-              "description": "Post by _id",
+              "name": "story",
+              "description": "Story by _id",
               "args": [
                 {
                   "name": "_id",
@@ -105,7 +105,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Post",
+                "name": "Story",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -163,7 +163,7 @@
         {
           "kind": "ENUM",
           "name": "Category",
-          "description": "A Category of the blog",
+          "description": "A Category of the Nobodys Stories",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -197,7 +197,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Post",
+          "name": "Story",
           "description": "Represent the type of a story",
           "fields": [
             {
@@ -273,33 +273,6 @@
               "deprecationReason": null
             },
             {
-              "name": "comments",
-              "description": null,
-              "args": [
-                {
-                  "name": "limit",
-                  "description": "Limit the returning comments",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Comment",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "author",
               "description": null,
               "args": [],
@@ -347,12 +320,7 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
-              "name": "Post",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Comment",
+              "name": "Story",
               "ofType": null
             }
           ]
@@ -360,7 +328,7 @@
         {
           "kind": "OBJECT",
           "name": "Author",
-          "description": "Represent the type of an author of a blog post or a comment",
+          "description": "Represent the type of an author of a story or a comment",
           "fields": [
             {
               "name": "_id",
@@ -436,92 +404,11 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Comment",
-          "description": "Represent the type of a comment",
-          "fields": [
-            {
-              "name": "_id",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "content",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "author",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Author",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "timestamp",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "replies",
-              "description": "Replies for the comment",
-              "args": [],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Comment",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "HasAuthor",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "NobodysStoriesMutations",
           "description": null,
           "fields": [
             {
-              "name": "createPost",
+              "name": "createStory",
               "description": "Create a new story",
               "args": [
                 {
@@ -603,7 +490,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "Post",
+                "name": "Story",
                 "ofType": null
               },
               "isDeprecated": false,

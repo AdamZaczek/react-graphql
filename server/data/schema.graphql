@@ -1,56 +1,21 @@
 schema {
-  query: BlogSchema
+  query: NobodysStoriesSchema
   mutation: NobodysStoriesMutations
 }
 
-# Represent the type of an author of a blog post or a comment
+# Represent the type of an author of a story or a comment
 type Author {
   _id: String
   name: String
   twitterHandle: String
 }
 
-# Root of the Nobodys Stories
-type BlogSchema {
-  # List of stories in the Nobodys Stories
-  posts(category: Category): [Post]
-
-  # Latest story in the Nobodys Stories
-  latestPost: Post
-
-  # Recent story in the Nobodys Stories
-  recentPosts(
-    # Number of recent items
-    count: Int!
-  ): [Post]
-
-  # Post by _id
-  post(_id: String!): Post
-
-  # Available authors in the Nobodys Stories
-  authors: [Author]
-
-  # Author by _id
-  author(_id: String!): Author
-}
-
-# A Category of the blog
+# A Category of the Nobodys Stories
 enum Category {
   METEOR
   PRODUCT
   USER_STORY
   OTHER
-}
-
-# Represent the type of a comment
-type Comment implements HasAuthor {
-  _id: String
-  content: String
-  author: Author
-  timestamp: Float
-
-  # Replies for the comment
-  replies: [Comment]
 }
 
 # This type has an author
@@ -60,7 +25,7 @@ interface HasAuthor {
 
 type NobodysStoriesMutations {
   # Create a new story
-  createPost(
+  createStory(
     _id: String!
     title: String!
     content: String!
@@ -69,23 +34,43 @@ type NobodysStoriesMutations {
 
     # Id of the author
     author: String!
-  ): Post
+  ): Story
 
   # Create a new author
   createAuthor(_id: String!, name: String!, twitterHandle: String): Author
 }
 
+# Root of the Nobodys Stories
+type NobodysStoriesSchema {
+  # List of stories in the Nobodys Stories
+  stories(category: Category): [Story]
+
+  # Latest story in the Nobodys Stories
+  latestStory: Story
+
+  # Recent story in the Nobodys Stories
+  recentStories(
+    # Number of recent stories
+    count: Int!
+  ): [Story]
+
+  # Story by _id
+  story(_id: String!): Story
+
+  # Available authors in the Nobodys Stories
+  authors: [Author]
+
+  # Author by _id
+  author(_id: String!): Author
+}
+
 # Represent the type of a story
-type Post implements HasAuthor {
+type Story implements HasAuthor {
   _id: String
   title: String
   category: Category
   summary: String
   content: String
   timestamp: Float
-  comments(
-    # Limit the returning comments
-    limit: Int
-  ): [Comment]
   author: Author
 }
