@@ -1,7 +1,7 @@
 {
-  "name": "relay-fullstack",
+  "name": "nobodysstories",
   "version": "1.0.0",
-  "description": "Relay Starter Kit - Integrated with Relay, GraphQL, Express, ES6/ES7, JSX, Webpack, Babel, Material Design Lite, and PostCSS",
+  "description": "Nobodys Stories - Integrated with Relay, GraphQL, Express, ES6/ES7, JSX, Webpack, Babel, Material Design Lite, and PostCSS",
   "scripts": {
     "start": "nodemon --watch server/data/**/*.js --exec \"npm run update && babel-node server/index.js\"",
     "update": "./node_modules/.bin/babel-node server/utils/updateSchema.js",
@@ -35,12 +35,11 @@
     "scaffolding",
     "fullstack"
   ],
-  "author": "Varayut Lerdkanlayanawat",
+  "author": "Adam Żaczek",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/lvarayut/relay-fullstack/issues"
   },
-  "homepage": "https://github.com/lvarayut/relay-fullstack",
   "devDependencies": {
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
@@ -76,6 +75,7 @@
     "graphql-relay": "^0.4.4",
     "html-webpack-plugin": "^2.26.0",
     "lodash": "^4.17.4",
+    "mongodb": "^2.2.20",
     "normalize.css": "^5.0.0",
     "postcss-loader": "^1.2.1",
     "precss": "^1.4.0",

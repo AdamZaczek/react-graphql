@@ -9,15 +9,23 @@ import chalk from 'chalk';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
 import schema from './data/schema';
+import { MongoClient } from 'mongodb';
+
+const mongodb = MongoClient.connect(
+  'mongodb://localhost:27017/db'
+);
 
 if (config.env === 'development') {
   // Launch GraphQL
   const graphql = express();
-  graphql.use('/', graphQLHTTP({
+  graphql.use('/', graphQLHTTP(async () => ({
     graphiql: true,
     pretty: true,
-    schema
-  }));
+    schema: schema,
+    context: {
+      mongodb: await mongodb,
+    }
+  })));
   graphql.listen(config.graphql.port, () => console.log(chalk.green(`GraphQL is listening on port ${config.graphql.port}`)));
 
   // Launch Relay by using webpack.config.js
