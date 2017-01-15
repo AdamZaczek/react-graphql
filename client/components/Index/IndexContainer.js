@@ -1,6 +1,6 @@
 import Relay from 'react-relay';
-import Index from './IndexComponent';
+import IndexComponent from './IndexComponent';
 
-export default Relay.createContainer(Index, {
+export default Relay.createContainer(IndexComponent, {
   fragments: {}
 });

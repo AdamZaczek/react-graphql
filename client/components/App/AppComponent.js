@@ -7,7 +7,7 @@ import styles from './App.scss';
 
 export default class App extends React.Component {
   static propTypes = {
-    children: React.PropTypes.object.isRequired,
+    children: React.PropTypes.object.isRequired
     // viewer: React.PropTypes.object.isRequired
   };
 
@@ -18,7 +18,6 @@ export default class App extends React.Component {
         <div className={styles.greeting}>
           <h1 className={styles.sawasdee}>Hello there!</h1>
           <p>If you could actually learn relay, that would be great!</p>
-          <img src={yeoman} alt='yeoman' />
         </div>
         <div className={styles.content}>
           {this.props.children}
