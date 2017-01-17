@@ -1,8 +1,8 @@
 ToDO:
 
-1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working
+1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working (Done)
 2. Make Relay Layer Working (Connected To Relay, No Working Queries Or Mutations Yet)
-3. Create Frontend: index, single story, comments
+3. Create Frontend: index, single story, comments. Delete Google Material Design, add React-Bootstrap
 4. Add ability to add comments in schema
 5. Add ability to log in to comment and add a story on a computer, (may make option to chose username and password on mobile) make one user admin
 6. Add "hot, new and best indexes"
@@ -18,8 +18,8 @@ mongod --dbpath "D\programowanie 2\relay-fullstack\data"
 How to set up security in Mongo:
 http://tgrall.github.io/blog/2015/02/04/introduction-to-mongodb-security/
 
-
 To seed database:
 Link to knowhow: https://docs.mongodb.com/manual/reference/program/mongoimport/#use
-
 Command to seed stories: mongoimport --db stories --collection stories --file seeds/seeds.json --Still needs testing(graphql sees my new data, nice!)
+
+Things to consider: Delete ^ marks in dependencies.

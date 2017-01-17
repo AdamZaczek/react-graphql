@@ -30,16 +30,14 @@
     "jsx",
     "webpack",
     "babel",
-    "material design lite",
     "postcss",
     "scaffolding",
-    "fullstack"
+    "fullstack",
+    "bootstrap",
+    "mongodb"
   ],
   "author": "Adam Żaczek",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lvarayut/relay-fullstack/issues"
-  },
   "devDependencies": {
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
@@ -80,6 +78,7 @@
     "postcss-loader": "^1.2.1",
     "precss": "^1.4.0",
     "react": "^15.4.1",
+    "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
     "react-dropdown": "^1.2.0",
     "react-mdl": "^1.9.0",
