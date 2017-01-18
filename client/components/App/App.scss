@@ -4,13 +4,12 @@
 .root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+//  min-height: 100vh;
 }
 
 .greeting {
   background-color: $blue;
   color: $black;
-  padding-top: 50px;
   text-align: center;
 }
 
