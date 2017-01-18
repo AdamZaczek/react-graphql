@@ -7,11 +7,19 @@ export default class Navigation extends React.Component {
   render() {
     return (
       <section>
-        <Navbar className={styles.root}>
-          <Nav>
-            <NavItem eventKey='1' href='#'><Link to='/signup' className={styles.navItem}>Sign up</Link></NavItem>
-            <NavItem eventKey='2' href='#'><Link to='/login' className={styles.navItem}>Login</Link></NavItem>
-          </Nav>
+        <Navbar className={styles.root} collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to='/' className={styles.navItem}>Nobodys Stories</Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav pullRight>
+              <NavItem eventKey='1' href='#'><Link to='/signup' className={styles.navItem}>Sign up</Link></NavItem>
+              <NavItem eventKey='2' href='#'><Link to='/login' className={styles.navItem}>Login</Link></NavItem>
+            </Nav>
+          </Navbar.Collapse>
         </Navbar>
       </section>
     );
