@@ -1,26 +1,44 @@
+import { Form, FormGroup, Col, Checkbox, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import React from 'react';
-import { Grid, Cell, Textfield, Button } from 'react-mdl';
 import Page from '../Page/PageComponent';
 
 export default class Signup extends React.Component {
   render() {
     return (
       <Page heading='Signup'>
-        <div style={{ width: '70%', margin: 'auto' }}>
-          <Grid>
-            <form style={{ margin: 'auto' }}>
-              <Cell col={12}>
-                <Textfield onChange={() => {}} label='Username' />
-              </Cell>
-              <Cell col={12}>
-                <Textfield onChange={() => {}} label='Password' type='password' />
-              </Cell>
-              <Cell col={12} style={{ textAlign: 'right' }}>
-                <Button primary>Sign up</Button>
-              </Cell>
-            </form>
-          </Grid>
-        </div>
+        <Form horizontal>
+          <FormGroup controlId='formHorizontalEmail'>
+            <Col componentClass={ControlLabel} sm={2}>
+              Email
+            </Col>
+            <Col sm={10}>
+              <FormControl type='email' placeholder='Email' />
+            </Col>
+          </FormGroup>
+
+          <FormGroup controlId='formHorizontalPassword'>
+            <Col componentClass={ControlLabel} sm={2}>
+              Password
+            </Col>
+            <Col sm={10}>
+              <FormControl type='password' placeholder='Password' />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col smOffset={2} sm={10}>
+              <Checkbox>Remember me</Checkbox>
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col smOffset={2} sm={10}>
+              <Button type='submit'>
+                Sign in
+              </Button>
+            </Col>
+          </FormGroup>
+        </Form>
       </Page>
     );
   }
