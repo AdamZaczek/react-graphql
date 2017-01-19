@@ -8,7 +8,7 @@ import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
-import schema from './data/schema';
+import schema from './appData/schema';
 import { MongoClient } from 'mongodb';
 
 const mongodb = MongoClient.connect(
@@ -21,9 +21,9 @@ if (config.env === 'development') {
   graphql.use('/', graphQLHTTP(async () => ({
     graphiql: true,
     pretty: true,
-    schema: schema,
+    schema,
     context: {
-      mongodb: await mongodb,
+      mongodb: await mongodb
     }
   })));
   graphql.listen(config.graphql.port, () => console.log(chalk.green(`GraphQL is listening on port ${config.graphql.port}`)));

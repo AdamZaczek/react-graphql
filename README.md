@@ -2,8 +2,7 @@ ToDO:
 
 1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working (Done)
 2. Make Relay Layer Working (Connected To Relay, No Working Queries Or Mutations Yet)
-3. Create Frontend: index, single story, comments. Delete Google Material Design, add React-Bootstrap. Bootstrap styles should prolly be
-shipped with webpack and I shouldny import all of them.
+3. Create Frontend: index, single story, comments. Delete Google Material Design, add React-Bootstrap(Done). Bootstrap styles should prolly be shipped with webpack and I shouldny import all of them.
 4. Add ability to add comments in schema
 5. Add ability to log in to comment and add a story on a computer, (may make option to chose username and password on mobile) make one user admin
 6. Add "hot, new and best indexes"

@@ -10,4 +10,3 @@ var jsonFile = path.join(__dirname, '../data/schema.json');
 fs.access(jsonFile, fs.F_OK, function (err) {
   if (!err) module.exports = require('babel-relay-plugin')(require(jsonFile).data);
 });
-
