@@ -10,6 +10,8 @@ ToDO:
 8. Make styles the last thing you do, you'll need to style differently on mobile anyways, use google material design
 9. Add categories
 
+
+Mongod startuje bazę danych, mongo pozwala na wysyłanie zapytań, wstawianie danych, itp.
 To connect to database:
 Go to C:\Program Files\MongoDB\Server\3.4, open cmd and run mongod --dbpath and drop data folder on the cmd to copy it's location.
 The entire command with current folder locations looks like this:

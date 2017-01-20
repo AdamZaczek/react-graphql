@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
+/* For now im disabling eslint here, settings above could be great if I find a way to make it working my way*/
+/* eslint-disable */
 import {
   GraphQLList,
   GraphQLObjectType,
@@ -15,6 +17,9 @@ import StoriesList from './mockedData/stories';
 import AuthorsMap from './mockedData/authors';
 // import {CommentList, ReplyList} from './mockedData/comments';
 
+// db.getCollection('stories').find({})
+
+// got to change this one as soon as I manage to ask database the right way
 const Category = new GraphQLEnumType({
   name: 'Category',
   description: 'A Category of the Nobodys Stories',
@@ -119,6 +124,32 @@ const Story = new GraphQLObjectType({
   })
 });
 
+
+// const Viewer = new GraphQLObjectType({
+//   name: 'Viewer',
+//   fields: () => ({
+//     id: {
+//       type: new GraphQLNonNull(GraphQLID),
+//     },
+//     allArticles: {
+//       type: ArticleConnection,
+//       resolve(parent, args, { mongodb }) {
+//         return {
+//           query: mongodb.collection('Articles'),
+//         };
+//       },
+//     },
+//   }),
+// });
+
+// Something like this should allow me to get stories
+// resolve(source, { category }, { mongodb }) {
+//   const storiesArry = [];
+// //        const storiesRequest = mongodb.getCollection('stories').find({}).forEach(story => storiesArry.push(story));
+//   return { query: mongodb.getCollection('stories').find({}).forEach(story => storiesArry.push(story)) };
+// }
+// },
+
 const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root of the Nobodys Stories',
@@ -131,7 +162,7 @@ const Query = new GraphQLObjectType({
       },
       resolve(source, { category }) {
         if (category) {
-          return PostsList.filter(story => (story.category === category));
+          return StoriesList.filter(story => (story.category === category));
         } else {
           return StoriesList;
         }
@@ -221,7 +252,7 @@ const Mutation = new GraphQLObjectType({
         const story = args;
 //        const alreadyExists = _.findIndex(StoriesList, p => p._id === story._id) >= 0;
 
-        // this looks like a working code, awesome!
+        // got to check if it works!
         const lookForExistingId = singleStory => singleStory._id === story._id;
         const alreadyExists = StoriesList.filter(lookForExistingId);
         if (alreadyExists) {

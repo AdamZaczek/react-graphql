@@ -6,10 +6,10 @@ import graphQLHTTP from 'express-graphql';
 import WebpackDevServer from 'webpack-dev-server';
 import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
+import { MongoClient } from 'mongodb';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
 import schema from './appData/schema';
-import { MongoClient } from 'mongodb';
 
 const mongodb = MongoClient.connect(
   'mongodb://localhost:27017/db'
