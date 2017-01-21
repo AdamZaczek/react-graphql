@@ -150,6 +150,13 @@ const Story = new GraphQLObjectType({
 // }
 // },
 
+// resolve: async(source, { category }, { mongodb }) => {
+//   return await {
+//     stories: mongodb.getCollection('stories').find({})
+//   };
+// }
+// },
+
 const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root of the Nobodys Stories',
