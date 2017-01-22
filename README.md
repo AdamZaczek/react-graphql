@@ -15,7 +15,7 @@ Mongod startuje bazę danych, mongo pozwala na wysyłanie zapytań, wstawianie d
 To connect to database:
 Go to C:\Program Files\MongoDB\Server\3.4, open cmd and run mongod --dbpath and drop data folder on the cmd to copy it's location.
 The entire command with current folder locations looks like this:
-mongod --dbpath "D\programowanie 2\relay-fullstack\data"
+mongod --dbpath "D:\programowanie 2\relay-fullstack\data"
 
 How to set up security in Mongo:
 http://tgrall.github.io/blog/2015/02/04/introduction-to-mongodb-security/
