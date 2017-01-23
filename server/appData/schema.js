@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
 /* For now im disabling eslint here, settings */
-/* eslint-disable */
+/* eslint-disable! */
 import {
   GraphQLList,
   GraphQLObjectType,
@@ -13,9 +13,22 @@ import {
   GraphQLInterfaceType
 } from 'graphql';
 
+import mongoose from 'mongoose';
 import StoriesList from './mockedData/stories';
 import AuthorsMap from './mockedData/authors';
 // import {CommentList, ReplyList} from './mockedData/comments';
+
+const MongooseSchema = mongoose.Schema;
+
+
+const STORY = mongoose.model('Story', new MongooseSchema({
+  id: mongoose.Schema.Types.ObjectId,
+  title: String,
+  category: String,
+  summary: String,
+  content: String,
+  timestamp: Number
+}));
 
 const Category = new GraphQLEnumType({
   name: 'Category',
