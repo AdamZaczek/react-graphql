@@ -19,7 +19,7 @@ import schema from './appData/schema';
 
 // Ugliest piece of code ever due to mongodb bug. More here: https://github.com/christkv/mongodb-core/issues/153
 // Doesnt work still, prolly need to downgrade mongoose
-mongoose.connect('mongodb://localhost/myapp',
+mongoose.connect('mongodb://localhost/test',
   {
     server: {
       socketOptions: {
