@@ -13,22 +13,22 @@ import {
   GraphQLInterfaceType
 } from 'graphql';
 
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import StoriesList from './mockedData/stories';
 import AuthorsMap from './mockedData/authors';
 // import {CommentList, ReplyList} from './mockedData/comments';
 
-const MongooseSchema = mongoose.Schema;
-
-
-const STORY = mongoose.model('Story', new MongooseSchema({
-  id: mongoose.Schema.Types.ObjectId,
-  title: String,
-  category: String,
-  summary: String,
-  content: String,
-  timestamp: Number
-}));
+// const MongooseSchema = mongoose.Schema;
+//
+//
+// const STORY = mongoose.model('Story', new MongooseSchema({
+//   id: mongoose.Schema.Types.ObjectId,
+//   title: String,
+//   category: String,
+//   summary: String,
+//   content: String,
+//   timestamp: Number
+// }));
 
 const Category = new GraphQLEnumType({
   name: 'Category',
@@ -51,6 +51,14 @@ const Author = new GraphQLObjectType({
   })
 });
 
+const MongoDatabase = new GraphQLObjectType({
+  name: 'MongoDatabase',
+  description: 'Custom query made to practise queries and check database connection',
+  fields: () => ({
+    database: { type: GraphQLString }
+  })
+});
+
 const HasAuthor = new GraphQLInterfaceType({
   name: 'HasAuthor',
   description: 'This type has an author',
@@ -62,9 +70,8 @@ const HasAuthor = new GraphQLInterfaceType({
       return Post;
     } else if (obj.replies) {
       return Comment;
-    } else {
-      return null;
     }
+    return null;
   }
 });
 
@@ -107,9 +114,8 @@ const Story = new GraphQLObjectType({
       resolve(story) {
         if (story.date) {
           return new Date(story.date.$date).getTime();
-        } else {
-          return null;
         }
+        return null;
       }
     },
     // comments: {
@@ -144,15 +150,21 @@ const Query = new GraphQLObjectType({
       args: {
         category: { type: Category }
       },
-      resolve(source, { category }) {
+      resolve(source, { category }, { mongodb }) {
         if (category) {
           return PostsList.filter(story => (story.category === category));
-        } else {
-          return StoriesList;
         }
+        return StoriesList;
       }
     },
-
+    database: {
+      type: MongoDatabase,
+      description: 'Query to check if database is working when we have no data to query',
+      resolve(source, { category }, { mongodb }) {
+        const databaseCheck = `database query returns: ${mongodb}`;
+        return { database: databaseCheck };
+      }
+    },
     latestStory: {
       type: Story,
       description: 'Latest story in the Nobodys Stories',

@@ -6,36 +6,38 @@ import graphQLHTTP from 'express-graphql';
 import WebpackDevServer from 'webpack-dev-server';
 import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
-import mongoose from 'mongoose';
-// import { MongoClient } from 'mongodb';
+// import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
 import schema from './appData/schema';
+import myMongoCredentials from '../myMongoCredentials';
 
-// const mongodb = MongoClient.connect(
-//   'mongodb://localhost:27017/db'
-// );
+const mongodb = MongoClient.connect(
+//  'mongodb://localhost:27017/db'
+  myMongoCredentials
+);
 
 
 // Ugliest piece of code ever due to mongodb bug. More here: https://github.com/christkv/mongodb-core/issues/153
 // Doesnt work still, prolly need to downgrade mongoose
-mongoose.connect('mongodb://localhost/test',
-  {
-    server: {
-      socketOptions: {
-        socketTimeoutMS: 0,
-        connectTimeoutMS: 600
-      }
-    }
-  },
-  (err) => {
-    if (err) {
-      console.dir(err); // failed to connect
-    } else {
-      console.log('Connected to MongoDB!');
-    }
-  }
-);
+// mongoose.connect('mongodb://Avenir:Katiakatia1@ds129189.mlab.com:29189/stories',
+//   {
+//     server: {
+//       socketOptions: {
+//         socketTimeoutMS: 0,
+//         connectTimeoutMS: 600
+//       }
+//     }
+//   },
+//   (err) => {
+//     if (err) {
+//       console.dir(err); // failed to connect
+//     } else {
+//       console.log('Connected to MongoDB!');
+//     }
+//   }
+// );
 
 if (config.env === 'development') {
   // Launch GraphQL
@@ -44,9 +46,9 @@ if (config.env === 'development') {
     graphiql: true,
     pretty: true,
     schema,
-    // context: {
-    //   mongodb: await mongodb
-    // }
+    context: {
+      mongodb: await mongodb
+    }
   })));
   graphql.listen(config.graphql.port, () => console.log(chalk.green(`GraphQL is listening on port ${config.graphql.port}`)));
 
