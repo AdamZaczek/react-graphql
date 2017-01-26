@@ -6,6 +6,7 @@ import graphQLHTTP from 'express-graphql';
 import WebpackDevServer from 'webpack-dev-server';
 import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
+import bodyParser from 'body-parser';
 // import { MongoClient } from 'mongodb';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
@@ -18,33 +19,19 @@ const mongoose = require('mongoose');
 // //  'mongodb://localhost:27017/db'
 //   myMongoCredentials
 // );
+
+// This will be usefull in the future
+// mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
+
+
 const options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
   replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } } };
-
 mongoose.connect(myMongoCredentials, options);
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', () => {
   console.log('Connection with MongoLab estabished.');
 });
-
-// mongoose.connect(myMongoCredentials,
-//   {
-//     server: {
-//       socketOptions: {
-//         socketTimeoutMS: 0,
-//         connectTimeoutMS: 600
-//       }
-//     }
-//   },
-//   (err) => {
-//     if (err) {
-//       console.dir(err); // failed to connect
-//     } else {
-//       console.log('Connected to MongoDB!');
-//     }
-//   }
-// );
 
 if (config.env === 'development') {
   // Launch GraphQL
@@ -58,6 +45,7 @@ if (config.env === 'development') {
     }
   }));
   graphql.listen(config.graphql.port, () => console.log(chalk.green(`GraphQL is listening on port ${config.graphql.port}`)));
+  graphql.use(bodyParser.json({ type: '*/*' }));
 
   // Launch Relay by using webpack.config.js
   const relayServer = new WebpackDevServer(webpack(webpackConfig), {
@@ -81,5 +69,6 @@ if (config.env === 'development') {
   relayServer.use(historyApiFallback());
   relayServer.use('/', express.static(path.join(__dirname, '../build')));
   relayServer.use('/graphql', graphQLHTTP({ schema }));
+  relayServer.use(bodyParser.json({ type: '*/*' }));
   relayServer.listen(config.port, () => console.log(chalk.green(`Relay is listening on port ${config.port}`)));
 }
