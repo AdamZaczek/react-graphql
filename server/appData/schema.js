@@ -161,7 +161,10 @@ const Query = new GraphQLObjectType({
       type: MongoDatabase,
       description: 'Query to check if database is working when we have no data to query',
       resolve(source, { category }, { mongodb }) {
-        const databaseCheck = `database query returns: ${mongodb}`;
+        // const databaseCheck = `database query returns: ${mongodb.collection('stories').find({ author: 'Adam' }).toArray((err, result) => result)}`;
+        // const databaseCheck = `database query returns: ${mongodb.collection('stories').count((err, count) => count)}`;
+        const getStoriesPromise = () => mongodb.collection('stories');
+        const databaseCheck = `${getStoriesPromise()}`;
         return { database: databaseCheck };
       }
     },

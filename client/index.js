@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { browserHistory, applyRouterMiddleware, Router } from 'react-router';
 import useRelay from 'react-router-relay';
 
-import '../node_modules/react-mdl/extra/material';
 import Route from './routes/Route';
 
 const rootNode = document.createElement('div');

@@ -6,22 +6,29 @@ import graphQLHTTP from 'express-graphql';
 import WebpackDevServer from 'webpack-dev-server';
 import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
-// import mongoose from 'mongoose';
-import { MongoClient } from 'mongodb';
+// import { MongoClient } from 'mongodb';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
 import schema from './appData/schema';
 import myMongoCredentials from '../myMongoCredentials';
 
-const mongodb = MongoClient.connect(
-//  'mongodb://localhost:27017/db'
-  myMongoCredentials
-);
+const mongoose = require('mongoose');
 
+// const mongodb = MongoClient.connect(
+// //  'mongodb://localhost:27017/db'
+//   myMongoCredentials
+// );
+const options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } } };
 
-// Ugliest piece of code ever due to mongodb bug. More here: https://github.com/christkv/mongodb-core/issues/153
-// Doesnt work still, prolly need to downgrade mongoose
-// mongoose.connect('mongodb://Avenir:Katiakatia1@ds129189.mlab.com:29189/stories',
+mongoose.connect(myMongoCredentials, options);
+const conn = mongoose.connection;
+conn.on('error', console.error.bind(console, 'connection error:'));
+conn.once('open', () => {
+  console.log('Connection with MongoLab estabished.');
+});
+
+// mongoose.connect(myMongoCredentials,
 //   {
 //     server: {
 //       socketOptions: {
@@ -42,14 +49,14 @@ const mongodb = MongoClient.connect(
 if (config.env === 'development') {
   // Launch GraphQL
   const graphql = express();
-  graphql.use('/', graphQLHTTP(async () => ({
+  graphql.use('/', graphQLHTTP({
     graphiql: true,
     pretty: true,
     schema,
     context: {
-      mongodb: await mongodb
+      mongodb: conn
     }
-  })));
+  }));
   graphql.listen(config.graphql.port, () => console.log(chalk.green(`GraphQL is listening on port ${config.graphql.port}`)));
 
   // Launch Relay by using webpack.config.js
