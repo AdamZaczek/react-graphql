@@ -7,18 +7,12 @@ import WebpackDevServer from 'webpack-dev-server';
 import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
-// import { MongoClient } from 'mongodb';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
 import schema from './appData/schema';
 import myMongoCredentials from '../myMongoCredentials';
 
 const mongoose = require('mongoose');
-
-// const mongodb = MongoClient.connect(
-// //  'mongodb://localhost:27017/db'
-//   myMongoCredentials
-// );
 
 // This will be usefull in the future
 // mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);

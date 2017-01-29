@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
 /* For now im disabling eslint here, settings */
-/* eslint-disable! */
+/* eslint-disable */
 import {
   GraphQLList,
   GraphQLObjectType,
@@ -13,7 +13,7 @@ import {
   GraphQLInterfaceType
 } from 'graphql';
 
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import StoriesList from './mockedData/stories';
 import AuthorsMap from './mockedData/authors';
 // import {CommentList, ReplyList} from './mockedData/comments';
@@ -21,14 +21,14 @@ import AuthorsMap from './mockedData/authors';
 // const MongooseSchema = mongoose.Schema;
 //
 //
-// const STORY = mongoose.model('Story', new MongooseSchema({
-//   id: mongoose.Schema.Types.ObjectId,
-//   title: String,
-//   category: String,
-//   summary: String,
-//   content: String,
-//   timestamp: Number
-// }));
+const STORY = mongoose.model('Story', new mongoose.Schema({
+  id: mongoose.Schema.Types.ObjectId,
+  title: String,
+  category: String,
+  summary: String,
+  content: String,
+  timestamp: Number
+}));
 
 const Category = new GraphQLEnumType({
   name: 'Category',
@@ -157,12 +157,32 @@ const Query = new GraphQLObjectType({
         return StoriesList;
       }
     },
+    customStoriesQuery: {
+      type: new GraphQLList(Story),
+      description: 'List of stories in the Nobodys Stories',
+      args: {
+        category: { type: Category }
+      },
+      resolve(source, { category }, { mongodb }) {
+        if (category) {
+          return STORY.find((err, res) => {
+            if (err) return err;
+            return res;
+          })
+        }
+        return StoriesList;
+      }
+      // resolve(source, { category }, { mongodb }) {
+      //   if (category) {
+      //     return PostsList.filter(story => (story.category === category));
+      //   }
+      //   return StoriesList;
+      // }
+    },
     database: {
       type: MongoDatabase,
       description: 'Query to check if database is working when we have no data to query',
       resolve(source, { category }, { mongodb }) {
-        // const databaseCheck = `database query returns: ${mongodb.collection('stories').find({ author: 'Adam' }).toArray((err, result) => result)}`;
-        // const databaseCheck = `database query returns: ${mongodb.collection('stories').count((err, count) => count)}`;
         const getStoriesPromise = () => mongodb.collection('stories');
         const databaseCheck = `${getStoriesPromise()}`;
         return { database: databaseCheck };

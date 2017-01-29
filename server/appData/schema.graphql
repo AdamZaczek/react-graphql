@@ -50,6 +50,9 @@ type NobodysStoriesSchema {
   # List of stories in the Nobodys Stories
   stories(category: Category): [Story]
 
+  # List of stories in the Nobodys Stories
+  customStoriesQuery(category: Category): [Story]
+
   # Query to check if database is working when we have no data to query
   database: MongoDatabase
 
