@@ -16,19 +16,39 @@ import {
 import mongoose from 'mongoose';
 import StoriesList from './mockedData/stories';
 import AuthorsMap from './mockedData/authors';
-// import {CommentList, ReplyList} from './mockedData/comments';
 
-// const MongooseSchema = mongoose.Schema;
-//
-//
+
 const STORY = mongoose.model('Story', new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   title: String,
   category: String,
   summary: String,
   content: String,
-  timestamp: Number
+  timestamp: Number,
+  author: String
 }));
+
+const USER = mongoose.model('User', new mongoose.Schema({
+  id: mongoose.Schema.Types.ObjectId,
+  name: { type: String, required: true, unique: true },
+  email: String,
+  //this needs to be encrypted soon
+  password: { type: String, required: true },
+  age: Number,
+  //can also be a Date type
+  createdAt: Number,
+  //can also be a Date type
+  updated_at: Number,
+  stories : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }]
+  //need to add likes
+}))
+
+//not sure if thats the way it should be done, leaving to for a moment
+// const RATING = new Schema({
+//   _user: { type: ObjectId, ref: 'User' },
+//   _ratedItem: { type: ObjectId, ref: 'Story' },
+//   value: Number
+// })
 
 const Category = new GraphQLEnumType({
   name: 'Category',
@@ -48,14 +68,6 @@ const Author = new GraphQLObjectType({
     _id: { type: GraphQLString },
     name: { type: GraphQLString },
     twitterHandle: { type: GraphQLString }
-  })
-});
-
-const MongoDatabase = new GraphQLObjectType({
-  name: 'MongoDatabase',
-  description: 'Custom query made to practise queries and check database connection',
-  fields: () => ({
-    database: { type: GraphQLString }
   })
 });
 
@@ -172,21 +184,6 @@ const Query = new GraphQLObjectType({
         }
         return StoriesList;
       }
-      // resolve(source, { category }, { mongodb }) {
-      //   if (category) {
-      //     return PostsList.filter(story => (story.category === category));
-      //   }
-      //   return StoriesList;
-      // }
-    },
-    database: {
-      type: MongoDatabase,
-      description: 'Query to check if database is working when we have no data to query',
-      resolve(source, { category }, { mongodb }) {
-        const getStoriesPromise = () => mongodb.collection('stories');
-        const databaseCheck = `${getStoriesPromise()}`;
-        return { database: databaseCheck };
-      }
     },
     latestStory: {
       type: Story,
@@ -202,7 +199,6 @@ const Query = new GraphQLObjectType({
         return StoriesList[0];
       }
     },
-
     recentStories: {
       type: new GraphQLList(Story),
       description: 'Recent story in the Nobodys Stories',
@@ -220,7 +216,6 @@ const Query = new GraphQLObjectType({
         return StoriesList.slice(0, count);
       }
     },
-
     story: {
       type: Story,
       description: 'Story by _id',
@@ -231,7 +226,6 @@ const Query = new GraphQLObjectType({
         return StoriesList.filter(story => (story._id === id))[0];
       }
     },
-
     authors: {
       type: new GraphQLList(Author),
       description: 'Available authors in the Nobodys Stories',
@@ -239,7 +233,6 @@ const Query = new GraphQLObjectType({
         return [...AuthorsMap];
       }
     },
-
     author: {
       type: Author,
       description: 'Author by _id',

@@ -23,11 +23,6 @@ interface HasAuthor {
   author: Author
 }
 
-# Custom query made to practise queries and check database connection
-type MongoDatabase {
-  database: String
-}
-
 type NobodysStoriesMutations {
   # Create a new story
   createStory(
@@ -52,9 +47,6 @@ type NobodysStoriesSchema {
 
   # List of stories in the Nobodys Stories
   customStoriesQuery(category: Category): [Story]
-
-  # Query to check if database is working when we have no data to query
-  database: MongoDatabase
 
   # Latest story in the Nobodys Stories
   latestStory: Story
