@@ -15,7 +15,8 @@ import {
 import mongoose from 'mongoose';
 
 import STORY from './mongooseModels/story';
-import USER from './mongooseModels/user'
+import USER from './mongooseModels/user';
+import COMMENT from './mongooseModels/comment';
 
 //not sure if thats the way it should be done, leaving to for a moment
 // const RATING = new Schema({
