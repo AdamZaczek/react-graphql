@@ -196,25 +196,49 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "METEOR",
+              "name": "ADULT",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "PRODUCT",
+              "name": "SEX",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "USER_STORY",
+              "name": "LOVE",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "OTHER",
+              "name": "SCHOOL",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FUNNY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DATE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "SAD",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "EMBARRASSING",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

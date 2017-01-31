@@ -12,10 +12,14 @@ type Author {
 
 # A Category of the Nobodys Stories
 enum Category {
-  METEOR
-  PRODUCT
-  USER_STORY
-  OTHER
+  ADULT
+  SEX
+  LOVE
+  SCHOOL
+  FUNNY
+  DATE
+  SAD
+  EMBARRASSING
 }
 
 # This type has an author

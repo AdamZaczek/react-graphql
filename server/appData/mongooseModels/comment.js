@@ -1,12 +1,10 @@
 import mongoose from 'mongoose';
 
-const COMMENT = mongoose.model('Story', new mongoose.Schema({
+const COMMENT = mongoose.model('Comment', new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  title: { type: String, required: true },
-  category: { type: String, required: true },
   summary: String,
-  content: { String, required: true },
+  content: { String },
   timestamp: { type: Date, default: Date.now },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
