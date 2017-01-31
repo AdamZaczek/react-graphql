@@ -29,10 +29,14 @@ const Category = new GraphQLEnumType({
   name: 'Category',
   description: 'A Category of the Nobodys Stories',
   values: {
-    METEOR: { value: 'meteor' },
-    PRODUCT: { value: 'product' },
-    USER_STORY: { value: 'user-story' },
-    OTHER: { value: 'other' }
+    ADULT: { value: 'adult life' },
+    SEX: { value: 'sex' },
+    LOVE: { value: 'love' },
+    SCHOOL: { value: 'school' },
+    FUNNY: { value: 'funny' },
+    DATE: { value: 'date' },
+    SAD: { value: 'sad' },
+    EMBARRASSING: { value: 'embarrassing' }
   }
 });
 
