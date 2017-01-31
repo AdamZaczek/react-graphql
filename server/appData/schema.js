@@ -12,36 +12,10 @@ import {
   GraphQLNonNull,
   GraphQLInterfaceType
 } from 'graphql';
-
 import mongoose from 'mongoose';
-import StoriesList from './mockedData/stories';
-import AuthorsMap from './mockedData/authors';
 
-
-const STORY = mongoose.model('Story', new mongoose.Schema({
-  id: mongoose.Schema.Types.ObjectId,
-  title: String,
-  category: String,
-  summary: String,
-  content: String,
-  timestamp: Number,
-  author: String
-}));
-
-const USER = mongoose.model('User', new mongoose.Schema({
-  id: mongoose.Schema.Types.ObjectId,
-  name: { type: String, required: true, unique: true },
-  email: String,
-  //this needs to be encrypted soon
-  password: { type: String, required: true },
-  age: Number,
-  //can also be a Date type
-  createdAt: Number,
-  //can also be a Date type
-  updated_at: Number,
-  stories : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }]
-  //need to add likes
-}))
+import STORY from './mongooseModels/story';
+import USER from './mongooseModels/user'
 
 //not sure if thats the way it should be done, leaving to for a moment
 // const RATING = new Schema({
