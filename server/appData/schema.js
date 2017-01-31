@@ -158,12 +158,15 @@ const Query = new GraphQLObjectType({
       },
       resolve(source, { category }, { mongodb }) {
         if (category) {
-          return STORY.find((err, res) => {
+          return STORY.find({}, (err, res) => {
             if (err) return err;
             return res;
           })
         }
-        return StoriesList;
+        return STORY.find({}, (err, res) => {
+          if (err) return err;
+          return res;
+        });
       }
     },
     latestStory: {

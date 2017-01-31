@@ -18,8 +18,9 @@ const mongoose = require('mongoose');
 // mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
 
 
-const options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } } };
+const options = { server: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } },
+  replset: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } } };
+mongoose.Promise = global.Promise;
 mongoose.connect(myMongoCredentials, options);
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
