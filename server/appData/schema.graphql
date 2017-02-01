@@ -3,13 +3,6 @@ schema {
   mutation: NobodysStoriesMutations
 }
 
-# Represent the type of an author of a story or a comment
-type Author {
-  _id: String
-  name: String
-  twitterHandle: String
-}
-
 # A Category of the Nobodys Stories
 enum Category {
   ADULT
@@ -22,11 +15,6 @@ enum Category {
   EMBARRASSING
 }
 
-# This type has an author
-interface HasAuthor {
-  author: Author
-}
-
 type NobodysStoriesMutations {
   # Create a new story
   createStory(
@@ -36,12 +24,9 @@ type NobodysStoriesMutations {
     summary: String
     category: Category
 
-    # Id of the author
-    author: String!
+    # Id of the user
+    auser: String!
   ): Story
-
-  # Create a new author
-  createAuthor(_id: String!, name: String!, twitterHandle: String): Author
 }
 
 # Root of the Nobodys Stories
@@ -64,20 +49,26 @@ type NobodysStoriesSchema {
   # Story by _id
   story(_id: String!): Story
 
-  # Available authors in the Nobodys Stories
-  authors: [Author]
+  # Available users in the Nobodys Stories
+  users: [User]
 
-  # Author by _id
-  author(_id: String!): Author
+  # User by _id
+  user(_id: String!): User
 }
 
 # Represent the type of a story
-type Story implements HasAuthor {
+type Story {
   _id: String
   title: String
   category: Category
   summary: String
   content: String
   timestamp: Float
-  author: Author
+}
+
+# Represent the type of an user of a story or a comment
+type User {
+  _id: String
+  name: String
+  twitterHandle: String
 }

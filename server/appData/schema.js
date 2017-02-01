@@ -38,7 +38,8 @@ const Category = new GraphQLEnumType({
     FUNNY: { value: 'funny' },
     DATE: { value: 'date' },
     SAD: { value: 'sad' },
-    EMBARRASSING: { value: 'embarrassing' }
+    EMBARRASSING: { value: 'embarrassing' },
+    SCARRY: { value: 'scarry' }
   }
 });
 
@@ -95,7 +96,7 @@ const User = new GraphQLObjectType({
 
 const Story = new GraphQLObjectType({
   name: 'Story',
-  interfaces: [HasAuthor],
+  // interfaces: [HasAuthor],
   description: 'Represent the type of a story',
   fields: () => ({
     _id: { type: GraphQLString },
@@ -125,13 +126,17 @@ const Story = new GraphQLObjectType({
     //     return CommentList;
     //   }
     // },
+
+
     // need to change
-    _author: {
-      type: Author,
-      resolve({ author }) {
-        return AuthorsMap[author];
-      }
-    }
+    // _author: {
+    //   type: Author,
+    //   resolve({ author }) {
+    //     return AuthorsMap[author];
+    //   }
+    // }
+
+
   })
 });
 
@@ -279,24 +284,24 @@ const Mutation = new GraphQLObjectType({
       }
     },
 
-    createAuthor: {
-      type: Author,
-      description: 'Create a new author',
-      args: {
-        _id: { type: new GraphQLNonNull(GraphQLString) },
-        name: { type: new GraphQLNonNull(GraphQLString) },
-        twitterHandle: { type: GraphQLString }
-      },
-      resolve(source, { ...args }) {
-        const author = args;
-        if (AuthorsMap[args._id]) {
-          throw new Error(`Author already exists: ${author._id}`);
-        }
-
-        AuthorsMap[author._id] = author;
-        return author;
-      }
-    }
+    // createAuthor: {
+    //   type: Author,
+    //   description: 'Create a new author',
+    //   args: {
+    //     _id: { type: new GraphQLNonNull(GraphQLString) },
+    //     name: { type: new GraphQLNonNull(GraphQLString) },
+    //     twitterHandle: { type: GraphQLString }
+    //   },
+    //   resolve(source, { ...args }) {
+    //     const author = args;
+    //     if (AuthorsMap[args._id]) {
+    //       throw new Error(`Author already exists: ${author._id}`);
+    //     }
+    //
+    //     AuthorsMap[author._id] = author;
+    //     return author;
+    //   }
+    // }
   }
 });
 
