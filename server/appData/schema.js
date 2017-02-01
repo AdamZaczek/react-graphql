@@ -42,31 +42,32 @@ const Category = new GraphQLEnumType({
   }
 });
 
-const Author = new GraphQLObjectType({
-  name: 'Author',
-  description: 'Represent the type of an author of a story or a comment',
+const User = new GraphQLObjectType({
+  name: 'User',
+  description: 'Represent the type of an user of a story or a comment',
   fields: () => ({
     _id: { type: GraphQLString },
     name: { type: GraphQLString },
+    // to be removed
     twitterHandle: { type: GraphQLString }
   })
 });
 
-const HasAuthor = new GraphQLInterfaceType({
-  name: 'HasAuthor',
-  description: 'This type has an author',
-  fields: () => ({
-    author: { type: Author }
-  }),
-  resolveType: (obj) => {
-    if (obj.title) {
-      return Post;
-    } else if (obj.replies) {
-      return Comment;
-    }
-    return null;
-  }
-});
+// const HasAuthor = new GraphQLInterfaceType({
+//   name: 'HasAuthor',
+//   description: 'This type has an author',
+//   fields: () => ({
+//     author: { type: Author }
+//   }),
+//   resolveType: (obj) => {
+//     if (obj.title) {
+//       return Post;
+//     } else if (obj.replies) {
+//       return Comment;
+//     }
+//     return null;
+//   }
+// });
 
 // const Comment = new GraphQLObjectType({
 //   name: 'Comment',
@@ -124,7 +125,8 @@ const Story = new GraphQLObjectType({
     //     return CommentList;
     //   }
     // },
-    author: {
+    // need to change
+    _author: {
       type: Author,
       resolve({ author }) {
         return AuthorsMap[author];
@@ -210,21 +212,27 @@ const Query = new GraphQLObjectType({
         return StoriesList.filter(story => (story._id === id))[0];
       }
     },
-    authors: {
-      type: new GraphQLList(Author),
-      description: 'Available authors in the Nobodys Stories',
+    users: {
+      type: new GraphQLList(User),
+      description: 'Available users in the Nobodys Stories',
       resolve() {
-        return [...AuthorsMap];
+        return USER.find({}, (err, res) => {
+          if (err) return err;
+          return res;
+        });
       }
     },
-    author: {
-      type: Author,
-      description: 'Author by _id',
+    user: {
+      type: User,
+      description: 'User by _id',
       args: {
         _id: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(source, { _id }) {
-        return AuthorsMap[_id];
+        return STORY.find({}, (err, res) => {
+          if (err) return err;
+          return res[_id];
+        });
       }
     }
   })
@@ -242,7 +250,7 @@ const Mutation = new GraphQLObjectType({
         content: { type: new GraphQLNonNull(GraphQLString) },
         summary: { type: GraphQLString },
         category: { type: Category },
-        author: { type: new GraphQLNonNull(GraphQLString), description: 'Id of the author' }
+        auser: { type: new GraphQLNonNull(GraphQLString), description: 'Id of the user' }
       },
       resolve(source, { ...args }) {
         const story = args;
@@ -255,9 +263,9 @@ const Mutation = new GraphQLObjectType({
           throw new Error(`Story already exists: ${story._id}`);
         }
 
-        if (!AuthorsMap[story.author]) {
-          throw new Error(`No such author: ${story.author}`);
-        }
+        // if (!AuthorsMap[story.author]) {
+        //   throw new Error(`No such author: ${story.author}`);
+        // }
 
         if (!story.summary) {
           story.summary = story.content.substring(0, 100);
