@@ -15,33 +15,6 @@
           "description": "Root of the Nobodys Stories",
           "fields": [
             {
-              "name": "stories",
-              "description": "List of stories in the Nobodys Stories",
-              "args": [
-                {
-                  "name": "category",
-                  "description": null,
-                  "type": {
-                    "kind": "ENUM",
-                    "name": "Category",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Story",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "customStoriesQuery",
               "description": "List of stories in the Nobodys Stories",
               "args": [
@@ -242,6 +215,12 @@
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "SCARRY",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "possibleTypes": null
@@ -312,7 +291,7 @@
               "deprecationReason": null
             },
             {
-              "name": "timestamp",
+              "name": "createdAt",
               "description": null,
               "args": [],
               "type": {

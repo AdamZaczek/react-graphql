@@ -13,6 +13,7 @@ enum Category {
   DATE
   SAD
   EMBARRASSING
+  SCARRY
 }
 
 type NobodysStoriesMutations {
@@ -31,9 +32,6 @@ type NobodysStoriesMutations {
 
 # Root of the Nobodys Stories
 type NobodysStoriesSchema {
-  # List of stories in the Nobodys Stories
-  stories(category: Category): [Story]
-
   # List of stories in the Nobodys Stories
   customStoriesQuery(category: Category): [Story]
 
@@ -63,7 +61,7 @@ type Story {
   category: Category
   summary: String
   content: String
-  timestamp: Float
+  createdAt: Float
 }
 
 # Represent the type of an user of a story or a comment

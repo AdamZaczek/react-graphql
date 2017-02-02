@@ -104,10 +104,11 @@ const Story = new GraphQLObjectType({
     category: { type: Category },
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
-    timestamp: {
+    // need to check if it works
+    createdAt: {
       type: GraphQLFloat,
       resolve(story) {
-        if (story.date) {
+        if (!story.date) {
           return new Date(story.date.$date).getTime();
         }
         return null;
@@ -128,6 +129,13 @@ const Story = new GraphQLObjectType({
     // },
 
 
+    // there is something called populate, need to look into it
+    // _author: {
+    //   type: User,
+    //   resolve: (Story) => {
+    //     return USER.find({ _id: Story._author})
+    //   }
+    // }
     // need to change
     // _author: {
     //   type: Author,
@@ -144,19 +152,19 @@ const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root of the Nobodys Stories',
   fields: () => ({
-    stories: {
-      type: new GraphQLList(Story),
-      description: 'List of stories in the Nobodys Stories',
-      args: {
-        category: { type: Category }
-      },
-      resolve(source, { category }, { mongodb }) {
-        if (category) {
-          return PostsList.filter(story => (story.category === category));
-        }
-        return StoriesList;
-      }
-    },
+    // stories: {
+    //   type: new GraphQLList(Story),
+    //   description: 'List of stories in the Nobodys Stories',
+    //   args: {
+    //     category: { type: Category }
+    //   },
+    //   resolve(source, { category }, { mongodb }) {
+    //     if (category) {
+    //       return PostsList.filter(story => (story.category === category));
+    //     }
+    //     return StoriesList;
+    //   }
+    // },
     customStoriesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories in the Nobodys Stories',
@@ -165,7 +173,7 @@ const Query = new GraphQLObjectType({
       },
       resolve(source, { category }, { mongodb }) {
         if (category) {
-          return STORY.find({}, (err, res) => {
+          return STORY.find({ category }, (err, res) => {
             if (err) return err;
             return res;
           })
