@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const STORY = mongoose.model('Story', new mongoose.Schema({
-  id: mongoose.Schema.Types.ObjectId,
+  _id: mongoose.Schema.Types.ObjectId,
   _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   title: { type: String },
   category: { type: String },

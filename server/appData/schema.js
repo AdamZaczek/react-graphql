@@ -54,7 +54,7 @@ const User = new GraphQLObjectType({
     age: { type: GraphQLInt },
     createdAt: { type: GraphQLInt },
     updatedAt: { type: GraphQLInt },
-    stories: { type: GraphQLList(Story) }
+//    stories: { type: GraphQLList(Story) }
   })
 });
 
@@ -156,19 +156,6 @@ const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root of the Nobodys Stories',
   fields: () => ({
-    // stories: {
-    //   type: new GraphQLList(Story),
-    //   description: 'List of stories in the Nobodys Stories',
-    //   args: {
-    //     category: { type: Category }
-    //   },
-    //   resolve(source, { category }, { mongodb }) {
-    //     if (category) {
-    //       return PostsList.filter(story => (story.category === category));
-    //     }
-    //     return StoriesList;
-    //   }
-    // },
     customStoriesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories in the Nobodys Stories',
@@ -202,6 +189,25 @@ const Query = new GraphQLObjectType({
         return StoriesList[0];
       }
     },
+    customLatestStoryQuery: {
+      type: Story,
+      description: 'Latest story in the Nobodys Stories',
+      resolve() {
+        let storiesArry = STORY.find({}, (err, res) => {
+          if (err) return err;
+          return res;
+        });
+        storiesArry.sort((a, b) => {
+          // might need to change this one a bit
+          const bTime = new Date(b.createdAt.$date).getTime();
+          const aTime = new Date(a.createdAt.$date).getTime();
+
+          return bTime - aTime;
+        });
+
+        return storiesArry[0];
+      }
+    },
     recentStories: {
       type: new GraphQLList(Story),
       description: 'Recent story in the Nobodys Stories',
@@ -217,6 +223,28 @@ const Query = new GraphQLObjectType({
         });
 
         return StoriesList.slice(0, count);
+      }
+    },
+    customRecentStoriesQuery: {
+      type: new GraphQLList(Story),
+      description: 'Recent story in the Nobodys Stories',
+      args: {
+        count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
+      },
+      resolve(source, { count }) {
+        let storiesArry = STORY.find({}, (err, res) => {
+          if (err) return err;
+          return res;
+        });
+        storiesArry.sort((a, b) => {
+          // might need to change this one a bit
+          const bTime = new Date(b.createdAt.$date).getTime();
+          const aTime = new Date(a.createdAt.$date).getTime();
+
+          return bTime - aTime;
+        });
+
+        return storiesArry.slice(0, count);
       }
     },
     story: {
@@ -242,7 +270,7 @@ const Query = new GraphQLObjectType({
         })
       }
     },
-    users: {
+    customUsersQuery: {
       type: new GraphQLList(User),
       description: 'Available users in the Nobodys Stories',
       resolve() {
@@ -259,12 +287,25 @@ const Query = new GraphQLObjectType({
         _id: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(source, { _id }) {
-        return STORY.find({}, (err, res) => {
+        return USER.find({}, (err, res) => {
           if (err) return err;
           return res[_id];
         });
       }
     }
+    // customUserQuery: {
+    //   type: User,
+    //   description: 'User by _id',
+    //   args: {
+    //     _id: { type: new GraphQLNonNull(GraphQLString) }
+    //   },
+    //   resolve(source, { _id }) {
+    //     return STORY.find({}, (err, res) => {
+    //       if (err) return err;
+    //       return res[_id];
+    //     });
+    //   }
+    // }
   })
 });
 
