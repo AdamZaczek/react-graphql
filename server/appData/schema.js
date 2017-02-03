@@ -39,7 +39,7 @@ const Category = new GraphQLEnumType({
     DATE: { value: 'date' },
     SAD: { value: 'sad' },
     EMBARRASSING: { value: 'embarrassing' },
-    SCARRY: { value: 'scarry' }
+    SCARY: { value: 'scary' }
   }
 });
 
@@ -49,8 +49,12 @@ const User = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLString },
     name: { type: GraphQLString },
-    // to be removed
-    twitterHandle: { type: GraphQLString }
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
+    age: { type: GraphQLInt },
+    createdAt: { type: GraphQLInt },
+    updatedAt: { type: GraphQLInt },
+    stories: { type: GraphQLList(Story) }
   })
 });
 
@@ -223,6 +227,19 @@ const Query = new GraphQLObjectType({
       },
       resolve(source, { _id }) {
         return StoriesList.filter(story => (story._id === id))[0];
+      }
+    },
+    customStoryQuery: {
+      type: Story,
+      description: 'Story by _id',
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(source, { id }) {
+        return STORY.findById({ id }, (err, res) => {
+          if (err) return err;
+          return res;
+        })
       }
     },
     users: {
