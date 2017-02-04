@@ -1,0 +1,14 @@
+{
+  "users": [
+    { "name": "AdamZaczek", "email": "adamzaczekul@gmail.com",
+      "isAdmin": "true", "password": "1234", "age": "25", "stories": [],
+      "comments": [], "storyLikes": [], "storyDislikes": [],
+      "commentLikes": [], "commentDislikes": []
+    },
+    { "name": "Avenir", "email": "krzak4ever@gmail.com",
+      "isAdmin": "false", "password": "1234", "age": "25", "stories": [],
+      "comments": [], "storyLikes": [], "storyDislikes": [],
+      "commentLikes": [], "commentDislikes": []
+    }
+  ]
+}
