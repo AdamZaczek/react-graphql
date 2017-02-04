@@ -8,7 +8,7 @@ const USER = mongoose.model('User', new mongoose.Schema({
   email: { type: String, required: true },
   // this needs to be encrypted soon
   password: { type: String, required: true },
-  age: Number,
+  age: { type: Number, min: 1, max: 115 },
   isAdmin: { Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   // can also be a Date type

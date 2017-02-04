@@ -74,6 +74,7 @@ type Story {
   summary: String
   content: String
   createdAt: Float
+  _author: User
 }
 
 # Represent the type of an user of a story or a comment

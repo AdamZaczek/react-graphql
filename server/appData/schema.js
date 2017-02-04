@@ -58,22 +58,6 @@ const User = new GraphQLObjectType({
   })
 });
 
-// const HasAuthor = new GraphQLInterfaceType({
-//   name: 'HasAuthor',
-//   description: 'This type has an author',
-//   fields: () => ({
-//     author: { type: Author }
-//   }),
-//   resolveType: (obj) => {
-//     if (obj.title) {
-//       return Post;
-//     } else if (obj.replies) {
-//       return Comment;
-//     }
-//     return null;
-//   }
-// });
-
 // const Comment = new GraphQLObjectType({
 //   name: 'Comment',
 //   interfaces: [HasAuthor],
@@ -134,12 +118,12 @@ const Story = new GraphQLObjectType({
 
 
     // there is something called populate, need to look into it
-    // _author: {
-    //   type: User,
-    //   resolve: (Story) => {
-    //     return USER.find({ _id: Story._author})
-    //   }
-    // }
+    _author: {
+      type: User,
+      resolve: (Story) => {
+        return USER.find({ _id: Story._author})
+      }
+    }
     // need to change
     // _author: {
     //   type: Author,
@@ -264,7 +248,7 @@ const Query = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(source, { id }) {
-        return STORY.findById({ id }, (err, res) => {
+        return STORY.findById(id, (err, res) => {
           if (err) return err;
           return res;
         })
