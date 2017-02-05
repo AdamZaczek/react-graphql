@@ -31,10 +31,10 @@
     "webpack",
     "babel",
     "postcss",
-    "scaffolding",
     "fullstack",
     "bootstrap",
-    "mongodb"
+    "mongodb",
+    "mongoose"
   ],
   "author": "Adam Żaczek",
   "license": "MIT",

@@ -20,4 +20,7 @@ mongod --dbpath "D:\programowanie 2\relay-fullstack\data"
 Hashing passwords:
 https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1
 
+App requires adding myMongoCredentials.js file to main folder with a link to mongolab database. It looks like this:
+export default 'mongodb://SomeMongoLabUsername:SomeMongoLabPassword@ds129189.mlab.com:29189/stories';
+
 Things to consider: Delete ^ marks in dependencies.
