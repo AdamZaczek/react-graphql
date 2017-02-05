@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const COMMENT = mongoose.model('Comment', new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  _story: { type: mongoose.Schema.Types.ObjectId, ref: 'Story' },
   summary: String,
   content: { String },
   createdAt: { type: Date, default: Date.now },
