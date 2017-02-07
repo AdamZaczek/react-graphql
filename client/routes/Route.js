@@ -3,8 +3,9 @@ import { IndexRoute, Route, Redirect } from 'react-router';
 
 // import ViewerQuery from './ViewerQuery';
 
-// this might not belong here
-import StoriesQuery from './StoriesQuery';
+// this might not belong here so commented for now
+//  import StoriesQuery from './StoriesQuery';
+
 import AppContainer from '../components/App/AppContainer';
 // import FeatureContainer from '../components/Feature/FeatureContainer';
 import SignupComponent from '../components/Signup/SignupComponent';

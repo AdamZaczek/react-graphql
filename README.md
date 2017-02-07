@@ -9,6 +9,7 @@ ToDO:
 7. Make comments optimistic
 8. Make styles the last thing you do, you'll need to style differently on mobile anyways, use google material design
 9. Add categories (Done). Might want to have stories with multiple cattegories.
+10. Add hashing password.
 
 
 Mongod startuje bazę danych, mongo pozwala na wysyłanie zapytań, wstawianie danych, itp.
