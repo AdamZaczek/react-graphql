@@ -25,7 +25,7 @@ mongoose.connect(myMongoCredentials, options);
 const conn = mongoose.connection;
 conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', () => {
-  console.log('Connection with MongoLab estabished.');
+  console.log(chalk.blue('Connection with MongoLab estabished.'));
 });
 
 if (config.env === 'development') {
