@@ -59,6 +59,20 @@ const User = new GraphQLObjectType({
 });
 
 // const Comment = new GraphQLObjectType({
+//
+// })
+//
+//
+// id: mongoose.Schema.Types.ObjectId,
+// _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+// _story: { type: mongoose.Schema.Types.ObjectId, ref: 'Story' },
+// summary: String,
+// content: { String },
+// createdAt: { type: Date, default: Date.now },
+// likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+// dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+
+// const Comment = new GraphQLObjectType({
 //   name: 'Comment',
 //   interfaces: [HasAuthor],
 //   description: 'Represent the type of a comment',
@@ -92,16 +106,25 @@ const Story = new GraphQLObjectType({
     category: { type: Category },
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
-    // need to check if it works
+    // needs checking
     createdAt: {
       type: GraphQLFloat,
       resolve(story) {
-        if (!story.date) {
+        if (story.date) {
           return new Date(story.date.$date).getTime();
         }
         return null;
       }
     },
+    // comments: {
+    //   type: new GraphQLList(Comment),
+    //   args: {
+    //     limit: {type: GraphQLInt, description: 'Limit the returning comments'}
+    //   },
+    //   resolve: (story, { limit }) => {
+    //     return COMMENT.find({ _id: Story._author})
+    //   }
+    // },
     // comments: {
     //   type: new GraphQLList(Comment),
     //   args: {
@@ -115,24 +138,12 @@ const Story = new GraphQLObjectType({
     //     return CommentList;
     //   }
     // },
-
-
-    // there is something called populate, need to look into it
     _author: {
       type: User,
       resolve: (Story) => {
-        return USER.find({ _id: Story._author})
+        return USER.findOne({ _id: Story._author})
       }
     }
-    // need to change
-    // _author: {
-    //   type: Author,
-    //   resolve({ author }) {
-    //     return AuthorsMap[author];
-    //   }
-    // }
-
-
   })
 });
 
