@@ -1,14 +1,39 @@
 {
   "users": [
-    { "name": "AdamZaczek", "email": "adamzaczekul@gmail.com",
-      "isAdmin": "true", "password": "1234", "age": "25", "stories": [],
-      "comments": [], "storyLikes": [], "storyDislikes": [],
-      "commentLikes": [], "commentDislikes": []
+    {
+        "_id": {
+            "$oid": "58961460734d1d3956c46fb7"
+        },
+        "name": "AdamZaczek",
+        "email": "adamzaczekul@gmail.com",
+        "isAdmin": "true",
+        "password": "1234",
+        "age": "25",
+        "stories": [],
+        "comments": [],
+        "storyLikes": [],
+        "storyDislikes": [],
+        "commentLikes": [],
+        "commentDislikes": []
     },
-    { "name": "Avenir", "email": "krzak4ever@gmail.com",
-      "isAdmin": "false", "password": "1234", "age": "25", "stories": [],
-      "comments": [], "storyLikes": [], "storyDislikes": [],
-      "commentLikes": [], "commentDislikes": []
+    {
+        "_id": {
+            "$oid": "58961492734d1d3956c46fd0"
+        },
+        "name": "Avenir",
+        "email": "krzak4ever@gmail.com",
+        "isAdmin": "false",
+        "password": "1234",
+        "age": "25",
+        "stories": [],
+        "comments": [
+            "589e3d8e734d1d56393c5850",
+            "589e3dae734d1d56393c5854"
+        ],
+        "storyLikes": [],
+        "storyDislikes": [],
+        "commentLikes": [],
+        "commentDislikes": []
     }
   ]
 }

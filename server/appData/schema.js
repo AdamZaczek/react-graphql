@@ -29,7 +29,7 @@ import COMMENT from './mongooseModels/comment';
 
 const Category = new GraphQLEnumType({
   name: 'Category',
-  description: 'A Category of the Nobodys Stories',
+  description: 'Represents a category of a story',
   values: {
     ADULT: { value: 'adult life' },
     SEX: { value: 'sex' },
@@ -45,7 +45,7 @@ const Category = new GraphQLEnumType({
 
 const User = new GraphQLObjectType({
   name: 'User',
-  description: 'Represent the type of an user of a story or a comment',
+  description: 'Represents user of the application',
   fields: () => ({
     _id: { type: GraphQLString },
     name: { type: GraphQLString },
@@ -58,19 +58,29 @@ const User = new GraphQLObjectType({
   })
 });
 
-// const Comment = new GraphQLObjectType({
-//
-// })
-//
-//
-// id: mongoose.Schema.Types.ObjectId,
-// _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-// _story: { type: mongoose.Schema.Types.ObjectId, ref: 'Story' },
-// summary: String,
-// content: { String },
-// createdAt: { type: Date, default: Date.now },
-// likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-// dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+const Comment = new GraphQLObjectType({
+  name: 'Comment',
+  decription: 'Reporesents story\'s comment',
+  fields: () => ({
+    _id: { type: GraphQLString },
+    _author: {
+      type: User,
+      resolve: (Comment) => {
+        return USER.findOne({ _id: Comment._author})
+      }
+    },
+    _story: {
+      type: Story,
+      resolve: (Comment) => {
+        return STORY.findOne({ _id: Story._story})
+      }
+    },
+    summary: { type: GraphQLString },
+    content: { type: GraphQLString },
+    createdAt: { type: GraphQLInt },
+    // need likes and dislikes
+  })
+})
 
 // const Comment = new GraphQLObjectType({
 //   name: 'Comment',
@@ -116,15 +126,24 @@ const Story = new GraphQLObjectType({
         return null;
       }
     },
-    // comments: {
-    //   type: new GraphQLList(Comment),
-    //   args: {
-    //     limit: {type: GraphQLInt, description: 'Limit the returning comments'}
-    //   },
-    //   resolve: (story, { limit }) => {
-    //     return COMMENT.find({ _id: Story._author})
-    //   }
-    // },
+    // got to add limit
+    comments: {
+      type: new GraphQLList(Comment),
+      args: {
+        limit: {type: GraphQLInt, description: 'Limit the returning comments'}
+      },
+      resolve: (story, { limit }) => {
+        let commAry = [];
+        commAry = story.comments.map((comment) => {
+          return COMMENT.findOne({ _id: comment }, (err, res) => {
+            if (err) return err;
+            return res
+          })
+        })
+        return commAry;
+      }
+    },
+
     // comments: {
     //   type: new GraphQLList(Comment),
     //   args: {

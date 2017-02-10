@@ -3,7 +3,7 @@ schema {
   mutation: NobodysStoriesMutations
 }
 
-# A Category of the Nobodys Stories
+# Represents a category of a story
 enum Category {
   ADULT
   SEX
@@ -14,6 +14,15 @@ enum Category {
   SAD
   EMBARRASSING
   SCARY
+}
+
+type Comment {
+  _id: String
+  _author: User
+  _story: Story
+  summary: String
+  content: String
+  createdAt: Int
 }
 
 type NobodysStoriesMutations {
@@ -74,10 +83,14 @@ type Story {
   summary: String
   content: String
   createdAt: Float
+  comments(
+    # Limit the returning comments
+    limit: Int
+  ): [Comment]
   _author: User
 }
 
-# Represent the type of an user of a story or a comment
+# Represents user of the application
 type User {
   _id: String
   name: String

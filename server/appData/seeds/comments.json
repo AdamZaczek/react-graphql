@@ -1,12 +1,27 @@
 {
   "comments": [
-    { "_author": "58961460734d1d3956c46fb7", "_story": "58951027734d1d3956c4289a",
-      "likes": [], "dislikes": [],
-      "createdAt": "2017-02-03T13:31:07+01:00",
-      "content": "Amazing. I never thought I could outspeed hungry hamster." },
-    { "_author": "58961492734d1d3956c46fd0", "_story": "58951027734d1d3956c4289a",
-      "category": "scary", "likes": [], "dislikes": [],
-      "createdAt": "2017-02-03T15:24:05+01:00",
-      "content": "I find disturbing that most of my life I didn't realize how little food it takes to satisfy a regular person or, a hamster." }
+    {
+        "_id": {
+            "$oid": "589e3d8e734d1d56393c5850"
+        },
+        "_author": "58961492734d1d3956c46fd0",
+        "_story": "58951027734d1d3956c4289a",
+        "likes": [],
+        "dislikes": [],
+        "createdAt": "2017-02-03T13:31:07+01:00",
+        "content": "Amazing. I never thought I could outspeed hungry hamster."
+    },
+    {
+        "_id": {
+            "$oid": "589e3dae734d1d56393c5854"
+        },
+        "_author": "58961492734d1d3956c46fd0",
+        "_story": "58951027734d1d3956c4289a",
+        "category": "scary",
+        "likes": [],
+        "dislikes": [],
+        "createdAt": "2017-02-03T15:24:05+01:00",
+        "content": "I find disturbing that most of my life I didn't realize how little food it takes to satisfy a regular person or, a hamster."
+    }
   ]
 }
