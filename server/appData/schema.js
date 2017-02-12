@@ -82,6 +82,12 @@ const Comment = new GraphQLObjectType({
   })
 })
 
+const getPrettyDate = (date) => {
+  return ('0' + date.getDate()).slice(-2) + '/'
+            + ('0' + (date.getMonth()+1)).slice(-2) + '/'
+            + date.getFullYear();
+}
+
 const Story = new GraphQLObjectType({
   name: 'Story',
   description: 'Represent the type of a story',
@@ -96,7 +102,7 @@ const Story = new GraphQLObjectType({
       resolve(story) {
         if (story.createdAt) {
           let creationDate = new Date(story.createdAt)
-          let formattedDate = creationDate.getUTCDay() + '.' + creationDate.getUTCMonth() + '.' + creationDate.getUTCFullYear();
+          let formattedDate = getPrettyDate(creationDate)
           return formattedDate
         }
         return null;

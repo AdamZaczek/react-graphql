@@ -30,9 +30,6 @@ Useful queries to test api:
   "id": "58961492734d1d3956c46fd0"
 }
 
-
-
-
 Things to consider:
 Delete ^ marks in dependencies.  
 Adding redux for managing session specific data. Switching react to preact(!).  
