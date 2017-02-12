@@ -68,11 +68,11 @@ type NobodysStoriesSchema {
   # Story by _id
   customStoryQuery(id: String!): Story
 
-  # Available users in the Nobodys Stories
-  customUsersQuery: [User]
-
   # User by _id
   user(_id: String!): User
+
+  # User by _id
+  customUserQuery(id: String!): User
 }
 
 # Represent the type of a story

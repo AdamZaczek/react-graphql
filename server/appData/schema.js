@@ -82,30 +82,6 @@ const Comment = new GraphQLObjectType({
   })
 })
 
-// const Comment = new GraphQLObjectType({
-//   name: 'Comment',
-//   interfaces: [HasAuthor],
-//   description: 'Represent the type of a comment',
-//   fields: () => ({
-//     _id: {type: GraphQLString},
-//     content: {type: GraphQLString},
-//     author: {
-//       type: Author,
-//       resolve: function({author}) {
-//         return AuthorsMap[author];
-//       }
-//     },
-//     timestamp: {type: GraphQLFloat},
-//     replies: {
-//       type: new GraphQLList(Comment),
-//       description: 'Replies for the comment',
-//       resolve: function() {
-//         return ReplyList;
-//       }
-//     }
-//   })
-// });
-
 const Story = new GraphQLObjectType({
   name: 'Story',
   // interfaces: [HasAuthor],
@@ -284,16 +260,16 @@ const Query = new GraphQLObjectType({
         })
       }
     },
-    customUsersQuery: {
-      type: new GraphQLList(User),
-      description: 'Available users in the Nobodys Stories',
-      resolve() {
-        return USER.find({}, (err, res) => {
-          if (err) return err;
-          return res;
-        });
-      }
-    },
+    // customUsersQuery: {
+    //   type: new GraphQLList(User),
+    //   description: 'Available users in the Nobodys Stories',
+    //   resolve() {
+    //     return USER.find({}, (err, res) => {
+    //       if (err) return err;
+    //       return res;
+    //     });
+    //   }
+    // },
     user: {
       type: User,
       description: 'User by _id',
@@ -306,20 +282,20 @@ const Query = new GraphQLObjectType({
           return res[_id];
         });
       }
+    },
+    customUserQuery: {
+      type: User,
+      description: 'User by _id',
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(source, { id }) {
+        return USER.findById(id, (err, res) => {
+          if (err) return err;
+          return res;
+        })
+      }
     }
-    // customUserQuery: {
-    //   type: User,
-    //   description: 'User by _id',
-    //   args: {
-    //     _id: { type: new GraphQLNonNull(GraphQLString) }
-    //   },
-    //   resolve(source, { _id }) {
-    //     return STORY.find({}, (err, res) => {
-    //       if (err) return err;
-    //       return res[_id];
-    //     });
-    //   }
-    // }
   })
 });
 

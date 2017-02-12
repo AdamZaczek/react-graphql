@@ -182,27 +182,38 @@
               "deprecationReason": null
             },
             {
-              "name": "customUsersQuery",
-              "description": "Available users in the Nobodys Stories",
-              "args": [],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "User",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "user",
               "description": "User by _id",
               "args": [
                 {
                   "name": "_id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "customUserQuery",
+              "description": "User by _id",
+              "args": [
+                {
+                  "name": "id",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
