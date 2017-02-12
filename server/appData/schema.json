@@ -42,6 +42,33 @@
               "deprecationReason": null
             },
             {
+              "name": "customStoryQuery",
+              "description": "Story by _id",
+              "args": [
+                {
+                  "name": "id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Story",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "latestStory",
               "description": "Latest story in the Nobodys Stories",
               "args": [],
@@ -128,82 +155,17 @@
               "deprecationReason": null
             },
             {
-              "name": "story",
-              "description": "Story by _id",
-              "args": [
-                {
-                  "name": "_id",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
+              "name": "customUsersQuery",
+              "description": "Available users in the Nobodys Stories",
+              "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "Story",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "customStoryQuery",
-              "description": "Story by _id",
-              "args": [
-                {
-                  "name": "id",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
                 }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Story",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "user",
-              "description": "User by _id",
-              "args": [
-                {
-                  "name": "_id",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -377,7 +339,7 @@
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "Float",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -432,16 +394,6 @@
           "kind": "SCALAR",
           "name": "String",
           "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "Float",
-          "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). ",
           "fields": null,
           "inputFields": null,
           "interfaces": null,

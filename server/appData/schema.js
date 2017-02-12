@@ -84,7 +84,6 @@ const Comment = new GraphQLObjectType({
 
 const Story = new GraphQLObjectType({
   name: 'Story',
-  // interfaces: [HasAuthor],
   description: 'Represent the type of a story',
   fields: () => ({
     _id: { type: GraphQLString },
@@ -92,12 +91,13 @@ const Story = new GraphQLObjectType({
     category: { type: Category },
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
-    // needs checking
     createdAt: {
-      type: GraphQLFloat,
+      type: GraphQLString,
       resolve(story) {
-        if (story.date) {
-          return new Date(story.date.$date).getTime();
+        if (story.createdAt) {
+          let creationDate = new Date(story.createdAt)
+          let formattedDate = creationDate.getUTCDay() + '.' + creationDate.getUTCMonth() + '.' + creationDate.getUTCFullYear();
+          return formattedDate
         }
         return null;
       }
@@ -119,7 +119,6 @@ const Story = new GraphQLObjectType({
         return commAry;
       }
     },
-
     // comments: {
     //   type: new GraphQLList(Comment),
     //   args: {
@@ -163,6 +162,19 @@ const Query = new GraphQLObjectType({
           if (err) return err;
           return res;
         });
+      }
+    },
+    customStoryQuery: {
+      type: Story,
+      description: 'Story by _id',
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(source, { id }) {
+        return STORY.findById(id, (err, res) => {
+          if (err) return err;
+          return res;
+        })
       }
     },
     latestStory: {
@@ -237,49 +249,13 @@ const Query = new GraphQLObjectType({
         return storiesArry.slice(0, count);
       }
     },
-    story: {
-      type: Story,
-      description: 'Story by _id',
-      args: {
-        _id: { type: new GraphQLNonNull(GraphQLString) }
-      },
-      resolve(source, { _id }) {
-        return StoriesList.filter(story => (story._id === id))[0];
-      }
-    },
-    customStoryQuery: {
-      type: Story,
-      description: 'Story by _id',
-      args: {
-        id: { type: new GraphQLNonNull(GraphQLString) }
-      },
-      resolve(source, { id }) {
-        return STORY.findById(id, (err, res) => {
-          if (err) return err;
-          return res;
-        })
-      }
-    },
-    // customUsersQuery: {
-    //   type: new GraphQLList(User),
-    //   description: 'Available users in the Nobodys Stories',
-    //   resolve() {
-    //     return USER.find({}, (err, res) => {
-    //       if (err) return err;
-    //       return res;
-    //     });
-    //   }
-    // },
-    user: {
-      type: User,
-      description: 'User by _id',
-      args: {
-        _id: { type: new GraphQLNonNull(GraphQLString) }
-      },
-      resolve(source, { _id }) {
+    customUsersQuery: {
+      type: new GraphQLList(User),
+      description: 'Available users in the Nobodys Stories',
+      resolve() {
         return USER.find({}, (err, res) => {
           if (err) return err;
-          return res[_id];
+          return res;
         });
       }
     },

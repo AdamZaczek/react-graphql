@@ -44,6 +44,9 @@ type NobodysStoriesSchema {
   # List of stories in the Nobodys Stories
   customStoriesQuery(category: Category): [Story]
 
+  # Story by _id
+  customStoryQuery(id: String!): Story
+
   # Latest story in the Nobodys Stories
   latestStory: Story
 
@@ -62,14 +65,8 @@ type NobodysStoriesSchema {
     count: Int!
   ): [Story]
 
-  # Story by _id
-  story(_id: String!): Story
-
-  # Story by _id
-  customStoryQuery(id: String!): Story
-
-  # User by _id
-  user(_id: String!): User
+  # Available users in the Nobodys Stories
+  customUsersQuery: [User]
 
   # User by _id
   customUserQuery(id: String!): User
@@ -82,7 +79,7 @@ type Story {
   category: Category
   summary: String
   content: String
-  createdAt: Float
+  createdAt: String
   comments(
     # Limit the returning comments
     limit: Int
