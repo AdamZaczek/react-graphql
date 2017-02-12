@@ -18,7 +18,19 @@ App requires adding myMongoCredentials.js file to main folder with a link to mon
 export default 'mongodb://SomeMongoLabUsername:SomeMongoLabPassword@ds129189.mlab.com:29189/stories';  
 
 Useful queries to test api:  
-{customStoriesQuery{content, _author{email, name, age}, comments{_author{email}, content}, createdAt}}  
+1. {customStoriesQuery{content, _author{email, name, age}, comments{_author{email}, content}, createdAt}}  
+
+2. query getUser($id: String!) {
+  customUserQuery(id: $id) {
+    email
+  }
+}
+
+{
+  "id": "58961492734d1d3956c46fd0"
+}
+
+
 
 
 Things to consider:
