@@ -85,9 +85,13 @@
               "description": "Latest story in the Nobodys Stories",
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "Story",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Story",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null

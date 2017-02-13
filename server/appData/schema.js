@@ -27,6 +27,12 @@ import COMMENT from './mongooseModels/comment';
 //   value: Number
 // })
 
+const getPrettyDate = (date) => {
+  return ('0' + date.getDate()).slice(-2) + '/'
+            + ('0' + (date.getMonth()+1)).slice(-2) + '/'
+            + date.getFullYear();
+}
+
 const Category = new GraphQLEnumType({
   name: 'Category',
   description: 'Represents a category of a story',
@@ -82,12 +88,6 @@ const Comment = new GraphQLObjectType({
   })
 })
 
-const getPrettyDate = (date) => {
-  return ('0' + date.getDate()).slice(-2) + '/'
-            + ('0' + (date.getMonth()+1)).slice(-2) + '/'
-            + date.getFullYear();
-}
-
 const Story = new GraphQLObjectType({
   name: 'Story',
   description: 'Represent the type of a story',
@@ -99,7 +99,7 @@ const Story = new GraphQLObjectType({
     content: { type: GraphQLString },
     createdAt: {
       type: GraphQLString,
-      resolve(story) {
+      resolve: (story) => {
         if (story.createdAt) {
           let creationDate = new Date(story.createdAt)
           let formattedDate = getPrettyDate(creationDate)
@@ -157,7 +157,7 @@ const Query = new GraphQLObjectType({
       args: {
         category: { type: Category }
       },
-      resolve(source, { category }, { mongodb }) {
+      resolve: (source, { category }) => {
         if (category) {
           return STORY.find({ category }, (err, res) => {
             if (err) return err;
@@ -197,25 +197,33 @@ const Query = new GraphQLObjectType({
         return StoriesList[0];
       }
     },
+    // it might just work
     customLatestStoryQuery: {
-      type: Story,
+      type: new GraphQLList(Story),
       description: 'Latest story in the Nobodys Stories',
-      resolve() {
-        let storiesArry = STORY.find({}, (err, res) => {
+      resolve: (source) => {
+        return STORY.find({}).sort('-date').exec(function(err, docs) {
           if (err) return err;
-          return res;
+          return docs
         });
-        storiesArry.sort((a, b) => {
-          // might need to change this one a bit
-          const bTime = new Date(b.createdAt.$date).getTime();
-          const aTime = new Date(a.createdAt.$date).getTime();
-
-          return bTime - aTime;
-        });
-
-        return storiesArry[0];
-      }
+      },
     },
+
+        // let storiesArry = STORY.find({}, (err, res) => {
+        //   if (err) return err;
+        //   return res;
+        // });
+        // storiesArry.sort((a, b) => {
+        //   // might need to change this one a bit
+        //   const bTime = new Date(b.createdAt).getTime();
+        //   const aTime = new Date(a.createdAt).getTime();
+        //
+        //   return bTime - aTime;
+        // });
+
+//        return storiesArry;
+    //   }
+    // },
     recentStories: {
       type: new GraphQLList(Story),
       description: 'Recent story in the Nobodys Stories',
