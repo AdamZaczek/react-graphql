@@ -183,85 +183,78 @@ const Query = new GraphQLObjectType({
         })
       }
     },
-    latestStory: {
-      type: Story,
-      description: 'Latest story in the Nobodys Stories',
-      resolve() {
-        StoriesList.sort((a, b) => {
-          const bTime = new Date(b.date.$date).getTime();
-          const aTime = new Date(a.date.$date).getTime();
-
-          return bTime - aTime;
-        });
-
-        return StoriesList[0];
-      }
-    },
+    // latestStory: {
+    //   type: Story,
+    //   description: 'Latest story in the Nobodys Stories',
+    //   resolve() {
+    //     StoriesList.sort((a, b) => {
+    //       const bTime = new Date(b.date.$date).getTime();
+    //       const aTime = new Date(a.date.$date).getTime();
+    //
+    //       return bTime - aTime;
+    //     });
+    //
+    //     return StoriesList[0];
+    //   }
+    // },
     // it might just work
     customLatestStoryQuery: {
-      type: new GraphQLList(Story),
+      type: Story,
       description: 'Latest story in the Nobodys Stories',
       resolve: (source) => {
-        return STORY.find({}).sort('-date').exec(function(err, docs) {
+        return STORY.findOne({}).sort('-date').exec(function(err, docs) {
           if (err) return err;
           return docs
         });
       },
     },
 
-        // let storiesArry = STORY.find({}, (err, res) => {
-        //   if (err) return err;
-        //   return res;
-        // });
-        // storiesArry.sort((a, b) => {
-        //   // might need to change this one a bit
-        //   const bTime = new Date(b.createdAt).getTime();
-        //   const aTime = new Date(a.createdAt).getTime();
-        //
-        //   return bTime - aTime;
-        // });
 
-//        return storiesArry;
+
+      //  this works for some reason
+    // },
+    // customLatestStoryQuery: {
+    //   type: new GraphQLList(Story),
+    //   description: 'Latest story in the Nobodys Stories',
+    //   resolve: (source) => {
+    //     return STORY.find({}).sort('-date').exec(function(err, docs) {
+    //       if (err) return err;
+    //       return docs
+    //     });
+    //   },
+
+
+    // recentStories: {
+    //   type: new GraphQLList(Story),
+    //   description: 'Recent story in the Nobodys Stories',
+    //   args: {
+    //     count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
+    //   },
+    //   resolve(source, { count }) {
+    //     StoriesList.sort((a, b) => {
+    //       const bTime = new Date(b.date.$date).getTime();
+    //       const aTime = new Date(a.date.$date).getTime();
+    //
+    //       return bTime - aTime;
+    //     });
+    //
+    //     return StoriesList.slice(0, count);
     //   }
     // },
-    recentStories: {
-      type: new GraphQLList(Story),
-      description: 'Recent story in the Nobodys Stories',
-      args: {
-        count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
-      },
-      resolve(source, { count }) {
-        StoriesList.sort((a, b) => {
-          const bTime = new Date(b.date.$date).getTime();
-          const aTime = new Date(a.date.$date).getTime();
-
-          return bTime - aTime;
-        });
-
-        return StoriesList.slice(0, count);
-      }
-    },
     customRecentStoriesQuery: {
       type: new GraphQLList(Story),
       description: 'Recent story in the Nobodys Stories',
       args: {
         count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
       },
-      resolve(source, { count }) {
-        let storiesArry = STORY.find({}, (err, res) => {
+      resolve: (source, { count }) => {
+        let storiesArry = [];
+        storiesArry = STORY.find({}).sort('-date').exec(function(err, docs) {
           if (err) return err;
-          return res;
+          return docs
         });
-        storiesArry.sort((a, b) => {
-          // might need to change this one a bit
-          const bTime = new Date(b.createdAt.$date).getTime();
-          const aTime = new Date(a.createdAt.$date).getTime();
-
-          return bTime - aTime;
-        });
-
         return storiesArry.slice(0, count);
-      }
+      },
     },
     customUsersQuery: {
       type: new GraphQLList(User),

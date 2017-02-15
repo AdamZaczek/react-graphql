@@ -69,60 +69,13 @@
               "deprecationReason": null
             },
             {
-              "name": "latestStory",
+              "name": "customLatestStoryQuery",
               "description": "Latest story in the Nobodys Stories",
               "args": [],
               "type": {
                 "kind": "OBJECT",
                 "name": "Story",
                 "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "customLatestStoryQuery",
-              "description": "Latest story in the Nobodys Stories",
-              "args": [],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Story",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "recentStories",
-              "description": "Recent story in the Nobodys Stories",
-              "args": [
-                {
-                  "name": "count",
-                  "description": "Number of recent stories",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Story",
-                  "ofType": null
-                }
               },
               "isDeprecated": false,
               "deprecationReason": null

@@ -48,16 +48,7 @@ type NobodysStoriesSchema {
   customStoryQuery(id: String!): Story
 
   # Latest story in the Nobodys Stories
-  latestStory: Story
-
-  # Latest story in the Nobodys Stories
-  customLatestStoryQuery: [Story]
-
-  # Recent story in the Nobodys Stories
-  recentStories(
-    # Number of recent stories
-    count: Int!
-  ): [Story]
+  customLatestStoryQuery: Story
 
   # Recent story in the Nobodys Stories
   customRecentStoriesQuery(
