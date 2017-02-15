@@ -183,20 +183,6 @@ const Query = new GraphQLObjectType({
         })
       }
     },
-    // latestStory: {
-    //   type: Story,
-    //   description: 'Latest story in the Nobodys Stories',
-    //   resolve() {
-    //     StoriesList.sort((a, b) => {
-    //       const bTime = new Date(b.date.$date).getTime();
-    //       const aTime = new Date(a.date.$date).getTime();
-    //
-    //       return bTime - aTime;
-    //     });
-    //
-    //     return StoriesList[0];
-    //   }
-    // },
     // it might just work
     customLatestStoryQuery: {
       type: Story,
@@ -208,22 +194,6 @@ const Query = new GraphQLObjectType({
         });
       },
     },
-
-
-
-      //  this works for some reason
-    // },
-    // customLatestStoryQuery: {
-    //   type: new GraphQLList(Story),
-    //   description: 'Latest story in the Nobodys Stories',
-    //   resolve: (source) => {
-    //     return STORY.find({}).sort('-date').exec(function(err, docs) {
-    //       if (err) return err;
-    //       return docs
-    //     });
-    //   },
-
-
     // recentStories: {
     //   type: new GraphQLList(Story),
     //   description: 'Recent story in the Nobodys Stories',
@@ -248,12 +218,10 @@ const Query = new GraphQLObjectType({
         count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
       },
       resolve: (source, { count }) => {
-        let storiesArry = [];
-        storiesArry = STORY.find({}).sort('-date').exec(function(err, docs) {
+        return STORY.find({}).sort('-date').limit(count).exec(function(err, docs) {
           if (err) return err;
           return docs
         });
-        return storiesArry.slice(0, count);
       },
     },
     customUsersQuery: {
