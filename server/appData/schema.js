@@ -108,7 +108,6 @@ const Story = new GraphQLObjectType({
         return null;
       }
     },
-    // got to add limit
     comments: {
       type: new GraphQLList(Comment),
       args: {
@@ -122,22 +121,12 @@ const Story = new GraphQLObjectType({
             return res
           })
         })
+        if (limit >= 0) {
+          return commAry.slice(0, limit);
+        }
         return commAry;
       }
     },
-    // comments: {
-    //   type: new GraphQLList(Comment),
-    //   args: {
-    //     limit: {type: GraphQLInt, description: 'Limit the returning comments'}
-    //   },
-    //   resolve: function(post, {limit}) {
-    //     if(limit >= 0) {
-    //       return CommentList.slice(0, limit);
-    //     }
-    //
-    //     return CommentList;
-    //   }
-    // },
     _author: {
       type: User,
       resolve: (Story) => {
@@ -183,7 +172,6 @@ const Query = new GraphQLObjectType({
         })
       }
     },
-    // it might just work
     customLatestStoryQuery: {
       type: Story,
       description: 'Latest story in the Nobodys Stories',
@@ -194,23 +182,6 @@ const Query = new GraphQLObjectType({
         });
       },
     },
-    // recentStories: {
-    //   type: new GraphQLList(Story),
-    //   description: 'Recent story in the Nobodys Stories',
-    //   args: {
-    //     count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
-    //   },
-    //   resolve(source, { count }) {
-    //     StoriesList.sort((a, b) => {
-    //       const bTime = new Date(b.date.$date).getTime();
-    //       const aTime = new Date(a.date.$date).getTime();
-    //
-    //       return bTime - aTime;
-    //     });
-    //
-    //     return StoriesList.slice(0, count);
-    //   }
-    // },
     customRecentStoriesQuery: {
       type: new GraphQLList(Story),
       description: 'Recent story in the Nobodys Stories',
@@ -318,6 +289,3 @@ const Schema = new GraphQLSchema({
 });
 
 export default Schema;
-
-// something like this should help me debug query, I can console.log(query) etc
-// export Query;
