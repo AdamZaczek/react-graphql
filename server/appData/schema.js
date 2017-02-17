@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
-/* For now im disabling eslint here, settings */
 /* eslint-disable */
 import {
   GraphQLList,
@@ -13,7 +12,6 @@ import {
   GraphQLInterfaceType
 } from 'graphql';
 import mongoose from 'mongoose';
-
 
 // required: true causes an error for now, gotta fix that
 import STORY from './mongooseModels/story';
@@ -31,7 +29,7 @@ const getPrettyDate = (date) => {
   return ('0' + date.getDate()).slice(-2) + '/'
             + ('0' + (date.getMonth()+1)).slice(-2) + '/'
             + date.getFullYear();
-}
+};
 
 const Category = new GraphQLEnumType({
   name: 'Category',
@@ -60,7 +58,107 @@ const User = new GraphQLObjectType({
     age: { type: GraphQLInt },
     createdAt: { type: GraphQLInt },
     updatedAt: { type: GraphQLInt },
-//    stories: { type: GraphQLList(Story) }
+//  stories field needs testing
+    stories: {
+      type: new GraphQLList(Story),
+      args: {
+        limit: {type: GraphQLInt, description: 'Limit the returning stories'}
+      },
+      // first argument is the context, in this case the certain User object, we named it user
+      resolve: (user, { limit }) => {
+        let ary = [];
+        ary = user.stories.map((story) => {
+          return STORY.findOne({ _id: story }, (err, res) => {
+            if (err) return err;
+            return res
+          })
+        })
+        if (limit >= 0) {
+          return ary.slice(0, limit);
+        }
+        return ary;
+      }
+    },
+    // todo: test, mock storyLikes
+    storyLikes: {
+      type: new GraphQLList(Story),
+      args: {
+        limit: {type: GraphQLInt, description: 'Limit the returning likes stories'}
+      },
+      resolve: (user, { limit }) => {
+        let ary = [];
+        ary = user.storyLikes.map((story) => {
+          return STORY.findOne({ _id: story }, (err, res) => {
+            if (err) return err;
+            return res
+          })
+        })
+        if (limit >= 0) {
+          return ary.slice(0, limit);
+        }
+        return ary;
+      }
+    },
+    // todo: test, mock
+    storyDislikes: {
+      type: new GraphQLList(Story),
+      args: {
+        limit: {type: GraphQLInt, description: 'Limit the returning disliked stories'}
+      },
+      resolve: (user, { limit }) => {
+        let ary = [];
+        ary = user.storyDislikes.map((story) => {
+          return STORY.findOne({ _id: story }, (err, res) => {
+            if (err) return err;
+            return res
+          })
+        })
+        if (limit >= 0) {
+          return ary.slice(0, limit);
+        }
+        return ary;
+      }
+    },
+    // todo: test, mock
+    commentLikes: {
+      type: new GraphQLList(Comment),
+      args: {
+        limit: {type: GraphQLInt, description: 'Limit the returning liked comments'}
+      },
+      resolve: (user, { limit }) => {
+        let ary = [];
+        ary = user.commentLikes.map((comment) => {
+          return COMMENT.findOne({ _id: comment }, (err, res) => {
+            if (err) return err;
+            return res
+          })
+        })
+        if (limit >= 0) {
+          return ary.slice(0, limit);
+        }
+        return ary;
+      }
+    },
+    // todo: test, mock
+    commentDislikes: {
+      type: new GraphQLList(Comment),
+      args: {
+        limit: {type: GraphQLInt, description: 'Limit the returning disliked comments'}
+      },
+      resolve: (user, { limit }) => {
+        let ary = [];
+        ary = user.commentDislikes.map((story) => {
+          return COMMENT.findOne({ _id: story }, (err, res) => {
+            if (err) return err;
+            return res
+          })
+        })
+        if (limit >= 0) {
+          return ary.slice(0, limit);
+        }
+        return ary;
+      }
+    },
   })
 });
 
@@ -86,7 +184,7 @@ const Comment = new GraphQLObjectType({
     createdAt: { type: GraphQLInt },
     // need likes and dislikes
   })
-})
+});
 
 const Story = new GraphQLObjectType({
   name: 'Story',
@@ -130,7 +228,7 @@ const Story = new GraphQLObjectType({
     _author: {
       type: User,
       resolve: (Story) => {
-        return USER.findOne({ _id: Story._author})
+        return USER.findOne({ _id: Story._author })
       }
     }
   })
@@ -151,7 +249,7 @@ const Query = new GraphQLObjectType({
           return STORY.find({ category }, (err, res) => {
             if (err) return err;
             return res;
-          })
+          });
         }
         return STORY.find({}, (err, res) => {
           if (err) return err;
@@ -169,16 +267,16 @@ const Query = new GraphQLObjectType({
         return STORY.findById(id, (err, res) => {
           if (err) return err;
           return res;
-        })
+        });
       }
     },
     customLatestStoryQuery: {
       type: Story,
       description: 'Latest story in the Nobodys Stories',
       resolve: (source) => {
-        return STORY.findOne({}).sort('-date').exec(function(err, docs) {
+        return STORY.findOne({}).sort('-date').exec((err, docs) => {
           if (err) return err;
-          return docs
+          return docs;
         });
       },
     },
@@ -189,7 +287,7 @@ const Query = new GraphQLObjectType({
         count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
       },
       resolve: (source, { count }) => {
-        return STORY.find({}).sort('-date').limit(count).exec(function(err, docs) {
+        return STORY.find({}).sort('-date').limit(count).exec((err, docs) => {
           if (err) return err;
           return docs
         });
@@ -215,7 +313,7 @@ const Query = new GraphQLObjectType({
         return USER.findById(id, (err, res) => {
           if (err) return err;
           return res;
-        })
+        });
       }
     }
   })
