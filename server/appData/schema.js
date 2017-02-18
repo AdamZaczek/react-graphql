@@ -164,7 +164,7 @@ const User = new GraphQLObjectType({
 
 const Comment = new GraphQLObjectType({
   name: 'Comment',
-  decription: 'Reporesents story\'s comment',
+  decription: 'Represents story\'s comment',
   fields: () => ({
     _id: { type: GraphQLString },
     _author: {

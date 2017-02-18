@@ -9,7 +9,10 @@
         "isAdmin": "true",
         "password": "1234",
         "age": "25",
-        "stories": [],
+        "stories": [
+          "58951027734d1d3956c4289a",
+          "5895106c734d1d3956c428bc"
+        ],
         "comments": [],
         "storyLikes": [],
         "storyDislikes": [],

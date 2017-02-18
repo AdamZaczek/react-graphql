@@ -87,4 +87,24 @@ type User {
   age: Int
   createdAt: Int
   updatedAt: Int
+  stories(
+    # Limit the returning stories
+    limit: Int
+  ): [Story]
+  storyLikes(
+    # Limit the returning likes stories
+    limit: Int
+  ): [Story]
+  storyDislikes(
+    # Limit the returning disliked stories
+    limit: Int
+  ): [Story]
+  commentLikes(
+    # Limit the returning liked comments
+    limit: Int
+  ): [Comment]
+  commentDislikes(
+    # Limit the returning disliked comments
+    limit: Int
+  ): [Comment]
 }

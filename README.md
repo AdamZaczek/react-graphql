@@ -51,6 +51,28 @@ query getUser($count: Int!) {
 }
 
 ```
+
+```javascript
+query getStories($limit: Int!){customStoriesQuery {
+  _id
+  title
+  category
+  summary
+  content
+  createdAt,
+  di
+  comments(limit: $limit) {
+    content,
+    _author{
+      age
+    }
+  }
+}}
+
+{
+  "limit": 1
+}
+```
 Things to consider:
 Delete ^ marks in dependencies.  
 Adding redux for managing session specific data. Switching react to preact(!).  
