@@ -13,6 +13,16 @@ import schema from './appData/schema';
 import myMongoCredentials from '../myMongoCredentials';
 
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const jwt = require('express-jwt');
+
+// prolly got to replace it for env in config s, also gotta do npm un dotenv
+dotenv.load();
+
+const authenticate = jwt({
+  secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
+  audience: process.env.AUTH0_CLIENT_ID
+});
 
 // This will be usefull in the future
 // mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
@@ -63,7 +73,7 @@ if (config.env === 'development') {
   const relayServer = express();
   relayServer.use(historyApiFallback());
   relayServer.use('/', express.static(path.join(__dirname, '../build')));
-  relayServer.use('/graphql', graphQLHTTP({ schema }));
+  relayServer.use('/graphql', authenticate, graphQLHTTP({ schema }));
   relayServer.use(bodyParser.json({ type: '*/*' }));
   relayServer.listen(config.port, () => console.log(chalk.green(`Relay is listening on port ${config.port}`)));
 }
