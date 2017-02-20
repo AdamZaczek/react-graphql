@@ -12,11 +12,11 @@
         {
           "kind": "OBJECT",
           "name": "NobodysStoriesSchema",
-          "description": "Root of the Nobodys Stories",
+          "description": "Root query",
           "fields": [
             {
               "name": "customStoriesQuery",
-              "description": "List of stories in the Nobodys Stories",
+              "description": "List of stories",
               "args": [
                 {
                   "name": "category",
@@ -70,7 +70,7 @@
             },
             {
               "name": "customLatestStoryQuery",
-              "description": "Latest story in the Nobodys Stories",
+              "description": "Latest story",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -82,7 +82,7 @@
             },
             {
               "name": "customRecentStoriesQuery",
-              "description": "Recent story in the Nobodys Stories",
+              "description": "Recent story",
               "args": [
                 {
                   "name": "count",
@@ -113,7 +113,7 @@
             },
             {
               "name": "customUsersQuery",
-              "description": "Available users in the Nobodys Stories",
+              "description": "Available users",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -572,7 +572,7 @@
               "args": [
                 {
                   "name": "limit",
-                  "description": "Limit the returning likes stories",
+                  "description": "Limit the returning liked stories",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -752,7 +752,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "auser",
+                  "name": "user",
                   "description": "Id of the user",
                   "type": {
                     "kind": "NON_NULL",

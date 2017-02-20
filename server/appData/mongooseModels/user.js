@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-
-// for now there are no avatars
 const USER = mongoose.model('User', new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   name: { type: String, required: true, unique: true },
@@ -10,8 +8,7 @@ const USER = mongoose.model('User', new mongoose.Schema({
   password: { type: String, required: true },
   age: { type: Number, min: 1, max: 115 },
   isAdmin: { Boolean, default: false },
-  createdAt: { type: Date, default: Date.now },
-  // can also be a Date type
+  createdAt: { type: Date, default: Date.now, max: 5000 },
   updated_at: Date,
   stories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
@@ -19,7 +16,6 @@ const USER = mongoose.model('User', new mongoose.Schema({
   storyDislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }],
   commentLikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   commentDislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
-  // need to add likes
 }));
 
 export default USER;

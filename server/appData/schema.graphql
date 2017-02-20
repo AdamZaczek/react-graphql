@@ -35,28 +35,28 @@ type NobodysStoriesMutations {
     category: Category
 
     # Id of the user
-    auser: String!
+    user: String!
   ): Story
 }
 
-# Root of the Nobodys Stories
+# Root query
 type NobodysStoriesSchema {
-  # List of stories in the Nobodys Stories
+  # List of stories
   customStoriesQuery(category: Category): [Story]
 
   # Story by _id
   customStoryQuery(id: String!): Story
 
-  # Latest story in the Nobodys Stories
+  # Latest story
   customLatestStoryQuery: Story
 
-  # Recent story in the Nobodys Stories
+  # Recent story
   customRecentStoriesQuery(
     # Number of recent stories
     count: Int!
   ): [Story]
 
-  # Available users in the Nobodys Stories
+  # Available users
   customUsersQuery: [User]
 
   # User by _id
@@ -92,7 +92,7 @@ type User {
     limit: Int
   ): [Story]
   storyLikes(
-    # Limit the returning likes stories
+    # Limit the returning liked stories
     limit: Int
   ): [Story]
   storyDislikes(

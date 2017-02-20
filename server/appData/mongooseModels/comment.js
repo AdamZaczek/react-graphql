@@ -5,7 +5,7 @@ const COMMENT = mongoose.model('Comment', new mongoose.Schema({
   _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   _story: { type: mongoose.Schema.Types.ObjectId, ref: 'Story' },
   summary: String,
-  content: { String },
+  content: { type: String, required: true, max: 200 },
   createdAt: { type: Date, default: Date.now },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]

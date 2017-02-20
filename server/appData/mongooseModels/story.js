@@ -6,7 +6,7 @@ const STORY = mongoose.model('Story', new mongoose.Schema({
   title: { type: String },
   category: { type: String },
   summary: String,
-  content: { String },
+  content: { type: String, max: 5000, required: true },
   createdAt: { type: Date, default: Date.now },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

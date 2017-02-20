@@ -83,7 +83,7 @@ const User = new GraphQLObjectType({
     storyLikes: {
       type: new GraphQLList(Story),
       args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning likes stories'}
+        limit: {type: GraphQLInt, description: 'Limit the returning liked stories'}
       },
       resolve: (user, { limit }) => {
         let ary = [];
@@ -236,11 +236,11 @@ const Story = new GraphQLObjectType({
 
 const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
-  description: 'Root of the Nobodys Stories',
+  description: 'Root query',
   fields: () => ({
     customStoriesQuery: {
       type: new GraphQLList(Story),
-      description: 'List of stories in the Nobodys Stories',
+      description: 'List of stories',
       args: {
         category: { type: Category }
       },
@@ -272,7 +272,7 @@ const Query = new GraphQLObjectType({
     },
     customLatestStoryQuery: {
       type: Story,
-      description: 'Latest story in the Nobodys Stories',
+      description: 'Latest story',
       resolve: (source) => {
         return STORY.findOne({}).sort('-date').exec((err, docs) => {
           if (err) return err;
@@ -282,7 +282,7 @@ const Query = new GraphQLObjectType({
     },
     customRecentStoriesQuery: {
       type: new GraphQLList(Story),
-      description: 'Recent story in the Nobodys Stories',
+      description: 'Recent story',
       args: {
         count: { type: new GraphQLNonNull(GraphQLInt), description: 'Number of recent stories' }
       },
@@ -295,7 +295,7 @@ const Query = new GraphQLObjectType({
     },
     customUsersQuery: {
       type: new GraphQLList(User),
-      description: 'Available users in the Nobodys Stories',
+      description: 'Available users',
       resolve() {
         return USER.find({}, (err, res) => {
           if (err) return err;
@@ -331,7 +331,7 @@ const Mutation = new GraphQLObjectType({
         content: { type: new GraphQLNonNull(GraphQLString) },
         summary: { type: GraphQLString },
         category: { type: Category },
-        auser: { type: new GraphQLNonNull(GraphQLString), description: 'Id of the user' }
+        user: { type: new GraphQLNonNull(GraphQLString), description: 'Id of the user' }
       },
       resolve(source, { ...args }) {
         const story = args;
