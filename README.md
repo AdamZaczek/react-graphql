@@ -2,18 +2,20 @@ To do:
 
 ```text
 1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working. (Done)  
-2. Make Relay Layer Working. (Connected To Relay, No Working Queries Or Mutations Yet)  
+2. Make Relay Layer Working. (Connected To Relay, No Working Mutations Yet)  
 3. Create Frontend: index, single story, comments. Delete Google Material Design, add React-Bootstrap(Done).   Bootstrap styles should prolly be shipped with webpack and I shouldnt import all of them.  Delete not working hot reload, but first check it is working for relay.  
 4. Add ability to add comments in schema.  
 5. Add ability to log in to comment and add a story on a computer, (may make option to chose username and password on mobile) make one user admin.  
 6. Add "hot, new and best indexes".  
 7. Make comments optimistic.  
-8. Make styles the last thing you do, you'll need to style differently on mobile anyways, use google material design.  
+8. Make styles the last thing you do, you'll need to style differently on mobile anyways.  
 9. Add categories (Done). Might want to have stories with multiple categories.  
 10. Add hashing password(!).  
+11. Migrate to Postgres.
+12. Add authentication and login.
 ```
 
-Hashing passwords:  
+Hashing passwords(prolly gotta change to postgress):  
 https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1  
 
 App requires adding myMongoCredentials.js file to main folder with a link to mongolab database. It looks like this:
