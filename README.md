@@ -11,8 +11,9 @@ To do:
 8. Make styles the last thing you do, you'll need to style differently on mobile anyways.  
 9. Add categories (Done). Might want to have stories with multiple categories.  
 10. Add hashing password(!).  
-11. Migrate to Postgres.
+11. Consider migration to postgres or dynamodb.
 12. Add authentication and login.
+13. Add seeding method
 ```
 
 Hashing passwords(prolly gotta change to postgress):  
