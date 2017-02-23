@@ -11,6 +11,7 @@ import webpackConfig from '../webpack.config';
 import config from './config/environment';
 import schema from './appData/schema';
 import myMongoCredentials from '../myMongoCredentials';
+import seeder from './seeder';
 
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -39,6 +40,7 @@ conn.once('open', () => {
 });
 
 if (config.env === 'development') {
+  seeder();
   // Launch GraphQL
   const graphql = express();
   graphql.use('/', graphQLHTTP({
