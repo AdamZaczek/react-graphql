@@ -11,9 +11,7 @@ import {
   GraphQLNonNull,
   GraphQLInterfaceType
 } from 'graphql';
-import mongoose from 'mongoose';
 
-// required: true causes an error for now, gotta fix that
 import STORY from './mongooseModels/story';
 import USER from './mongooseModels/user';
 import COMMENT from './mongooseModels/comment';

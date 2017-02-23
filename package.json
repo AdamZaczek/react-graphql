@@ -1,7 +1,7 @@
 {
   "name": "nobodysstories",
   "version": "1.0.0",
-  "description": "Nobodys Stories - Integrated with Relay, GraphQL, Express, ES6/ES7, JSX, Webpack, Babel, Material Design Lite, and PostCSS",
+  "description": "Nobodys Stories - Integrated with Relay, GraphQL, Express, ES6/ES7, JSX, Webpack, Babel, and PostCSS",
   "scripts": {
     "start": "nodemon --watch server/data/**/*.js --exec \"npm run update && babel-node server/index.js\"",
     "update": "./node_modules/.bin/babel-node server/utils/updateSchema.js",
@@ -13,8 +13,7 @@
   },
   "pre-commit": "lint",
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lvarayut/relay-fullstack.git"
+    "type": "git"
   },
   "engines": {
     "node": "6.6.0",
