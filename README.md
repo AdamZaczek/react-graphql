@@ -14,6 +14,8 @@ To do:
 11. Consider migration to postgres or dynamodb.
 12. Add authentication and login.
 13. Add seeding method
+14. Decouple front and backend
+15. Add docker
 ```
 
 Hashing passwords(prolly gotta change to postgress):  
