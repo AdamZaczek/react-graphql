@@ -14,7 +14,7 @@ To do:
 11. Consider migration to postgres or dynamodb.
 12. Add authentication and login.
 13. Add seeding method
-14. Decouple front and backend
+14. Decouple front and backend, build backend with webpack.
 15. Add docker
 ```
 
