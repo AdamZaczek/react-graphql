@@ -690,8 +690,8 @@
               "description": "Create a new story",
               "args": [
                 {
-                  "name": "_id",
-                  "description": null,
+                  "name": "_author",
+                  "description": "Id of  the author",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -718,16 +718,12 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "content",
+                  "name": "category",
                   "description": null,
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
+                    "kind": "ENUM",
+                    "name": "Category",
+                    "ofType": null
                   },
                   "defaultValue": null
                 },
@@ -742,18 +738,22 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "category",
+                  "name": "content",
                   "description": null,
                   "type": {
-                    "kind": "ENUM",
-                    "name": "Category",
-                    "ofType": null
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "user",
-                  "description": "Id of the user",
+                  "name": "createdAt",
+                  "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,

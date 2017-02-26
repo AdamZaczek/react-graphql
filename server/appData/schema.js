@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
-/* eslint-disable */
+/* eslint-disable! */
 import {
   GraphQLList,
   GraphQLObjectType,
@@ -60,7 +60,7 @@ const User = new GraphQLObjectType({
     stories: {
       type: new GraphQLList(Story),
       args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning stories'}
+        limit: { type: GraphQLInt, description: 'Limit the returning stories' }
       },
       // first argument is the context, in this case the certain User object, we named it user
       resolve: (user, { limit }) => {
@@ -68,9 +68,9 @@ const User = new GraphQLObjectType({
         ary = user.stories.map((story) => {
           return STORY.findOne({ _id: story }, (err, res) => {
             if (err) return err;
-            return res
-          })
-        })
+            return res;
+          });
+        });
         if (limit >= 0) {
           return ary.slice(0, limit);
         }
@@ -81,16 +81,16 @@ const User = new GraphQLObjectType({
     storyLikes: {
       type: new GraphQLList(Story),
       args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning liked stories'}
+        limit: { type: GraphQLInt, description: 'Limit the returning liked stories' }
       },
       resolve: (user, { limit }) => {
         let ary = [];
         ary = user.storyLikes.map((story) => {
           return STORY.findOne({ _id: story }, (err, res) => {
             if (err) return err;
-            return res
-          })
-        })
+            return res;
+          });
+        });
         if (limit >= 0) {
           return ary.slice(0, limit);
         }
@@ -101,16 +101,16 @@ const User = new GraphQLObjectType({
     storyDislikes: {
       type: new GraphQLList(Story),
       args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning disliked stories'}
+        limit: { type: GraphQLInt, description: 'Limit the returning disliked stories' }
       },
       resolve: (user, { limit }) => {
         let ary = [];
         ary = user.storyDislikes.map((story) => {
           return STORY.findOne({ _id: story }, (err, res) => {
             if (err) return err;
-            return res
-          })
-        })
+            return res;
+          });
+        });
         if (limit >= 0) {
           return ary.slice(0, limit);
         }
@@ -121,16 +121,16 @@ const User = new GraphQLObjectType({
     commentLikes: {
       type: new GraphQLList(Comment),
       args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning liked comments'}
+        limit: { type: GraphQLInt, description: 'Limit the returning liked comments' }
       },
       resolve: (user, { limit }) => {
         let ary = [];
         ary = user.commentLikes.map((comment) => {
           return COMMENT.findOne({ _id: comment }, (err, res) => {
             if (err) return err;
-            return res
-          })
-        })
+            return res;
+          });
+        });
         if (limit >= 0) {
           return ary.slice(0, limit);
         }
@@ -141,16 +141,16 @@ const User = new GraphQLObjectType({
     commentDislikes: {
       type: new GraphQLList(Comment),
       args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning disliked comments'}
+        limit: { type: GraphQLInt, description: 'Limit the returning disliked comments' }
       },
       resolve: (user, { limit }) => {
         let ary = [];
         ary = user.commentDislikes.map((story) => {
           return COMMENT.findOne({ _id: story }, (err, res) => {
             if (err) return err;
-            return res
-          })
-        })
+            return res;
+          });
+        });
         if (limit >= 0) {
           return ary.slice(0, limit);
         }
@@ -168,13 +168,13 @@ const Comment = new GraphQLObjectType({
     _author: {
       type: User,
       resolve: (Comment) => {
-        return USER.findOne({ _id: Comment._author})
+        return USER.findOne({ _id: Comment._author });
       }
     },
     _story: {
       type: Story,
       resolve: (Comment) => {
-        return STORY.findOne({ _id: Story._story})
+        return STORY.findOne({ _id: Story._story});
       }
     },
     summary: { type: GraphQLString },
@@ -197,9 +197,9 @@ const Story = new GraphQLObjectType({
       type: GraphQLString,
       resolve: (story) => {
         if (story.createdAt) {
-          let creationDate = new Date(story.createdAt)
-          let formattedDate = getPrettyDate(creationDate)
-          return formattedDate
+          const creationDate = new Date(story.createdAt);
+          const formattedDate = getPrettyDate(creationDate);
+          return formattedDate;
         }
         return null;
       }
@@ -207,16 +207,16 @@ const Story = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(Comment),
       args: {
-        limit: {type: GraphQLInt, description: 'Limit the returning comments'}
+        limit: { type: GraphQLInt, description: 'Limit the returning comments' }
       },
       resolve: (story, { limit }) => {
         let commAry = [];
         commAry = story.comments.map((comment) => {
           return COMMENT.findOne({ _id: comment }, (err, res) => {
             if (err) return err;
-            return res
-          })
-        })
+            return res;
+          });
+        });
         if (limit >= 0) {
           return commAry.slice(0, limit);
         }
@@ -226,7 +226,7 @@ const Story = new GraphQLObjectType({
     _author: {
       type: User,
       resolve: (Story) => {
-        return USER.findOne({ _id: Story._author })
+        return USER.findOne({ _id: Story._author });
       }
     }
   })
@@ -287,7 +287,7 @@ const Query = new GraphQLObjectType({
       resolve: (source, { count }) => {
         return STORY.find({}).sort('-date').limit(count).exec((err, docs) => {
           if (err) return err;
-          return docs
+          return docs;
         });
       },
     },
@@ -324,37 +324,35 @@ const Mutation = new GraphQLObjectType({
       type: Story,
       description: 'Create a new story',
       args: {
-        _id: { type: new GraphQLNonNull(GraphQLString) },
+//        _id: { type: new GraphQLNonNull(GraphQLString) },
+        _author: { type: new GraphQLNonNull(GraphQLString), description: 'Id of  the author' },
         title: { type: new GraphQLNonNull(GraphQLString) },
-        content: { type: new GraphQLNonNull(GraphQLString) },
-        summary: { type: GraphQLString },
         category: { type: Category },
-        user: { type: new GraphQLNonNull(GraphQLString), description: 'Id of the user' }
+        summary: { type: GraphQLString },
+        content: { type: new GraphQLNonNull(GraphQLString) },
+        createdAt: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(source, { ...args }) {
         const story = args;
 //        const alreadyExists = _.findIndex(StoriesList, p => p._id === story._id) >= 0;
 
         // this looks like a working code, awesome!
-        const lookForExistingId = singleStory => singleStory._id === story._id;
-        const alreadyExists = StoriesList.filter(lookForExistingId);
-        if (alreadyExists) {
-          throw new Error(`Story already exists: ${story._id}`);
-        }
+        // const lookForExistingId = singleStory => singleStory._id === story._id;
+        // const alreadyExists = StoriesList.filter(lookForExistingId);
+        // if (alreadyExists) {
+        //   throw new Error(`Story already exists: ${story._id}`);
+        // }
 
         // if (!AuthorsMap[story.author]) {
         //   throw new Error(`No such author: ${story.author}`);
         // }
 
-        if (!story.summary) {
-          story.summary = story.content.substring(0, 100);
-        }
-
-//        post.comments = [];
-        story.date = { $date: new Date().toString() };
-
-        StoriesList.push(story);
-        return story;
+        // if (!story.summary) {
+        //   story.summary = story.content.substring(0, 100);
+        // }
+        story.createdAt = { $date: new Date().toString() };
+        (new STORY(story).save((err, savedStory) => { if (err) return err; return story; }));
+//        return story;
       }
     },
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-console, no-shadow */
 
 import chalk from 'chalk';
-import Story from './appData/mongooseModels/story';
+import STORY from './appData/mongooseModels/story';
 
 const stories = [
   {
@@ -53,5 +53,5 @@ const stories = [
   }
 ];
 
-const seedStories = () => stories.map(singleStory => (new Story(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
+const seedStories = () => stories.map(singleStory => (new STORY(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
 export default seedStories;
