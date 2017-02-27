@@ -28,13 +28,14 @@ type Comment {
 type NobodysStoriesMutations {
   # Create a new story
   createStory(
+    _id: String!
+
     # Id of  the author
     _author: String!
     title: String!
-    category: Category
+    category: String
     summary: String
     content: String!
-    createdAt: String!
   ): Story
 }
 

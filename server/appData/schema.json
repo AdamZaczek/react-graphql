@@ -690,6 +690,20 @@
               "description": "Create a new story",
               "args": [
                 {
+                  "name": "_id",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "_author",
                   "description": "Id of  the author",
                   "type": {
@@ -721,8 +735,8 @@
                   "name": "category",
                   "description": null,
                   "type": {
-                    "kind": "ENUM",
-                    "name": "Category",
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -739,20 +753,6 @@
                 },
                 {
                   "name": "content",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "createdAt",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",

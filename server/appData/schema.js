@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
-/* eslint-disable! */
+/* eslint-disable */
 import {
   GraphQLList,
   GraphQLObjectType,
@@ -23,11 +23,37 @@ import COMMENT from './mongooseModels/comment';
 //   value: Number
 // })
 
+//const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
+
 const getPrettyDate = (date) => {
   return ('0' + date.getDate()).slice(-2) + '/'
             + ('0' + (date.getMonth()+1)).slice(-2) + '/'
             + date.getFullYear();
 };
+
+// authentication attempt I
+// const getUser = (rootValue) => {
+//   //IF there is no userID cookie field, no-one is logged in
+//   if (!rootValue.cookies.get('userID')) return {
+//     name: '',
+//     mail: '',
+//     id: logID
+//   };
+//   const user = getDatabaseUserByID(rootValue.cookies.get('userID'));
+//   user.userID = user.id;
+//   user.id = logID // change the id field with default immutable logID to handle FIELD_CHANGE mutation
+//   return user;
+// }
+
+// authentication attempt I
+// const Viewer = new GraphQLObjectType({
+//   name: 'User',
+//   values: {
+//   id: globalIdField('User'), //this id is an immutable string that never change.
+//   userID: { type: GraphQLString, description: 'the database user\'s id' },
+//   name: { type: GraphQLString, description: 'the name of the user' },
+//   mail: { type: GraphQLString, description: 'the mail of the user'}
+// }});
 
 const Category = new GraphQLEnumType({
   name: 'Category',
@@ -236,6 +262,15 @@ const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root query',
   fields: () => ({
+    // authentication attempt I
+    // user: {
+    //   type: new GraphQLNonNull(Viewier),
+    //   description: 'the user',
+    //   resolve: (root, {id}, {rootValue}) => {
+    //     const viewingUser = getUser(rootValue);
+    //     return viewingUser;
+    //   }
+    // },
     customStoriesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories',
@@ -324,13 +359,14 @@ const Mutation = new GraphQLObjectType({
       type: Story,
       description: 'Create a new story',
       args: {
-//        _id: { type: new GraphQLNonNull(GraphQLString) },
+        _id: { type: new GraphQLNonNull(GraphQLString) },
         _author: { type: new GraphQLNonNull(GraphQLString), description: 'Id of  the author' },
         title: { type: new GraphQLNonNull(GraphQLString) },
-        category: { type: Category },
+        // category: { type: Category },
+        category: { type: GraphQLString },
         summary: { type: GraphQLString },
         content: { type: new GraphQLNonNull(GraphQLString) },
-        createdAt: { type: new GraphQLNonNull(GraphQLString) }
+//        createdAt: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(source, { ...args }) {
         const story = args;
