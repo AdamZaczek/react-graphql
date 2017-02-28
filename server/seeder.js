@@ -2,12 +2,11 @@
 
 import chalk from 'chalk';
 import STORY from './appData/mongooseModels/story';
+import COMMENT from './appData/mongooseModels/comment';
+import USER from './appData/mongooseModels/user';
+
 
 const users = [
-
-];
-
-const comments = [
   {
     _id: '58961460734d1d3956c46fb7',
     name: 'AdamZaczek',
@@ -24,6 +23,45 @@ const comments = [
     storyDislikes: [],
     commentLikes: [],
     commentDislikes: []
+  },
+  {
+    _id: '58961492734d1d3956c46fd0',
+    name: 'Avenir',
+    email: 'krzak4ever@gmail.com',
+    isAdmin: 'false',
+    password: '1234',
+    age: '25',
+    stories: [],
+    comments: [
+      '589e3d8e734d1d56393c5850',
+      '589e3dae734d1d56393c5854'
+    ],
+    storyLikes: [],
+    storyDislikes: [],
+    commentLikes: [],
+    commentDislikes: []
+  }
+];
+
+const comments = [
+  {
+    _id: '589e3d8e734d1d56393c5850',
+    _author: '58961492734d1d3956c46fd0',
+    _story: '58951027734d1d3956c4289a',
+    likes: [],
+    dislikes: [],
+    createdAt: '2017-02-03T13:31:07+01:00',
+    content: 'Amazing. I never thought I could outspeed hungry hamster.'
+  },
+  {
+    _id: '589e3dae734d1d56393c5854',
+    _author: '58961492734d1d3956c46fd0',
+    _story: '58951027734d1d3956c4289a',
+    category: 'scary',
+    likes: [],
+    dislikes: [],
+    createdAt: '2017-02-03T15:24:05+01:00',
+    content: 'I find disturbing that most of my life I didn\'t realize how little food it takes to satisfy a regular person or, a hamster.'
   }
 ];
 
@@ -78,9 +116,8 @@ const stories = [
 ];
 
 
-const seedUsers = () => users.map(singleStory => (new STORY(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
-const seedComments = () => comments.map(singleStory => (new STORY(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
-
+const seedUsers = () => users.map(singleUser => (new USER(singleUser)).save((err, savedUser) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedUser.id} seeded`)); }));
+const seedComments = () => comments.map(singleComment => (new COMMENT(singleComment)).save((err, savedComment) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedComment.id} seeded`)); }));
 const seedStories = () => stories.map(singleStory => (new STORY(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
 
 const seeder = () => {
