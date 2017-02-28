@@ -28,7 +28,6 @@ const authenticate = jwt({
 // This will be usefull in the future
 // mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
 
-
 const options = { server: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } },
   replset: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } } };
 mongoose.Promise = global.Promise;

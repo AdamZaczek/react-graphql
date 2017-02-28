@@ -3,6 +3,30 @@
 import chalk from 'chalk';
 import STORY from './appData/mongooseModels/story';
 
+const users = [
+
+];
+
+const comments = [
+  {
+    _id: '58961460734d1d3956c46fb7',
+    name: 'AdamZaczek',
+    email: 'adamzaczekul@gmail.com',
+    isAdmin: 'true',
+    password: '1234',
+    age: '25',
+    stories: [
+      '58951027734d1d3956c4289a',
+      '5895106c734d1d3956c428bc'
+    ],
+    comments: [],
+    storyLikes: [],
+    storyDislikes: [],
+    commentLikes: [],
+    commentDislikes: []
+  }
+];
+
 const stories = [
   {
     _id: '58951027734d1d3956c4289a',
@@ -53,5 +77,16 @@ const stories = [
   }
 ];
 
+
+const seedUsers = () => users.map(singleStory => (new STORY(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
+const seedComments = () => comments.map(singleStory => (new STORY(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
+
 const seedStories = () => stories.map(singleStory => (new STORY(singleStory)).save((err, savedStory) => { if (err) return err; return console.log(chalk.blue(`Story with id: ${savedStory.id} seeded`)); }));
-export default seedStories;
+
+const seeder = () => {
+  seedUsers();
+  seedComments();
+  seedStories();
+};
+
+export default seeder;
