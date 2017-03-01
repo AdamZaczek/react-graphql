@@ -10,7 +10,7 @@ import bodyParser from 'body-parser';
 import webpackConfig from '../webpack.config';
 import config from './config/environment';
 import schema from './appData/schema';
-import myMongoCredentials from '../myMongoCredentials';
+import myMongoCredentials from './myMongoCredentials';
 import seeder from './seeder';
 
 const mongoose = require('mongoose');

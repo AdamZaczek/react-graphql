@@ -7,13 +7,13 @@ To do:
 4. Add ability to add comments in schema.  
 5. Add ability to log in to comment and add a story on a computer, (may make option to chose username and password on mobile) make one user admin.  
 6. Add "hot, new and best indexes".  
-7. Make comments optimistic.  
+7. Make comments optimistic.
 8. Make styles the last thing you do, you'll need to style differently on mobile anyways.  
 9. Add categories (Done). Might want to have stories with multiple categories.  
 10. Add hashing password(!).  
 11. Consider migration to postgres or dynamodb.
 12. Add authentication and login.
-13. Add seeding method
+13. Add seeding method(done)
 14. Decouple front and backend, build backend with webpack.
 15. Add docker
 ```
