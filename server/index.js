@@ -42,7 +42,7 @@ if (config.env === 'development') {
   seeder();
   // Launch GraphQL
   const graphql = express();
-  graphql.use('/', graphQLHTTP({
+  graphql.use('/', authenticate, graphQLHTTP({
     graphiql: true,
     pretty: true,
     schema,
