@@ -12,9 +12,9 @@ import {
   GraphQLInterfaceType
 } from 'graphql';
 
-import STORY from './mongooseModels/story';
-import USER from './mongooseModels/user';
-import COMMENT from './mongooseModels/comment';
+import USER from './models/user';
+import SKILL from './models/skill';
+import LEVEL_SKILL from './models/levelSkill';
 
 //not sure if thats the way it should be done, leaving to for a moment
 // const RATING = new Schema({
