@@ -16,6 +16,7 @@ To do:
 13. Add seeding method(done)
 14. Decouple front and backend, build backend with webpack.(not needed atm)
 15. Add docker(before deploy)
+16. Add dataloader!
 ```
 
 Hashing passwords(prolly gotta change to postgress):  
