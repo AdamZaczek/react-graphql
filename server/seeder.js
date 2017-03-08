@@ -1,9 +1,9 @@
 /* eslint-disable no-console, no-shadow */
 
 import chalk from 'chalk';
-import STORY from './appData/mongooseModels/story';
-import COMMENT from './appData/mongooseModels/comment';
-import USER from './appData/mongooseModels/user';
+import STORY from './appData/models/story';
+import COMMENT from './appData/models/comment';
+import USER from './appData/models/user';
 
 
 const users = [

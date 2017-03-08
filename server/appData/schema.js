@@ -13,8 +13,8 @@ import {
 } from 'graphql';
 
 import USER from './models/user';
-import SKILL from './models/skill';
-import LEVEL_SKILL from './models/levelSkill';
+import STORY from './models/story';
+import COMMENT from './models/comment';
 
 //not sure if thats the way it should be done, leaving to for a moment
 // const RATING = new Schema({
