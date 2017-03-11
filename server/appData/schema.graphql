@@ -42,25 +42,25 @@ type NobodysStoriesMutations {
 # Root query
 type NobodysStoriesSchema {
   # List of stories
-  customStoriesQuery(category: Category): [Story]
+  storiesQuery(category: Category): [Story]
 
   # Story by _id
-  customStoryQuery(id: String!): Story
+  storyQuery(id: String!): Story
 
   # Latest story
-  customLatestStoryQuery: Story
+  latestStoryQuery: Story
 
   # Recent story
-  customRecentStoriesQuery(
+  recentStoriesQuery(
     # Number of recent stories
     count: Int!
   ): [Story]
 
   # Available users
-  customUsersQuery: [User]
+  usersQuery: [User]
 
   # User by _id
-  customUserQuery(id: String!): User
+  userQuery(id: String!): User
 }
 
 # Represent the type of a story

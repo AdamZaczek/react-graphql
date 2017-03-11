@@ -1,5 +1,9 @@
 /* eslint-disable no-unused-vars, no-use-before-define */
-/* eslint-disable */
+/* eslint no-underscore-dangle: off*/
+/* eslint "arrow-body-style": off */
+/* eslint "no-use-before-define": off */
+/* eslint prefer-template: off */
+/* eslint-disable! */
 import {
   GraphQLList,
   GraphQLObjectType,
@@ -16,14 +20,13 @@ import USER from './models/user';
 import STORY from './models/story';
 import COMMENT from './models/comment';
 
-//const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
+// const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
 
 const getPrettyDate = (date) => {
   return ('0' + date.getDate()).slice(-2) + '/'
-            + ('0' + (date.getMonth()+1)).slice(-2) + '/'
+            + ('0' + (date.getMonth() + 1)).slice(-2) + '/'
             + date.getFullYear();
 };
-
 // authentication attempt I
 // const getUser = (rootValue) => {
 //   //IF there is no userID cookie field, no-one is logged in
@@ -75,7 +78,6 @@ const User = new GraphQLObjectType({
     age: { type: GraphQLInt },
     createdAt: { type: GraphQLInt },
     updatedAt: { type: GraphQLInt },
-//  stories field needs testing
     stories: {
       type: new GraphQLList(Story),
       args: {
@@ -186,14 +188,14 @@ const Comment = new GraphQLObjectType({
     _id: { type: GraphQLString },
     _author: {
       type: User,
-      resolve: (Comment) => {
+      resolve: (parentComment) => {
         return USER.findOne({ _id: Comment._author });
       }
     },
     _story: {
       type: Story,
-      resolve: (Comment) => {
-        return STORY.findOne({ _id: Story._story});
+      resolve: (parentComment) => {
+        return STORY.findOne({ _id: parentComment._story });
       }
     },
     summary: { type: GraphQLString },
@@ -244,8 +246,8 @@ const Story = new GraphQLObjectType({
     },
     _author: {
       type: User,
-      resolve: (Story) => {
-        return USER.findOne({ _id: Story._author });
+      resolve: (parentStory) => {
+        return USER.findOne({ _id: parentStory._author });
       }
     }
   })

@@ -15,7 +15,7 @@
           "description": "Root query",
           "fields": [
             {
-              "name": "customStoriesQuery",
+              "name": "storiesQuery",
               "description": "List of stories",
               "args": [
                 {
@@ -42,7 +42,7 @@
               "deprecationReason": null
             },
             {
-              "name": "customStoryQuery",
+              "name": "storyQuery",
               "description": "Story by _id",
               "args": [
                 {
@@ -69,7 +69,7 @@
               "deprecationReason": null
             },
             {
-              "name": "customLatestStoryQuery",
+              "name": "latestStoryQuery",
               "description": "Latest story",
               "args": [],
               "type": {
@@ -81,7 +81,7 @@
               "deprecationReason": null
             },
             {
-              "name": "customRecentStoriesQuery",
+              "name": "recentStoriesQuery",
               "description": "Recent story",
               "args": [
                 {
@@ -112,7 +112,7 @@
               "deprecationReason": null
             },
             {
-              "name": "customUsersQuery",
+              "name": "usersQuery",
               "description": "Available users",
               "args": [],
               "type": {
@@ -128,7 +128,7 @@
               "deprecationReason": null
             },
             {
-              "name": "customUserQuery",
+              "name": "userQuery",
               "description": "User by _id",
               "args": [
                 {
