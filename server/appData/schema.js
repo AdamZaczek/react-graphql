@@ -16,13 +16,6 @@ import USER from './models/user';
 import STORY from './models/story';
 import COMMENT from './models/comment';
 
-//not sure if thats the way it should be done, leaving to for a moment
-// const RATING = new Schema({
-//   _user: { type: ObjectId, ref: 'User' },
-//   _ratedItem: { type: ObjectId, ref: 'Story' },
-//   value: Number
-// })
-
 //const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
 
 const getPrettyDate = (date) => {
@@ -271,7 +264,7 @@ const Query = new GraphQLObjectType({
     //     return viewingUser;
     //   }
     // },
-    customStoriesQuery: {
+    storiesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories',
       args: {
@@ -290,7 +283,7 @@ const Query = new GraphQLObjectType({
         });
       }
     },
-    customStoryQuery: {
+    storyQuery: {
       type: Story,
       description: 'Story by _id',
       args: {
@@ -303,7 +296,7 @@ const Query = new GraphQLObjectType({
         });
       }
     },
-    customLatestStoryQuery: {
+    latestStoryQuery: {
       type: Story,
       description: 'Latest story',
       resolve: (source) => {
@@ -313,7 +306,7 @@ const Query = new GraphQLObjectType({
         });
       },
     },
-    customRecentStoriesQuery: {
+    recentStoriesQuery: {
       type: new GraphQLList(Story),
       description: 'Recent story',
       args: {
@@ -326,7 +319,7 @@ const Query = new GraphQLObjectType({
         });
       },
     },
-    customUsersQuery: {
+    usersQuery: {
       type: new GraphQLList(User),
       description: 'Available users',
       resolve() {
@@ -336,7 +329,7 @@ const Query = new GraphQLObjectType({
         });
       }
     },
-    customUserQuery: {
+    userQuery: {
       type: User,
       description: 'User by _id',
       args: {
