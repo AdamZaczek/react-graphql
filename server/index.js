@@ -7,15 +7,16 @@ import WebpackDevServer from 'webpack-dev-server';
 import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
+import passport from 'passport';
 import webpackConfig from '../webpack.config';
-import config from './config/environment';
+import { config, auth } from './config/environment/';
 import schema from './appData/schema';
 import myMongoCredentials from './myMongoCredentials';
 import seeder from './seeder';
 
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-// const jwt = require('express-jwt');
+const jwt = require('express-jwt');
 
 // prolly got to replace it for env in config s, also gotta do npm un dotenv
 dotenv.load();
@@ -27,6 +28,29 @@ dotenv.load();
 
 // This will be usefull in the future
 // mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
+
+//
+// app.use(expressJwt({
+//   secret: auth.jwt.secret,
+//   credentialsRequired: false,
+//   getToken: req => req.cookies.id_token,
+// }));
+// app.use(passport.initialize());
+//
+//
+// app.get('/login/facebook',
+//   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
+// );
+// app.get('/login/facebook/return',
+//   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+//   (req, res) => {
+//     const expiresIn = 60 * 60 * 24 * 180; // 180 days
+//     const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
+//     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+//     res.redirect('/');
+//   },
+// );
+
 
 const options = { server: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } },
   replset: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } } };
@@ -42,6 +66,22 @@ if (config.env === 'development') {
   seeder();
   // Launch GraphQL
   const graphql = express();
+
+  // authentication
+  graphql.enable('trust proxy');
+  graphql.get('/login/facebook',
+    passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
+  );
+  graphql.get('/login/facebook/return',
+    passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+    (req, res) => {
+      const expiresIn = 60 * 60 * 24 * 180; // 180 days
+      const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
+      res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+      res.redirect('/');
+    },
+  );
+
   graphql.use('/', graphQLHTTP({
     graphiql: true,
     pretty: true,
@@ -72,6 +112,20 @@ if (config.env === 'development') {
 } else if (config.env === 'production') {
   // Launch Relay by creating a normal express server
   const relayServer = express();
+
+  relayServer.get('/login/facebook',
+    passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
+  );
+  relayServer.get('/login/facebook/return',
+    passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+    (req, res) => {
+      const expiresIn = 60 * 60 * 24 * 180; // 180 days
+      const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
+      res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+      res.redirect('/');
+    },
+  );
+
   relayServer.use(historyApiFallback());
   relayServer.use('/', express.static(path.join(__dirname, '../build')));
   relayServer.use('/graphql', graphQLHTTP({ schema }));
