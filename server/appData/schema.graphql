@@ -22,7 +22,7 @@ type Comment {
   _story: Story
   summary: String
   content: String
-  createdAt: Int
+  createdAt: String
 }
 
 type NobodysStoriesMutations {
@@ -85,7 +85,7 @@ type User {
   email: String
   password: String
   age: Int
-  createdAt: Int
+  createdAt: String
   updatedAt: Int
   stories(
     # Limit the returning stories

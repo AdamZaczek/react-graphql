@@ -27,29 +27,6 @@ const getPrettyDate = (date) => {
             + ('0' + (date.getMonth() + 1)).slice(-2) + '/'
             + date.getFullYear();
 };
-// authentication attempt I
-// const getUser = (rootValue) => {
-//   //IF there is no userID cookie field, no-one is logged in
-//   if (!rootValue.cookies.get('userID')) return {
-//     name: '',
-//     mail: '',
-//     id: logID
-//   };
-//   const user = getDatabaseUserByID(rootValue.cookies.get('userID'));
-//   user.userID = user.id;
-//   user.id = logID // change the id field with default immutable logID to handle FIELD_CHANGE mutation
-//   return user;
-// }
-
-// authentication attempt I
-// const Viewer = new GraphQLObjectType({
-//   name: 'User',
-//   values: {
-//   id: globalIdField('User'), //this id is an immutable string that never change.
-//   userID: { type: GraphQLString, description: 'the database user\'s id' },
-//   name: { type: GraphQLString, description: 'the name of the user' },
-//   mail: { type: GraphQLString, description: 'the mail of the user'}
-// }});
 
 const Category = new GraphQLEnumType({
   name: 'Category',
@@ -76,7 +53,17 @@ const User = new GraphQLObjectType({
     email: { type: GraphQLString },
     password: { type: GraphQLString },
     age: { type: GraphQLInt },
-    createdAt: { type: GraphQLInt },
+    createdAt: {
+      type: GraphQLString,
+      resolve: (user) => {
+        if (user.createdAt) {
+          const creationDate = new Date(user.createdAt);
+          const formattedDate = getPrettyDate(creationDate);
+          return formattedDate;
+        }
+        return null;
+      }
+    },
     updatedAt: { type: GraphQLInt },
     stories: {
       type: new GraphQLList(Story),
@@ -200,7 +187,17 @@ const Comment = new GraphQLObjectType({
     },
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
-    createdAt: { type: GraphQLInt },
+    createdAt: {
+      type: GraphQLString,
+      resolve: (comment) => {
+        if (comment.createdAt) {
+          const creationDate = new Date(comment.createdAt);
+          const formattedDate = getPrettyDate(creationDate);
+          return formattedDate;
+        }
+        return null;
+      }
+    },
     // need likes and dislikes
   })
 });
@@ -257,15 +254,6 @@ const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root query',
   fields: () => ({
-    // authentication attempt I
-    // user: {
-    //   type: new GraphQLNonNull(Viewier),
-    //   description: 'the user',
-    //   resolve: (root, {id}, {rootValue}) => {
-    //     const viewingUser = getUser(rootValue);
-    //     return viewingUser;
-    //   }
-    // },
     storiesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories',

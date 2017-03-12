@@ -15,42 +15,7 @@ import myMongoCredentials from './myMongoCredentials';
 import seeder from './seeder';
 
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const jwt = require('express-jwt');
-
-// prolly got to replace it for env in config s, also gotta do npm un dotenv
-dotenv.load();
-
-// const authenticate = jwt({
-//   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
-//   audience: process.env.AUTH0_CLIENT_ID
-// });
-
-// This will be usefull in the future
-// mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
-
-//
-// app.use(expressJwt({
-//   secret: auth.jwt.secret,
-//   credentialsRequired: false,
-//   getToken: req => req.cookies.id_token,
-// }));
-// app.use(passport.initialize());
-//
-//
-// app.get('/login/facebook',
-//   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
-// );
-// app.get('/login/facebook/return',
-//   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-//   (req, res) => {
-//     const expiresIn = 60 * 60 * 24 * 180; // 180 days
-//     const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-//     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-//     res.redirect('/');
-//   },
-// );
-
 
 const options = { server: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } },
   replset: { socketOptions: { keepAlive: 600000, connectTimeoutMS: 60000 } } };
