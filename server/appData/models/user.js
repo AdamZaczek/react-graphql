@@ -9,7 +9,7 @@ const USER = mongoose.model('User', new mongoose.Schema({
   password: { type: String, required: true },
   age: { type: Number, min: 1, max: 115 },
   isAdmin: { Boolean, default: false },
-  createdAt: { type: Date, default: Date.now, max: 5000 },
+  createdAt: { type: Date, default: Date.now },
   updated_at: Date,
   stories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
@@ -28,7 +28,6 @@ const USER = mongoose.model('User', new mongoose.Schema({
 USER.methods.comparePassword = function comparePassword(password, callback) {
   bcrypt.compare(password, this.password, callback);
 };
-
 
 /**
  * The pre-save hook method.
