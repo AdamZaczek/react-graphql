@@ -1,5 +1,5 @@
 /* eslint no-underscore-dangle: off*/
-import auth from '../../config/environment';
+import auth from '../config/environment';
 
 const jwt = require('express-jwt');
 const USER = require('mongoose').model('User');
