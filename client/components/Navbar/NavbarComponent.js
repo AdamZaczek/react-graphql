@@ -16,8 +16,8 @@ export default class Navigation extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <NavItem eventKey='1' href='#'><Link to='/signup' className={styles.navItem}>Sign up</Link></NavItem>
-              <NavItem eventKey='2' href='#'><Link to='/login' className={styles.navItem}>Login</Link></NavItem>
+              <NavItem eventKey='1' href='#' componentClass='span'><Link to='/signup' className={styles.navItem}>Sign up</Link></NavItem>
+              <NavItem eventKey='2' href='#' componentClass='span'><Link to='/login' className={styles.navItem}>Login</Link></NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

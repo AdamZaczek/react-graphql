@@ -8,7 +8,7 @@ import { IndexRoute, Route, Redirect } from 'react-router';
 
 import AppContainer from '../components/App/AppContainer';
 // import FeatureContainer from '../components/Feature/FeatureContainer';
-import SignupComponent from '../components/Signup/SignupComponent';
+import SignUpContainerComponent from '../components/SignUp/SignUpContainerComponent';
 import LoginComponent from '../components/Login/LoginComponent';
 import IndexContainer from '../components/Index/IndexContainer';
 
@@ -24,7 +24,7 @@ import IndexContainer from '../components/Index/IndexContainer';
 export default (
   <Route path='/' component={AppContainer}>
     <IndexRoute component={IndexContainer} />
-    <Route path='/signup' component={SignupComponent} />
+    <Route path='/signup' component={SignUpContainerComponent} />
     <Route path='/login' component={LoginComponent} />
     <Redirect from='*' to='/' />
   </Route>
