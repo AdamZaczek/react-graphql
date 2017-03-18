@@ -2,11 +2,9 @@ import mongoose from 'mongoose';
 
 const USER = mongoose.model('User', new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
-  name: { type: String, required: true, unique: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   // this needs to be encrypted soon
   password: { type: String, required: true },
-  age: { type: Number, min: 1, max: 115 },
   isAdmin: { Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updated_at: Date,
