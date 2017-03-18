@@ -31,7 +31,7 @@ export default class SignUpPage extends React.Component {
    * @param {object} event - the JavaScript event object
    */
   changeUser(event) {
-    const field = event.target.name;
+    const field = event.target.type;
     const user = this.state.user;
     user[field] = event.target.value;
 
@@ -48,10 +48,6 @@ export default class SignUpPage extends React.Component {
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-
-    // console.log('name:', this.state.user.name);
-    // console.log('email:', this.state.user.email);
-    // console.log('password:', this.state.user.password);
   }
 
   /**

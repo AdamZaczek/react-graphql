@@ -3,55 +3,6 @@ import React, { PropTypes } from 'react';
 // import { Link } from 'react-router';
 import Page from '../Page/PageComponent';
 
-//   <Card className="container">
-//     <form action="/" onSubmit={onSubmit}>
-//       <h2 className="card-heading">Sign Up</h2>
-//
-//       {errors.summary && <p className="error-message">{errors.summary}</p>}
-//
-//       <div className="field-line">
-//         <TextField
-//           floatingLabelText="Name"
-//           name="name"
-//           errorText={errors.name}
-//           onChange={onChange}
-//           value={user.name}
-//         />
-//       </div>
-//
-//       <div className="field-line">
-//         <TextField
-//           floatingLabelText="Email"
-//           name="email"
-//           errorText={errors.email}
-//           onChange={onChange}
-//           value={user.email}
-//         />
-//       </div>
-//
-//       <div className="field-line">
-//         <TextField
-//           floatingLabelText="Password"
-//           type="password"
-//           name="password"
-//           onChange={onChange}
-//           errorText={errors.password}
-//           value={user.password}
-//         />
-//       </div>
-//
-//       <div className="button-line">
-//         <RaisedButton type="submit" label="Create New Account" primary />
-//       </div>
-//
-//       <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
-//     </form>
-//   </Card>
-// );
-//
-//
-// export default SignUpForm;
-
 const SignUp = ({
   onSubmit,
   onChange,
@@ -59,7 +10,7 @@ const SignUp = ({
   user,
 }) => (
   <Page heading='Signup'>
-    <Form horizontal onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} horizontal>
 
       {errors.summary && <p className='error-message'>{errors.summary}</p>}
 
@@ -82,7 +33,7 @@ const SignUp = ({
       </FormGroup>
 
       <FormGroup>
-        <Col smOffset={2} sm={10}>
+        <Col smOffset={2} sm={1}>
           <Checkbox>Remember me</Checkbox>
         </Col>
       </FormGroup>
