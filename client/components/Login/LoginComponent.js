@@ -1,46 +1,58 @@
-/* eslint-disable jsx-a11y/href-no-hash */
 import { Form, FormGroup, Col, Checkbox, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Page from '../Page/PageComponent';
 
-export default class Login extends React.Component {
-  render() {
-    return (
-      <Page heading='Login'>
-        <Form horizontal>
-          <FormGroup controlId='formHorizontalEmail'>
-            <Col componentClass={ControlLabel} sm={2}>
-              Email
-            </Col>
-            <Col sm={10}>
-              <FormControl type='email' placeholder='Email' />
-            </Col>
-          </FormGroup>
+const LogIn = ({
+  onSubmit,
+  onChange,
+  errors,
+  user,
+}) => (
+  <Page heading='Signup'>
+    <Form onSubmit={onSubmit} horizontal>
 
-          <FormGroup controlId='formHorizontalPassword'>
-            <Col componentClass={ControlLabel} sm={2}>
-              Password
-            </Col>
-            <Col sm={10}>
-              <FormControl type='password' placeholder='Password' />
-            </Col>
-          </FormGroup>
+      {errors.summary && <p className='error-message'>{errors.summary}</p>}
 
-          <FormGroup>
-            <Col smOffset={2} sm={10}>
-              <Checkbox>Remember me</Checkbox>
-            </Col>
-          </FormGroup>
+      <FormGroup controlId='formHorizontalEmail'>
+        <Col componentClass={ControlLabel} sm={2}>
+          Email
+        </Col>
+        <Col sm={10}>
+          <FormControl type='email' placeholder='Email' value={user.email} onChange={onChange} />
+        </Col>
+      </FormGroup>
 
-          <FormGroup>
-            <Col smOffset={2} sm={10}>
-              <Button type='submit'>
-                Sign in
-              </Button>
-            </Col>
-          </FormGroup>
-        </Form>
-      </Page>
-    );
-  }
-}
+      <FormGroup controlId='formHorizontalPassword'>
+        <Col componentClass={ControlLabel} sm={2}>
+          Password
+        </Col>
+        <Col sm={10}>
+          <FormControl type='password' placeholder='Password' value={user.password} onChange={onChange} />
+        </Col>
+      </FormGroup>
+
+      <FormGroup>
+        <Col smOffset={2} sm={1}>
+          <Checkbox>Remember me</Checkbox>
+        </Col>
+      </FormGroup>
+
+      <FormGroup>
+        <Col smOffset={2} sm={10}>
+          <Button type='submit'>
+            Sign in
+          </Button>
+        </Col>
+      </FormGroup>
+    </Form>
+  </Page>
+);
+
+LogIn.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+};
+
+export default LogIn;

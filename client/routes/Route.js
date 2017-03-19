@@ -9,7 +9,7 @@ import { IndexRoute, Route, Redirect } from 'react-router';
 import AppContainer from '../components/App/AppContainer';
 // import FeatureContainer from '../components/Feature/FeatureContainer';
 import SignUpContainerComponent from '../components/SignUp/SignUpContainerComponent';
-import LoginComponent from '../components/Login/LoginComponent';
+import LogInContainerComponent from '../components/Login/LogInContainerComponent';
 import IndexContainer from '../components/Index/IndexContainer';
 
 // export default (
@@ -25,7 +25,7 @@ export default (
   <Route path='/' component={AppContainer}>
     <IndexRoute component={IndexContainer} />
     <Route path='/signup' component={SignUpContainerComponent} />
-    <Route path='/login' component={LoginComponent} />
+    <Route path='/login' component={LogInContainerComponent} />
     <Redirect from='*' to='/' />
   </Route>
 );

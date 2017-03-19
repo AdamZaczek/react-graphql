@@ -1,8 +1,8 @@
 /* eslint no-console: off*/
 import React from 'react';
-import SignUpComponent from './SignUpComponent';
+import LogInComponent from './LogInComponent';
 
-export default class SignUpContainer extends React.Component {
+export default class LogInContainer extends React.Component {
 
   /**
    * Class constructor.
@@ -19,8 +19,8 @@ export default class SignUpContainer extends React.Component {
       }
     };
 
-    this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
+    this.processLoginForm = this.processForm.bind(this);
+    this.changeLogingUser = this.changeUser.bind(this);
   }
 
   /**
@@ -53,9 +53,9 @@ export default class SignUpContainer extends React.Component {
    */
   render() {
     return (
-      <SignUpComponent
-        onSubmit={this.processForm}
-        onChange={this.changeUser}
+      <LogInComponent
+        onSubmit={this.processLoginForm}
+        onChange={this.changeLogingUser}
         errors={this.state.errors}
         user={this.state.user}
       />
