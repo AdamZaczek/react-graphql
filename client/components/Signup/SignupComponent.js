@@ -1,6 +1,6 @@
 import { Form, FormGroup, Col, Checkbox, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import React, { PropTypes } from 'react';
-// import { Link } from 'react-router';
+import { Link } from 'react-router';
 import Page from '../Page/PageComponent';
 
 const SignUp = ({
@@ -46,6 +46,9 @@ const SignUp = ({
         </Col>
       </FormGroup>
     </Form>
+    <Col smOffset={2} sm={10}>
+      Already have an account? You can log in <Link to='/login'>here</Link>
+    </Col>
   </Page>
 );
 

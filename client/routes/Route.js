@@ -24,7 +24,9 @@ import IndexContainer from '../components/Index/IndexContainer';
 export default (
   <Route path='/' component={AppContainer}>
     <IndexRoute component={IndexContainer} />
-    <Route path='/signup' component={SignUpContainerComponent} />
+    <Route path='/signup' component={SignUpContainerComponent}>
+      <Route path='/login' component={LogInContainerComponent} />
+    </Route>
     <Route path='/login' component={LogInContainerComponent} />
     <Redirect from='*' to='/' />
   </Route>

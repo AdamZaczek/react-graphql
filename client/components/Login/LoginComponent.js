@@ -8,7 +8,7 @@ const LogIn = ({
   errors,
   user,
 }) => (
-  <Page heading='Signup'>
+  <Page heading='Login'>
     <Form onSubmit={onSubmit} horizontal>
 
       {errors.summary && <p className='error-message'>{errors.summary}</p>}
