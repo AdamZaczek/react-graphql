@@ -12,7 +12,7 @@ To do:
 9. Add categories (Done). Might want to have stories with multiple categories.  
 10. Add hashing password(!).(parth of Auth0 changes)
 11. Consider migration to postgres or dynamodb.(done, not gonna happen)
-12. Add authentication and login wia Auth0.
+12. Add authentication and login wia Auth0. (in progress)
 13. Add seeding method(done)
 14. Decouple front and backend, build backend with webpack.(not needed atm)
 15. Add docker(before deploy)

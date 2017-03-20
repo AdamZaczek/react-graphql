@@ -3,7 +3,6 @@
 /* eslint "arrow-body-style": off */
 /* eslint "no-use-before-define": off */
 /* eslint prefer-template: off */
-/* eslint-disable! */
 import {
   GraphQLList,
   GraphQLObjectType,
@@ -374,6 +373,24 @@ const Mutation = new GraphQLObjectType({
 //        return story;
       }
     },
+    createUser: {
+      type: User,
+      description: 'Create a new user',
+      args: {
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve: (user, { ...args }) => {
+        const newUser = new USER({
+          email: args.email,
+          password: args.password
+        });
+        newUser.save((err) => {
+          if (err) throw new Error(`Could not save user with email: : ${newUser.email}`);
+        });
+        return newUser;
+      }
+    }
 
     // createAuthor: {
     //   type: Author,

@@ -37,6 +37,9 @@ type NobodysStoriesMutations {
     summary: String
     content: String!
   ): Story
+
+  # Create a new user
+  createUser(email: String!, password: String!): User
 }
 
 # Root query
