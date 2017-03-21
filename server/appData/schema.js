@@ -382,34 +382,15 @@ const Mutation = new GraphQLObjectType({
       },
       resolve: (user, { ...args }) => {
         const newUser = new USER({
-          email: args.email,
-          password: args.password
+          ...args
         });
-        newUser.save((err) => {
-          if (err) throw new Error(`Could not save user with email: : ${newUser.email}`);
+        newUser.save((err, res) => {
+          if (err) return err;
+          return res;
         });
         return newUser;
       }
     }
-
-    // createAuthor: {
-    //   type: Author,
-    //   description: 'Create a new author',
-    //   args: {
-    //     _id: { type: new GraphQLNonNull(GraphQLString) },
-    //     name: { type: new GraphQLNonNull(GraphQLString) },
-    //     twitterHandle: { type: GraphQLString }
-    //   },
-    //   resolve(source, { ...args }) {
-    //     const author = args;
-    //     if (AuthorsMap[args._id]) {
-    //       throw new Error(`Author already exists: ${author._id}`);
-    //     }
-    //
-    //     AuthorsMap[author._id] = author;
-    //     return author;
-    //   }
-    // }
   }
 });
 

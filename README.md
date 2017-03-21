@@ -79,6 +79,22 @@ query getStories($limit: Int!){customStoriesQuery {
   "limit": 1
 }
 ```
+
+```javascript
+mutation CreateUser($email: String!, $password: String!) {
+  createUser(email: $email, password: $password) {
+    email,
+    createdAt
+  }
+}
+
+
+{
+  "email": "nowItDoesWork8@gmail.com",
+  "password": "somePassword1"
+}
+
+```
 Things to consider:
 Delete ^ marks in dependencies.  
 Adding redux for managing session specific data. Switching react to preact(!).  

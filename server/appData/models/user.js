@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const USER = mongoose.model('User', new mongoose.Schema({
   id: mongoose.Schema.Types.ObjectId,
   email: { type: String, required: true, unique: true },
+  name: { type: String, sparse: true },
   // this needs to be encrypted soon
   password: { type: String, required: true },
   isAdmin: { Boolean, default: false },
