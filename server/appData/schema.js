@@ -27,22 +27,6 @@ const getPrettyDate = (date) => {
             + date.getFullYear();
 };
 
-const Category = new GraphQLEnumType({
-  name: 'Category',
-  description: 'Represents a category of a story',
-  values: {
-    ADULT: { value: 'adult life' },
-    SEX: { value: 'sex' },
-    LOVE: { value: 'love' },
-    SCHOOL: { value: 'school' },
-    FUNNY: { value: 'funny' },
-    DATE: { value: 'date' },
-    SAD: { value: 'sad' },
-    EMBARRASSING: { value: 'embarrassing' },
-    SCARY: { value: 'scary' }
-  }
-});
-
 const User = new GraphQLObjectType({
   name: 'User',
   description: 'Represents user of the application',
@@ -69,7 +53,6 @@ const User = new GraphQLObjectType({
       args: {
         limit: { type: GraphQLInt, description: 'Limit the returning stories' }
       },
-      // first argument is the context, in this case the certain User object, we named it user
       resolve: (user, { limit }) => {
         let ary = [];
         ary = user.stories.map((story) => {
@@ -207,7 +190,6 @@ const Story = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLString },
     title: { type: GraphQLString },
-    category: { type: Category },
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
     createdAt: {
@@ -256,16 +238,7 @@ const Query = new GraphQLObjectType({
     storiesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories',
-      args: {
-        category: { type: Category }
-      },
       resolve: (source, { category }) => {
-        if (category) {
-          return STORY.find({ category }, (err, res) => {
-            if (err) return err;
-            return res;
-          });
-        }
         return STORY.find({}, (err, res) => {
           if (err) return err;
           return res;
@@ -341,36 +314,19 @@ const Mutation = new GraphQLObjectType({
       type: Story,
       description: 'Create a new story',
       args: {
-        _id: { type: new GraphQLNonNull(GraphQLString) },
         _author: { type: new GraphQLNonNull(GraphQLString), description: 'Id of  the author' },
-        title: { type: new GraphQLNonNull(GraphQLString) },
-        // category: { type: Category },
-        category: { type: GraphQLString },
-        summary: { type: GraphQLString },
         content: { type: new GraphQLNonNull(GraphQLString) },
-//        createdAt: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(source, { ...args }) {
-        const story = args;
-//        const alreadyExists = _.findIndex(StoriesList, p => p._id === story._id) >= 0;
-
-        // this looks like a working code, awesome!
-        // const lookForExistingId = singleStory => singleStory._id === story._id;
-        // const alreadyExists = StoriesList.filter(lookForExistingId);
-        // if (alreadyExists) {
-        //   throw new Error(`Story already exists: ${story._id}`);
-        // }
-
-        // if (!AuthorsMap[story.author]) {
-        //   throw new Error(`No such author: ${story.author}`);
-        // }
-
-        // if (!story.summary) {
-        //   story.summary = story.content.substring(0, 100);
-        // }
-        story.createdAt = { $date: new Date().toString() };
-        (new STORY(story).save((err, savedStory) => { if (err) return err; return story; }));
-//        return story;
+        const summary = args.content.substring(0, 100);
+        const newStory = new STORY({
+          ...args,
+          summary
+        });
+        newStory.save((err, savedStory) => {
+          if (err) throw new Error(`${err}`);
+          return newStory;
+        });
       }
     },
     createUser: {

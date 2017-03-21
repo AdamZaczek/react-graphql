@@ -3,19 +3,6 @@ schema {
   mutation: NobodysStoriesMutations
 }
 
-# Represents a category of a story
-enum Category {
-  ADULT
-  SEX
-  LOVE
-  SCHOOL
-  FUNNY
-  DATE
-  SAD
-  EMBARRASSING
-  SCARY
-}
-
 type Comment {
   _id: String
   _author: User
@@ -27,16 +14,7 @@ type Comment {
 
 type NobodysStoriesMutations {
   # Create a new story
-  createStory(
-    _id: String!
-
-    # Id of  the author
-    _author: String!
-    title: String!
-    category: String
-    summary: String
-    content: String!
-  ): Story
+  createStory(content: String!): Story
 
   # Create a new user
   createUser(email: String!, password: String!): User
@@ -45,7 +23,7 @@ type NobodysStoriesMutations {
 # Root query
 type NobodysStoriesSchema {
   # List of stories
-  storiesQuery(category: Category): [Story]
+  storiesQuery: [Story]
 
   # Story by _id
   storyQuery(id: String!): Story
@@ -70,7 +48,6 @@ type NobodysStoriesSchema {
 type Story {
   _id: String
   title: String
-  category: Category
   summary: String
   content: String
   createdAt: String
