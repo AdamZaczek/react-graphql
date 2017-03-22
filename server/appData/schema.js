@@ -310,6 +310,7 @@ const Query = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'NobodysStoriesMutations',
   fields: {
+    // This one doesn't work for now. Probably caused by the fact story has an author and I'm not assigning it correctly
     createStory: {
       type: Story,
       description: 'Create a new story',
