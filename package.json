@@ -1,7 +1,7 @@
 {
   "name": "nobodysstories",
   "version": "1.0.0",
-  "description": "Nobodys Stories - Integrated with Relay, GraphQL, Express, ES6/ES7, JSX, Webpack, Babel, and PostCSS",
+  "description": "Confessions - Integrated with Relay, GraphQL, Express, ES6/ES7, JSX, Webpack and Babel",
   "scripts": {
     "start": "nodemon --watch server/data/**/*.js --exec \"npm run update && ./node_modules/.bin/babel ./server --out-dir ./build && node build/index.js\"",
     "update": "./node_modules/.bin/babel-node server/utils/updateSchema.js",
