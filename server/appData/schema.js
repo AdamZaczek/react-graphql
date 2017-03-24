@@ -317,7 +317,7 @@ const Mutation = new GraphQLObjectType({
         content: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve: (story, { ...args }) => {
-        const summary = args.content.substring(0, 20);
+        const summary = args.content.substring(0, 100);
         const newStory = new STORY({
           ...args,
           summary
