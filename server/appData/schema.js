@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, no-use-before-define */
+/* eslint-disable, no-use-before-define */
 /* eslint no-underscore-dangle: off*/
 /* eslint "arrow-body-style": off */
 /* eslint "no-use-before-define": off */
@@ -9,10 +9,7 @@ import {
   GraphQLSchema,
   GraphQLString,
   GraphQLInt,
-  GraphQLFloat,
-  GraphQLEnumType,
   GraphQLNonNull,
-  GraphQLInterfaceType
 } from 'graphql';
 
 import USER from './models/user';
@@ -157,7 +154,7 @@ const Comment = new GraphQLObjectType({
     _author: {
       type: User,
       resolve: (parentComment) => {
-        return USER.findOne({ _id: Comment._author });
+        return USER.findOne({ _id: parentComment._author });
       }
     },
     _story: {
@@ -236,7 +233,7 @@ const Query = new GraphQLObjectType({
     storiesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories',
-      resolve: (source, { category }) => {
+      resolve: () => {
         return STORY.find({}, (err, res) => {
           if (err) return err;
           return res;
@@ -259,7 +256,7 @@ const Query = new GraphQLObjectType({
     latestStoryQuery: {
       type: Story,
       description: 'Latest story',
-      resolve: (source) => {
+      resolve: () => {
         return STORY.findOne({}).sort('-date').exec((err, docs) => {
           if (err) return err;
           return docs;
@@ -308,7 +305,6 @@ const Query = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'NobodysStoriesMutations',
   fields: {
-    // This one doesn't work for now. Probably caused by the fact story has an author and I'm not assigning it correctly
     createStory: {
       type: Story,
       description: 'Create a new story',
@@ -356,7 +352,7 @@ const Mutation = new GraphQLObjectType({
         content: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve: (user, { ...args }) => {
-        const summary = args.content.substring(0, 20);
+        const summary = args.content.substring(0, 40);
         const newComment = new COMMENT({
           ...args,
           summary
