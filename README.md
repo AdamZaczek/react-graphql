@@ -95,6 +95,34 @@ mutation CreateUser($email: String!, $password: String!) {
 }
 
 ```
+
+
+```javascript
+mutation CreateStory($content: String!, $_author: String!) {
+  createStory(content: $content, _author: $_author) {
+    content
+  }
+}
+
+{
+  "content": "My very first story yay!",
+  "_author": "58961492734d1d3956c46fd0"
+}
+```
+
+```javascript
+mutation CreateComment($content: String!, $_author:String!, $_story: String!) {
+  createComment(content: $content, _author: $_author, _story: $_story) {
+    content
+  }
+}
+
+{
+  "_story": "58951027734d1d3956c4289a",
+  "content": "My very first comment yay!",
+  "_author": "58961492734d1d3956c46fd0"
+}
+```
 Things to consider:
 Delete ^ marks in dependencies.  
 Adding redux for managing session specific data. Switching react to preact(!).  

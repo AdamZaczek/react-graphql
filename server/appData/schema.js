@@ -35,7 +35,6 @@ const User = new GraphQLObjectType({
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     password: { type: GraphQLString },
-    age: { type: GraphQLInt },
     createdAt: {
       type: GraphQLString,
       resolve: (user) => {
@@ -189,7 +188,6 @@ const Story = new GraphQLObjectType({
   description: 'Represent the type of a story',
   fields: () => ({
     _id: { type: GraphQLString },
-    title: { type: GraphQLString },
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
     createdAt: {
@@ -315,19 +313,18 @@ const Mutation = new GraphQLObjectType({
       type: Story,
       description: 'Create a new story',
       args: {
-        _author: { type: new GraphQLNonNull(GraphQLString), description: 'Id of  the author' },
-        content: { type: new GraphQLNonNull(GraphQLString) },
+        _author: { type: new GraphQLNonNull(GraphQLString) },
+        content: { type: new GraphQLNonNull(GraphQLString) }
       },
-      resolve(source, { ...args }) {
-        const summary = args.content.substring(0, 100);
+      resolve: (story, { ...args }) => {
         const newStory = new STORY({
-          ...args,
-          summary
+          ...args
         });
-        newStory.save((err, savedStory) => {
-          if (err) throw new Error(`${err}`);
-          return newStory;
+        newStory.save((err, res) => {
+          if (err) return err;
+          return res;
         });
+        return newStory;
       }
     },
     createUser: {
@@ -346,6 +343,27 @@ const Mutation = new GraphQLObjectType({
           return res;
         });
         return newUser;
+      }
+    },
+    createComment: {
+      type: Comment,
+      description: 'Create a new comment',
+      args: {
+        _author: { type: new GraphQLNonNull(GraphQLString) },
+        _story: { type: new GraphQLNonNull(GraphQLString) },
+        content: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve: (user, { ...args }) => {
+        const summary = args.content.substring(0, 20);
+        const newComment = new COMMENT({
+          ...args,
+          summary
+        });
+        newComment.save((err, res) => {
+          if (err) return err;
+          return res;
+        });
+        return newComment;
       }
     }
   }

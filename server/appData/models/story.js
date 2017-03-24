@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const STORY = mongoose.model('Story', new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  id: mongoose.Schema.Types.ObjectId,
   _author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   summary: String,
   content: { type: String, max: 5000, required: true },
