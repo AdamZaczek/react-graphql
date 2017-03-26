@@ -10,6 +10,7 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLNonNull,
+  GraphQLEnumType
 } from 'graphql';
 
 import USER from './models/user';
@@ -23,6 +24,16 @@ const getPrettyDate = (date) => {
             + ('0' + (date.getMonth() + 1)).slice(-2) + '/'
             + date.getFullYear();
 };
+
+const Reaction = new GraphQLEnumType({
+  name: 'Reactions',
+  values: {
+    LIKE: { value: 0 },
+    DISLIKE: { value: 1 },
+    LOVE: { value: 2 },
+    ANGER: { value: 3 }
+  }
+});
 
 const User = new GraphQLObjectType({
   name: 'User',
@@ -43,7 +54,7 @@ const User = new GraphQLObjectType({
         return null;
       }
     },
-    updatedAt: { type: GraphQLInt },
+    updatedAt: { type: GraphQLString },
     stories: {
       type: new GraphQLList(Story),
       args: {
@@ -63,13 +74,21 @@ const User = new GraphQLObjectType({
         return ary;
       }
     },
-    // todo: test, mock storyLikes
-    storyLikes: {
+    // todo: test, mock reactions
+    storiesWithReactions: {
       type: new GraphQLList(Story),
+      description: 'List stories user reacted to',
       args: {
-        limit: { type: GraphQLInt, description: 'Limit the returning liked stories' }
+        limit: {
+          description: 'Limit the returning liked comments',
+          type: GraphQLInt
+        },
+        reactionType: {
+          description: 'Search only for certain reactions',
+          type: Reaction
+        }
       },
-      resolve: (user, { limit }) => {
+      resolve: (user, { ...args }) => {
         let ary = [];
         ary = user.storyLikes.map((story) => {
           return STORY.findOne({ _id: story }, (err, res) => {
@@ -77,68 +96,35 @@ const User = new GraphQLObjectType({
             return res;
           });
         });
-        if (limit >= 0) {
-          return ary.slice(0, limit);
+        if (args.limit >= 0) {
+          return ary.slice(0, args.limit);
         }
         return ary;
       }
     },
-    // todo: test, mock
-    storyDislikes: {
-      type: new GraphQLList(Story),
-      args: {
-        limit: { type: GraphQLInt, description: 'Limit the returning disliked stories' }
-      },
-      resolve: (user, { limit }) => {
-        let ary = [];
-        ary = user.storyDislikes.map((story) => {
-          return STORY.findOne({ _id: story }, (err, res) => {
-            if (err) return err;
-            return res;
-          });
-        });
-        if (limit >= 0) {
-          return ary.slice(0, limit);
-        }
-        return ary;
-      }
-    },
-    // todo: test, mock
-    commentLikes: {
+    commentsWithReactions: {
       type: new GraphQLList(Comment),
+      description: 'List comments user reacted to',
       args: {
-        limit: { type: GraphQLInt, description: 'Limit the returning liked comments' }
+        limit: {
+          description: 'Limit the returning liked comments',
+          type: GraphQLInt
+        },
+        reactionType: {
+          description: 'Search only for certain reactions',
+          type: Reaction
+        }
       },
-      resolve: (user, { limit }) => {
+      resolve: (user, { ...args }) => {
         let ary = [];
-        ary = user.commentLikes.map((comment) => {
+        ary = user.commentsWithReactions.map((comment) => {
           return COMMENT.findOne({ _id: comment }, (err, res) => {
             if (err) return err;
             return res;
           });
         });
-        if (limit >= 0) {
-          return ary.slice(0, limit);
-        }
-        return ary;
-      }
-    },
-    // todo: test, mock
-    commentDislikes: {
-      type: new GraphQLList(Comment),
-      args: {
-        limit: { type: GraphQLInt, description: 'Limit the returning disliked comments' }
-      },
-      resolve: (user, { limit }) => {
-        let ary = [];
-        ary = user.commentDislikes.map((story) => {
-          return COMMENT.findOne({ _id: story }, (err, res) => {
-            if (err) return err;
-            return res;
-          });
-        });
-        if (limit >= 0) {
-          return ary.slice(0, limit);
+        if (args.limit >= 0) {
+          return ary.slice(0, args.limit);
         }
         return ary;
       }
