@@ -96,6 +96,11 @@ const User = new GraphQLObjectType({
             return res;
           });
         });
+        // if (args.reactionType) {
+        //   ary = ary.filter(singleStory => {
+        //     return singleStory.
+        //   });
+        // }
         if (args.limit >= 0) {
           return ary.slice(0, args.limit);
         }
