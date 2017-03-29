@@ -17,6 +17,7 @@ Tasks:
 14. Decouple front and backend, build backend with webpack(webpack building done).
 15. Add docker(before deploy)
 16. Add dataloader!
+17. Make subscribtions, nice talk about real time apps here: https://www.youtube.com/watch?v=AYbVMNtO-ro&index=7&list=LLU57QGpPY9E2UmOkREPpMYw&t=577s.
 ```
 
 https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1  
