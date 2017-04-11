@@ -11,8 +11,14 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLNonNull,
-  GraphQLEnumType
+  GraphQLEnumType,
 } from 'graphql';
+
+import {
+  fromGlobalId,
+  globalIdField,
+  nodeDefinitions,
+} from 'graphql-relay';
 
 import USER from './models/user';
 import STORY from './models/story';
@@ -20,57 +26,57 @@ import COMMENT from './models/comment';
 
 // const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
 
-const {nodeInterface, nodeField} = nodeDefinitions(
-  (globalId) => {
-    const {type, id} = fromGlobalId(globalId);
-
-    switch(expression) {
-        case User:
-          {
-            return USER.find({}, (err, res) => {
-              if (err) return err;
-              return res;
-            });
-          }
-            break;
-        case Story:
-          {
-            return STORY.find({}, (err, res) => {
-              if (err) return err;
-              return res;
-            });
-          }
-            break;
-        case Comment:
-          {
-            return COMMENT.find({}, (err, res) => {
-              if (err) return err;
-              return res;
-            });
-          }
-            break;
-        default:
-            return null;
-    }
-    if (type === 'Game') {
-      return getGame(id);
-    } else if (type === 'HidingSpot') {
-      return getHidingSpot(id);
-    } else {
-      return null;
-    }
-  },
-  (obj) => {
-    if (obj instanceof Game) {
-      return gameType;
-    } else if (obj instanceof HidingSpot) {
-      return hidingSpotType;
-    } else {
-      return null;
-    }
-  }
-);
-
+// const {nodeInterface, nodeField} = nodeDefinitions(
+//   (globalId) => {
+//     const {type, id} = fromGlobalId(globalId);
+//
+//     switch(expression) {
+//         case User:
+//           {
+//             return USER.find({}, (err, res) => {
+//               if (err) return err;
+//               return res;
+//             });
+//           }
+//             break;
+//         case Story:
+//           {
+//             return STORY.find({}, (err, res) => {
+//               if (err) return err;
+//               return res;
+//             });
+//           }
+//             break;
+//         case Comment:
+//           {
+//             return COMMENT.find({}, (err, res) => {
+//               if (err) return err;
+//               return res;
+//             });
+//           }
+//             break;
+//         default:
+//             return null;
+//     }
+//     if (type === 'Game') {
+//       return getGame(id);
+//     } else if (type === 'HidingSpot') {
+//       return getHidingSpot(id);
+//     } else {
+//       return null;
+//     }
+//   },
+//   (obj) => {
+//     if (obj instanceof Game) {
+//       return gameType;
+//     } else if (obj instanceof HidingSpot) {
+//       return hidingSpotType;
+//     } else {
+//       return null;
+//     }
+//   }
+// );
+//
 
 
 
@@ -94,7 +100,7 @@ const User = new GraphQLObjectType({
   name: 'User',
   description: 'Represents user of the application',
   fields: () => ({
-    _id: { type: GraphQLString },
+    id: globalIdField('User'),
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     password: { type: GraphQLString },
@@ -196,7 +202,7 @@ const Comment = new GraphQLObjectType({
   name: 'Comment',
   decription: 'Represents story\'s comment',
   fields: () => ({
-    _id: { type: GraphQLString },
+    id: globalIdField('Comment'),
     _author: {
       type: User,
       resolve: (parentComment) => {
@@ -230,7 +236,7 @@ const Story = new GraphQLObjectType({
   name: 'Story',
   description: 'Represent the type of a story',
   fields: () => ({
-    _id: { type: GraphQLString },
+    id: globalIdField('Story'),
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
     createdAt: {

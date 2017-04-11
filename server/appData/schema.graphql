@@ -4,7 +4,8 @@ schema {
 }
 
 type Comment {
-  _id: String
+  # The ID of an object
+  id: ID!
   _author: User
   _story: Story
   summary: String
@@ -56,7 +57,8 @@ enum Reactions {
 
 # Represent the type of a story
 type Story {
-  _id: String
+  # The ID of an object
+  id: ID!
   summary: String
   content: String
   createdAt: String
@@ -69,7 +71,8 @@ type Story {
 
 # Represents user of the application
 type User {
-  _id: String
+  # The ID of an object
+  id: ID!
   name: String
   email: String
   password: String
