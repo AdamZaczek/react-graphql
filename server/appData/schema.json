@@ -421,7 +421,7 @@
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -455,62 +455,8 @@
               "deprecationReason": null
             },
             {
-              "name": "storyLikes",
-              "description": null,
-              "args": [
-                {
-                  "name": "limit",
-                  "description": "Limit the returning liked stories",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Story",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "storyDislikes",
-              "description": null,
-              "args": [
-                {
-                  "name": "limit",
-                  "description": "Limit the returning disliked stories",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Story",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "commentLikes",
-              "description": null,
+              "name": "storiesWithReactions",
+              "description": "List stories user reacted to",
               "args": [
                 {
                   "name": "limit",
@@ -521,6 +467,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "reactionType",
+                  "description": "Search only for certain reactions",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "Reactions",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -528,7 +484,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Comment",
+                  "name": "Story",
                   "ofType": null
                 }
               },
@@ -536,15 +492,25 @@
               "deprecationReason": null
             },
             {
-              "name": "commentDislikes",
-              "description": null,
+              "name": "commentsWithReactions",
+              "description": "List comments user reacted to",
               "args": [
                 {
                   "name": "limit",
-                  "description": "Limit the returning disliked comments",
+                  "description": "Limit the returning liked comments",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "reactionType",
+                  "description": "Search only for certain reactions",
+                  "type": {
+                    "kind": "ENUM",
+                    "name": "Reactions",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -566,6 +532,41 @@
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "Reactions",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "LIKE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DISLIKE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "LOVE",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ANGER",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
           "possibleTypes": null
         },
         {
