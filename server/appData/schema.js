@@ -183,6 +183,7 @@ const User = new GraphQLObjectType({
 const Comment = new GraphQLObjectType({
   name: 'Comment',
   decription: 'Represents story\'s comment',
+  interfaces: [nodeInterface],
   fields: () => ({
     id: globalIdField('Comment'),
     _author: {
@@ -217,6 +218,7 @@ const Comment = new GraphQLObjectType({
 const Story = new GraphQLObjectType({
   name: 'Story',
   description: 'Represent the type of a story',
+  interfaces: [nodeInterface],
   fields: () => ({
     id: globalIdField('Story'),
     summary: { type: GraphQLString },

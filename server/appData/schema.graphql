@@ -3,7 +3,7 @@ schema {
   mutation: NobodysStoriesMutations
 }
 
-type Comment {
+type Comment implements Node {
   # The ID of an object
   id: ID!
   _author: User
@@ -62,7 +62,7 @@ enum Reactions {
 }
 
 # Represent the type of a story
-type Story {
+type Story implements Node {
   # The ID of an object
   id: ID!
   summary: String
