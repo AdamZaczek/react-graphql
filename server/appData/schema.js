@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* eslint-disable, no-use-before-define */
 /* eslint no-underscore-dangle: off*/
 /* eslint "arrow-body-style": off */
@@ -26,59 +25,41 @@ import COMMENT from './models/comment';
 
 // const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
 
-// const {nodeInterface, nodeField} = nodeDefinitions(
-//   (globalId) => {
-//     const {type, id} = fromGlobalId(globalId);
-//
-//     switch(expression) {
-//         case User:
-//           {
-//             return USER.find({}, (err, res) => {
-//               if (err) return err;
-//               return res;
-//             });
-//           }
-//             break;
-//         case Story:
-//           {
-//             return STORY.find({}, (err, res) => {
-//               if (err) return err;
-//               return res;
-//             });
-//           }
-//             break;
-//         case Comment:
-//           {
-//             return COMMENT.find({}, (err, res) => {
-//               if (err) return err;
-//               return res;
-//             });
-//           }
-//             break;
-//         default:
-//             return null;
-//     }
-//     if (type === 'Game') {
-//       return getGame(id);
-//     } else if (type === 'HidingSpot') {
-//       return getHidingSpot(id);
-//     } else {
-//       return null;
-//     }
-//   },
-//   (obj) => {
-//     if (obj instanceof Game) {
-//       return gameType;
-//     } else if (obj instanceof HidingSpot) {
-//       return hidingSpotType;
-//     } else {
-//       return null;
-//     }
-//   }
-// );
-//
+const globalIdFetcher = (globalId) => {
+  const { type, id } = fromGlobalId(globalId);
+  switch (type) {
+    case User:
+      {
+        return USER.findOne({ _id: id }, (err, res) => {
+          if (err) return err;
+          return res;
+        });
+      }
+    case Story:
+      {
+        return STORY.findOne({ _id: id }, (err, res) => {
+          if (err) return err;
+          return res;
+        });
+      }
+    case Comment:
+      {
+        return COMMENT.findOne({ _id: id }, (err, res) => {
+          if (err) return err;
+          return res;
+        });
+      }
+    default:
+      return null;
+  }
+};
 
+const globalTypeResolver = obj => obj.type;
 
+const { nodeInterface, nodeField } = nodeDefinitions(
+  globalIdFetcher,
+  globalTypeResolver
+);
 
 const getPrettyDate = (date) => {
   return ('0' + date.getDate()).slice(-2) + '/'
@@ -99,6 +80,7 @@ const Reaction = new GraphQLEnumType({
 const User = new GraphQLObjectType({
   name: 'User',
   description: 'Represents user of the application',
+  interfaces: [nodeInterface],
   fields: () => ({
     id: globalIdField('User'),
     name: { type: GraphQLString },
@@ -281,6 +263,7 @@ const Story = new GraphQLObjectType({
 const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root query',
+  node: nodeField,
   fields: () => ({
     storiesQuery: {
       type: new GraphQLList(Story),
