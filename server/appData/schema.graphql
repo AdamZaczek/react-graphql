@@ -26,6 +26,12 @@ type NobodysStoriesMutations {
 
 # Root query
 type NobodysStoriesSchema {
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+
   # List of stories
   storiesQuery: [Story]
 

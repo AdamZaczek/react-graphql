@@ -265,8 +265,8 @@ const Story = new GraphQLObjectType({
 const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root query',
-  node: nodeField,
   fields: () => ({
+    node: nodeField,
     storiesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories',
