@@ -11,6 +11,7 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLEnumType,
+  GraphQLBoolean
 } from 'graphql';
 
 import {
@@ -23,7 +24,42 @@ import USER from './models/user';
 import STORY from './models/story';
 import COMMENT from './models/comment';
 
+import Cursor from './Cursor';
+
 // const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
+
+
+// ====== In Progress ======
+export const PageInfo = new GraphQLObjectType({
+  name: 'PageInfo',
+  fields: {
+    hasNextPage: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+    },
+    hasPreviousPage: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+    },
+  },
+});
+
+export function createConnectionArguments() {
+  return {
+    first: {
+      type: GraphQLInt,
+    },
+    last: {
+      type: GraphQLInt,
+    },
+    before: {
+      type: Cursor,
+    },
+    after: {
+      type: Cursor,
+    },
+  };
+}
+
+// ====== In Progress ======
 
 const globalIdFetcher = (globalId) => {
   const { type, id } = fromGlobalId(globalId);
