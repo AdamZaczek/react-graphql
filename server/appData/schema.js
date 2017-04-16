@@ -32,81 +32,6 @@ import COMMENT from './models/comment';
 
 // const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
 
-
-// ====== In Progress ======
-// const createConnectionArguments = () => {
-//   return {
-//     first: {
-//       type: GraphQLInt,
-//     },
-//     last: {
-//       type: GraphQLInt,
-//     },
-//     before: {
-//       type: Cursor,
-//     },
-//     after: {
-//       type: Cursor,
-//     },
-//   };
-// };
-//
-// const PageInfo = new GraphQLObjectType({
-//   name: 'PageInfo',
-//   fields: {
-//     hasNextPage: {
-//       type: new GraphQLNonNull(GraphQLBoolean),
-//     },
-//     hasPreviousPage: {
-//       type: new GraphQLNonNull(GraphQLBoolean),
-//     },
-//   },
-// });
-//
-// const StoryConnection = new GraphQLObjectType({
-//   name: 'StoryConnection',
-//   fields: () => ({
-//     edges: {
-//       type: new GraphQLList(StoryEdge),
-//       resolve: (story) => {
-//         return story.query.toArray();
-//       },
-//     },
-//     pageInfo: {
-//       type: new GraphQLNonNull(PageInfo),
-//     },
-//   }),
-// });
-//
-// const StoryEdge = new GraphQLObjectType({
-//   name: 'StoryEdge',
-//   fields: () => ({
-//     cursor: {
-//       type: GraphQLString,
-//     },
-//     node: {
-//       type: Story,
-//     },
-//   }),
-// });
-//
-// const Viewer = new GraphQLObjectType({
-//   name: 'Viewer',
-//   fields: () => ({
-//     id: {
-//       type: new GraphQLNonNull(GraphQLID),
-//     },
-//     allArticles: {
-//       type: StoryConnection,
-//       resolve() {
-//         return {};
-//       },
-//     },
-//   }),
-// });
-
-// ====== In Progress ======
-// This does not get id for some reason
 const globalIdFetcher = (globalId) => {
   const { type, id } = fromGlobalId(globalId);
   switch (type) {
@@ -363,29 +288,14 @@ const Query = new GraphQLObjectType({
   description: 'Root query',
   fields: () => ({
     node: nodeField,
-    // viewer: {
-    //   type: Viewer,
-    //   resolve() {
-    //     return {
-    //       id: 'VIEWER_ID',
-    //     };
-    //   },
-    // },
     storiesQuery: {
-      // type: new GraphQLList(Story),
       type: StoryConnection,
       args: connectionArgs,
       resolve: (story, args) => connectionFromPromisedArray(
         PromiseForStories,
         args,
       ),
-      description: 'List of stories',
-      // resolve: () => {
-      //   return STORY.find({}, (err, res) => {
-      //     if (err) return err;
-      //     return res;
-      //   });
-      // }
+      description: 'List of stories prepared for pagination',
     },
     storyQuery: {
       type: Story,

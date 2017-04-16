@@ -43,7 +43,7 @@
             },
             {
               "name": "storiesQuery",
-              "description": "List of stories",
+              "description": "List of stories prepared for pagination",
               "args": [
                 {
                   "name": "after",

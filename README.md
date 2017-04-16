@@ -1,10 +1,5 @@
 Tasks:
 
-```text
-!-- Make an ID field! Right now you can query underscoreid which makes node
-Interface not working, it needs id field --! Done
-!-- Finish Pagination! -- !
-
 1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working. (Done)  
 2. Make Relay Layer Working. (Connected To Relay, Frontend is not making queries yet). Make sure pagination is working right.
 3. Create Frontend: index, single story, comments. Delete Google Material Design, add React-Bootstrap(Done).   Bootstrap styles should prolly be shipped with webpack and I shouldn't import all of them.  Delete not working hot reload, but first check it is working for relay.  
@@ -34,6 +29,17 @@ export default 'mongodb://SomeMongoLabUsername:SomeMongoLabPassword@ds129189.mla
 ```
 
 Useful queries to test api:  
+
+```javascript
+{storiesQuery{
+  edges {
+    node {
+      id,
+      content
+    }
+  }
+}}
+```
 
 ```javascript
 {customStoriesQuery{content, _author{email, name, age}, comments{_author{email}, content}, createdAt}}  

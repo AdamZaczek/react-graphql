@@ -32,7 +32,7 @@ type NobodysStoriesSchema {
     id: ID!
   ): Node
 
-  # List of stories
+  # List of stories prepared for pagination
   storiesQuery(after: String, first: Int, before: String, last: Int): StoryConnection
 
   # Story by _id
