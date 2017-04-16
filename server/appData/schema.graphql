@@ -103,6 +103,9 @@ type StoryConnection {
 
   # A list of edges.
   edges: [StoryEdge]
+
+  # A count of a total number of Stories in this connection
+  totalCount: Int
 }
 
 # An edge in a connection.

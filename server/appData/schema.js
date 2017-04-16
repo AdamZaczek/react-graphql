@@ -273,6 +273,15 @@ const Story = new GraphQLObjectType({
 
 const { connectionType: StoryConnection } = connectionDefinitions({
   nodeType: Story,
+  connectionFields: () => ({
+    totalCount: {
+      type: GraphQLInt,
+      description: 'A count of a total number of Stories in this connection',
+      resolve: (conn) => {
+        return conn.edges.length;
+      }
+    }
+  })
 });
 
 const PromiseForStories = STORY.find({}, (err, res) => {
