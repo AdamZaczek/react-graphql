@@ -31,14 +31,13 @@ export default 'mongodb://SomeMongoLabUsername:SomeMongoLabPassword@ds129189.mla
 Useful queries to test api:  
 
 ```javascript
-{storiesQuery{
+{storiesQuery(first: 5){
+  totalCount,
   edges {
     node {
-      id,
       content
     }
   }
-}}
 ```
 
 ```javascript
