@@ -31,22 +31,22 @@ import COMMENT from './models/comment';
 
 
 // ====== In Progress ======
-// const createConnectionArguments = () => {
-//   return {
-//     first: {
-//       type: GraphQLInt,
-//     },
-//     last: {
-//       type: GraphQLInt,
-//     },
-//     before: {
-//       type: Cursor,
-//     },
-//     after: {
-//       type: Cursor,
-//     },
-//   };
-// };
+const createConnectionArguments = () => {
+  return {
+    first: {
+      type: GraphQLInt,
+    },
+    last: {
+      type: GraphQLInt,
+    },
+    before: {
+      type: Cursor,
+    },
+    after: {
+      type: Cursor,
+    },
+  };
+};
 
 const PageInfo = new GraphQLObjectType({
   name: 'PageInfo',
@@ -65,8 +65,8 @@ const StoryConnection = new GraphQLObjectType({
   fields: () => ({
     edges: {
       type: new GraphQLList(StoryEdge),
-      resolve() {
-        return [];
+      resolve: (story) => {
+        return story.query.toArray();
       },
     },
     pageInfo: {
@@ -352,6 +352,14 @@ const Query = new GraphQLObjectType({
   description: 'Root query',
   fields: () => ({
     node: nodeField,
+    viewer: {
+      type: Viewer,
+      resolve() {
+        return {
+          id: 'VIEWER_ID',
+        };
+      },
+    },
     storiesQuery: {
       type: new GraphQLList(Story),
       description: 'List of stories',
