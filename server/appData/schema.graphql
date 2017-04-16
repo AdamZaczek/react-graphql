@@ -82,8 +82,9 @@ type Story implements Node {
 }
 
 # Represents user of the application
-type User {
-  _id: String
+type User implements Node {
+  # The ID of an object
+  id: ID!
   name: String
   email: String
   password: String

@@ -63,15 +63,12 @@ import COMMENT from './models/comment';
 // This does not get id for some reason
 const globalIdFetcher = (globalId) => {
   const { type, id } = fromGlobalId(globalId);
-  console.log(fromGlobalId(globalId));
   switch (type) {
     case 'User':
-      {
-        return USER.findOne({ _id: id }, (err, res) => {
-          if (err) return err;
-          return res;
-        });
-      }
+      return USER.findOne({ _id: id }, (err, res) => {
+        if (err) return err;
+        return res;
+      });
     case 'Story':
       {
         return STORY.findOne({ _id: id }, (err, res) => {
@@ -91,7 +88,14 @@ const globalIdFetcher = (globalId) => {
   }
 };
 
-const globalTypeResolver = obj => obj.type;
+const globalTypeResolver = (obj) => {
+  if (obj.content) {
+    return Story;
+  } else if (obj.email) {
+    return User;
+  }
+  return Comment;
+};
 
 const { nodeInterface, nodeField } = nodeDefinitions(
   globalIdFetcher,
@@ -117,9 +121,10 @@ const Reaction = new GraphQLEnumType({
 const User = new GraphQLObjectType({
   name: 'User',
   description: 'Represents user of the application',
-  // interfaces: [nodeInterface],
+  interfaces: [nodeInterface],
   fields: () => ({
-    _id: { type: GraphQLString },
+    // globalIdField accepts second argument which is a custom Id fetcher
+    id: globalIdField('User', (obj) => { return obj._id; }),
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     password: { type: GraphQLString },
@@ -222,7 +227,7 @@ const Comment = new GraphQLObjectType({
   decription: 'Represents story\'s comment',
   interfaces: [nodeInterface],
   fields: () => ({
-    id: globalIdField(),
+    id: globalIdField('Comment', (obj) => { return obj._id; }),
     _author: {
       type: User,
       resolve: (parentComment) => {
@@ -257,7 +262,7 @@ const Story = new GraphQLObjectType({
   description: 'Represent the type of a story',
   interfaces: [nodeInterface],
   fields: () => ({
-    id: globalIdField(),
+    id: globalIdField('Story', (obj) => { return obj._id; }),
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
     createdAt: {
