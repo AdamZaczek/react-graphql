@@ -1,5 +1,8 @@
 Tasks:
 
+!-- Make an ID field! Right now you can query underscoreid which makes node
+Interface not working, it needs id field --!
+
 ```text
 1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working. (Done)  
 2. Make Relay Layer Working. (Connected To Relay, Frontend is not making queries yet). Make sure pagination is working right.
@@ -123,6 +126,14 @@ mutation CreateComment($content: String!, $_author:String!, $_story: String!) {
   "content": "My very first comment yay!",
   "_author": "58961492734d1d3956c46fd0"
 }
+```
+
+```javascript
+{node(id: "VXNlcjo=") {
+  ... on User {
+    email
+  }
+}}
 ```
 Things to consider:
 Delete ^ marks in dependencies.  

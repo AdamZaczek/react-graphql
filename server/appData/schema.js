@@ -11,7 +11,7 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLEnumType,
-  GraphQLBoolean
+  // GraphQLBoolean
 } from 'graphql';
 
 import {
@@ -24,61 +24,62 @@ import USER from './models/user';
 import STORY from './models/story';
 import COMMENT from './models/comment';
 
-import Cursor from './Cursor';
+// import Cursor from './Cursor';
 
 // const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
 
 
 // ====== In Progress ======
-export const PageInfo = new GraphQLObjectType({
-  name: 'PageInfo',
-  fields: {
-    hasNextPage: {
-      type: new GraphQLNonNull(GraphQLBoolean),
-    },
-    hasPreviousPage: {
-      type: new GraphQLNonNull(GraphQLBoolean),
-    },
-  },
-});
-
-export function createConnectionArguments() {
-  return {
-    first: {
-      type: GraphQLInt,
-    },
-    last: {
-      type: GraphQLInt,
-    },
-    before: {
-      type: Cursor,
-    },
-    after: {
-      type: Cursor,
-    },
-  };
-}
+// export const PageInfo = new GraphQLObjectType({
+//   name: 'PageInfo',
+//   fields: {
+//     hasNextPage: {
+//       type: new GraphQLNonNull(GraphQLBoolean),
+//     },
+//     hasPreviousPage: {
+//       type: new GraphQLNonNull(GraphQLBoolean),
+//     },
+//   },
+// });
+//
+// export function createConnectionArguments() {
+//   return {
+//     first: {
+//       type: GraphQLInt,
+//     },
+//     last: {
+//       type: GraphQLInt,
+//     },
+//     before: {
+//       type: Cursor,
+//     },
+//     after: {
+//       type: Cursor,
+//     },
+//   };
+// }
 
 // ====== In Progress ======
-
+// This does not get id for some reason
 const globalIdFetcher = (globalId) => {
   const { type, id } = fromGlobalId(globalId);
+  console.log(fromGlobalId(globalId));
   switch (type) {
-    case User:
+    case 'User':
       {
         return USER.findOne({ _id: id }, (err, res) => {
           if (err) return err;
           return res;
         });
       }
-    case Story:
+    case 'Story':
       {
         return STORY.findOne({ _id: id }, (err, res) => {
           if (err) return err;
           return res;
         });
       }
-    case Comment:
+    case 'Comment':
       {
         return COMMENT.findOne({ _id: id }, (err, res) => {
           if (err) return err;
@@ -116,9 +117,9 @@ const Reaction = new GraphQLEnumType({
 const User = new GraphQLObjectType({
   name: 'User',
   description: 'Represents user of the application',
-  interfaces: [nodeInterface],
+  // interfaces: [nodeInterface],
   fields: () => ({
-    id: globalIdField('User'),
+    _id: { type: GraphQLString },
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     password: { type: GraphQLString },
@@ -221,7 +222,7 @@ const Comment = new GraphQLObjectType({
   decription: 'Represents story\'s comment',
   interfaces: [nodeInterface],
   fields: () => ({
-    id: globalIdField('Comment'),
+    id: globalIdField(),
     _author: {
       type: User,
       resolve: (parentComment) => {
@@ -256,7 +257,7 @@ const Story = new GraphQLObjectType({
   description: 'Represent the type of a story',
   interfaces: [nodeInterface],
   fields: () => ({
-    id: globalIdField('Story'),
+    id: globalIdField(),
     summary: { type: GraphQLString },
     content: { type: GraphQLString },
     createdAt: {
