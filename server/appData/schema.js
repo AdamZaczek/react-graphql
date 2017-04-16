@@ -11,8 +11,6 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLEnumType,
-  // GraphQLBoolean,
-  // GraphQLID,
 } from 'graphql';
 
 import {
@@ -27,8 +25,6 @@ import {
 import USER from './models/user';
 import STORY from './models/story';
 import COMMENT from './models/comment';
-
-// import Cursor from './Cursor';
 
 // const logID = 'qldfjbe2434RZRFeerg'; // random logID that will  remain the same forever for any user logged in, this is the id I use for my FIELD_CHANGE mutation client side
 
