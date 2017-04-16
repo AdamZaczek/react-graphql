@@ -11,7 +11,8 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLEnumType,
-  // GraphQLBoolean
+  GraphQLBoolean,
+  GraphQLID,
 } from 'graphql';
 
 import {
@@ -30,19 +31,7 @@ import COMMENT from './models/comment';
 
 
 // ====== In Progress ======
-// export const PageInfo = new GraphQLObjectType({
-//   name: 'PageInfo',
-//   fields: {
-//     hasNextPage: {
-//       type: new GraphQLNonNull(GraphQLBoolean),
-//     },
-//     hasPreviousPage: {
-//       type: new GraphQLNonNull(GraphQLBoolean),
-//     },
-//   },
-// });
-//
-// export function createConnectionArguments() {
+// const createConnectionArguments = () => {
 //   return {
 //     first: {
 //       type: GraphQLInt,
@@ -57,7 +46,61 @@ import COMMENT from './models/comment';
 //       type: Cursor,
 //     },
 //   };
-// }
+// };
+
+const PageInfo = new GraphQLObjectType({
+  name: 'PageInfo',
+  fields: {
+    hasNextPage: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+    },
+    hasPreviousPage: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+    },
+  },
+});
+
+const StoryConnection = new GraphQLObjectType({
+  name: 'StoryConnection',
+  fields: () => ({
+    edges: {
+      type: new GraphQLList(StoryEdge),
+      resolve() {
+        return [];
+      },
+    },
+    pageInfo: {
+      type: new GraphQLNonNull(PageInfo),
+    },
+  }),
+});
+
+const StoryEdge = new GraphQLObjectType({
+  name: 'StoryEdge',
+  fields: () => ({
+    cursor: {
+      type: GraphQLString,
+    },
+    node: {
+      type: Story,
+    },
+  }),
+});
+
+const Viewer = new GraphQLObjectType({
+  name: 'Viewer',
+  fields: () => ({
+    id: {
+      type: new GraphQLNonNull(GraphQLID),
+    },
+    allArticles: {
+      type: StoryConnection,
+      resolve() {
+        return {};
+      },
+    },
+  }),
+});
 
 // ====== In Progress ======
 // This does not get id for some reason
