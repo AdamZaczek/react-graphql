@@ -126,10 +126,9 @@ type User implements Node {
   password: String
   createdAt: String
   updatedAt: String
-  stories(
-    # Limit the returning stories
-    limit: Int
-  ): [Story]
+
+  # List of stories prepared for pagination
+  writtenStories(after: String, first: Int, before: String, last: Int): StoryConnection
 
   # List stories user reacted to
   storiesWithReactions(
