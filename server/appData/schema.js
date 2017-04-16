@@ -11,14 +11,17 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLEnumType,
-  GraphQLBoolean,
-  GraphQLID,
+  // GraphQLBoolean,
+  // GraphQLID,
 } from 'graphql';
 
 import {
   fromGlobalId,
   globalIdField,
   nodeDefinitions,
+  connectionDefinitions,
+  connectionFromPromisedArray,
+  connectionArgs,
 } from 'graphql-relay';
 
 import USER from './models/user';
@@ -31,76 +34,76 @@ import COMMENT from './models/comment';
 
 
 // ====== In Progress ======
-const createConnectionArguments = () => {
-  return {
-    first: {
-      type: GraphQLInt,
-    },
-    last: {
-      type: GraphQLInt,
-    },
-    before: {
-      type: Cursor,
-    },
-    after: {
-      type: Cursor,
-    },
-  };
-};
-
-const PageInfo = new GraphQLObjectType({
-  name: 'PageInfo',
-  fields: {
-    hasNextPage: {
-      type: new GraphQLNonNull(GraphQLBoolean),
-    },
-    hasPreviousPage: {
-      type: new GraphQLNonNull(GraphQLBoolean),
-    },
-  },
-});
-
-const StoryConnection = new GraphQLObjectType({
-  name: 'StoryConnection',
-  fields: () => ({
-    edges: {
-      type: new GraphQLList(StoryEdge),
-      resolve: (story) => {
-        return story.query.toArray();
-      },
-    },
-    pageInfo: {
-      type: new GraphQLNonNull(PageInfo),
-    },
-  }),
-});
-
-const StoryEdge = new GraphQLObjectType({
-  name: 'StoryEdge',
-  fields: () => ({
-    cursor: {
-      type: GraphQLString,
-    },
-    node: {
-      type: Story,
-    },
-  }),
-});
-
-const Viewer = new GraphQLObjectType({
-  name: 'Viewer',
-  fields: () => ({
-    id: {
-      type: new GraphQLNonNull(GraphQLID),
-    },
-    allArticles: {
-      type: StoryConnection,
-      resolve() {
-        return {};
-      },
-    },
-  }),
-});
+// const createConnectionArguments = () => {
+//   return {
+//     first: {
+//       type: GraphQLInt,
+//     },
+//     last: {
+//       type: GraphQLInt,
+//     },
+//     before: {
+//       type: Cursor,
+//     },
+//     after: {
+//       type: Cursor,
+//     },
+//   };
+// };
+//
+// const PageInfo = new GraphQLObjectType({
+//   name: 'PageInfo',
+//   fields: {
+//     hasNextPage: {
+//       type: new GraphQLNonNull(GraphQLBoolean),
+//     },
+//     hasPreviousPage: {
+//       type: new GraphQLNonNull(GraphQLBoolean),
+//     },
+//   },
+// });
+//
+// const StoryConnection = new GraphQLObjectType({
+//   name: 'StoryConnection',
+//   fields: () => ({
+//     edges: {
+//       type: new GraphQLList(StoryEdge),
+//       resolve: (story) => {
+//         return story.query.toArray();
+//       },
+//     },
+//     pageInfo: {
+//       type: new GraphQLNonNull(PageInfo),
+//     },
+//   }),
+// });
+//
+// const StoryEdge = new GraphQLObjectType({
+//   name: 'StoryEdge',
+//   fields: () => ({
+//     cursor: {
+//       type: GraphQLString,
+//     },
+//     node: {
+//       type: Story,
+//     },
+//   }),
+// });
+//
+// const Viewer = new GraphQLObjectType({
+//   name: 'Viewer',
+//   fields: () => ({
+//     id: {
+//       type: new GraphQLNonNull(GraphQLID),
+//     },
+//     allArticles: {
+//       type: StoryConnection,
+//       resolve() {
+//         return {};
+//       },
+//     },
+//   }),
+// });
 
 // ====== In Progress ======
 // This does not get id for some reason
@@ -347,28 +350,42 @@ const Story = new GraphQLObjectType({
   })
 });
 
+const { connectionType: StoryConnection } = connectionDefinitions({
+  nodeType: Story,
+});
+
+const PromiseForStories = STORY.find({}, (err, res) => {
+  if (err) return err;
+  return res;
+});
 const Query = new GraphQLObjectType({
   name: 'NobodysStoriesSchema',
   description: 'Root query',
   fields: () => ({
     node: nodeField,
-    viewer: {
-      type: Viewer,
-      resolve() {
-        return {
-          id: 'VIEWER_ID',
-        };
-      },
-    },
+    // viewer: {
+    //   type: Viewer,
+    //   resolve() {
+    //     return {
+    //       id: 'VIEWER_ID',
+    //     };
+    //   },
+    // },
     storiesQuery: {
-      type: new GraphQLList(Story),
+      // type: new GraphQLList(Story),
+      type: StoryConnection,
+      args: connectionArgs,
+      resolve: (story, args) => connectionFromPromisedArray(
+        PromiseForStories,
+        args,
+      ),
       description: 'List of stories',
-      resolve: () => {
-        return STORY.find({}, (err, res) => {
-          if (err) return err;
-          return res;
-        });
-      }
+      // resolve: () => {
+      //   return STORY.find({}, (err, res) => {
+      //     if (err) return err;
+      //     return res;
+      //   });
+      // }
     },
     storyQuery: {
       type: Story,

@@ -33,7 +33,7 @@ type NobodysStoriesSchema {
   ): Node
 
   # List of stories
-  storiesQuery: [Story]
+  storiesQuery(after: String, first: Int, before: String, last: Int): StoryConnection
 
   # Story by _id
   storyQuery(id: String!): Story
@@ -60,6 +60,21 @@ interface Node {
   id: ID!
 }
 
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
 enum Reactions {
   LIKE
   DISLIKE
@@ -79,6 +94,24 @@ type Story implements Node {
     limit: Int
   ): [Comment]
   _author: User
+}
+
+# A connection to a list of items.
+type StoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [StoryEdge]
+}
+
+# An edge in a connection.
+type StoryEdge {
+  # The item at the end of the edge
+  node: Story
+
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 # Represents user of the application

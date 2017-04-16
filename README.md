@@ -130,9 +130,9 @@ mutation CreateComment($content: String!, $_author:String!, $_story: String!) {
 ```
 
 ```javascript
-{node(id: "VXNlcjo=") {
+{node(id: "VXNlcjo1ODk2MTQ5MjczNGQxZDM5NTZjNDZmZDA=") {
   ... on User {
-    email
+    name
   }
 }}
 ```
