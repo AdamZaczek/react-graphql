@@ -1,5 +1,7 @@
 Tasks:
 
+!-- Populate User.stories Array When Creating A Story --!
+
 1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working. (Done)  
 2. Make Relay Layer Working. (Connected To Relay, Frontend is not making queries yet). Make sure pagination is working right.
 3. Create Frontend: index, single story, comments. Delete Google Material Design, add React-Bootstrap(Done).   Bootstrap styles should prolly be shipped with webpack and I shouldn't import all of them.  Delete not working hot reload, but first check it is working for relay.  
