@@ -740,42 +740,12 @@
               "deprecationReason": null
             },
             {
-              "name": "writtenStories",
-              "description": "List of stories prepared for pagination",
+              "name": "stories",
+              "description": null,
               "args": [
                 {
-                  "name": "after",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "before",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "last",
-                  "description": null,
+                  "name": "limit",
+                  "description": "Limit the returning stories",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -785,9 +755,13 @@
                 }
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "StoryConnection",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Story",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null

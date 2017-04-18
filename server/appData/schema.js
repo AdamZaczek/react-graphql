@@ -90,18 +90,6 @@ const PromiseForStories = STORY.find({}, (err, res) => {
   return res;
 });
 
-const PromiseUsersStories = (user) => {
-  return () => {
-    const ary = user.stories.map((story) => {
-      return STORY.findOne({ _id: story }, (err, res) => {
-        if (err) return err;
-        return res;
-      });
-    });
-    return ary;
-  };
-};
-
 const User = new GraphQLObjectType({
   name: 'User',
   description: 'Represents user of the application',
@@ -124,43 +112,25 @@ const User = new GraphQLObjectType({
       }
     },
     updatedAt: { type: GraphQLString },
-    writtenStories: {
-      type: StoryConnection,
-      args: connectionArgs,
-      resolve: (user, args) => connectionFromPromisedArray(
-        PromiseUsersStories,
-      //   () => {
-      //     const ary = user.stories.map((story) => {
-      //       return STORY.findOne({ _id: story }, (err, res) => {
-      //         if (err) return err;
-      //         return res;
-      //       });
-      //     });
-      //     return ary;
-      //   },
-        args,
-      ),
-      description: 'List of stories prepared for pagination',
+    stories: {
+      type: new GraphQLList(Story),
+      args: {
+        limit: { type: GraphQLInt, description: 'Limit the returning stories' }
+      },
+      resolve: (user, { limit }) => {
+        let ary = [];
+        ary = user.stories.map((story) => {
+          return STORY.findOne({ _id: story }, (err, res) => {
+            if (err) return err;
+            return res;
+          });
+        });
+        if (limit >= 0) {
+          return ary.slice(0, limit);
+        }
+        return ary;
+      }
     },
-    // stories: {
-    //   type: new GraphQLList(Story),
-    //   args: {
-    //     limit: { type: GraphQLInt, description: 'Limit the returning stories' }
-    //   },
-    //   resolve: (user, { limit }) => {
-    //     let ary = [];
-    //     ary = user.stories.map((story) => {
-    //       return STORY.findOne({ _id: story }, (err, res) => {
-    //         if (err) return err;
-    //         return res;
-    //       });
-    //     });
-    //     if (limit >= 0) {
-    //       return ary.slice(0, limit);
-    //     }
-    //     return ary;
-    //   }
-    // },
     // todo: test, mock reactions
     storiesWithReactions: {
       type: new GraphQLList(Story),
