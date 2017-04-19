@@ -9,7 +9,8 @@
     "build-server": "cross-env NODE_ENV=production ./node_modules/.bin/babel ./server --out-dir ./build && node build/index.js",
     "lint": "eslint --ignore-path .gitignore client server",
     "heroku-postbuild": "cross-env NODE_ENV=production webpack --config webpack.config.js && cross-env NODE_ENV=production ./node_modules/.bin/babel ./server --out-dir ./lib",
-    "clean": "rm -rf build && mkdir build"
+    "clean": "rm -rf build && mkdir build",
+    "relay": "relay-compiler --src ./src --schema path/schema.graphql"
   },
   "pre-commit": "lint",
   "repository": {
@@ -85,7 +86,7 @@
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
-    "react-relay": "^0.10.0",
+    "react-relay": "dev",
     "react-router": "^3.0.0",
     "react-router-relay": "^0.13.5",
     "style-loader": "^0.13.1",
