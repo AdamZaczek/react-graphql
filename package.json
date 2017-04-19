@@ -38,6 +38,7 @@
   "author": "Adam Żaczek",
   "license": "MIT",
   "devDependencies": {
+    "babel-plugin-relay": "dev",
     "chalk": "^1.1.3",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
