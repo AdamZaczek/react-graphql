@@ -1,5 +1,6 @@
 Tasks:
 
+!-- Review if queries are working after adding nodes and edges --!
 !-- Integrate With Relay Modern --!
 !-- Make Mutations Work With Relay, Test Relay And Relay Modern Differences --!
 !-- Populate User.stories Array When Creating A Story --!
@@ -11,15 +12,15 @@ Tasks:
 4. Add ability to add comments in schema.(Done)
 5. Add ability to log in to comment and add a story on a computer, (may make option to chose username and password on mobile) make one user admin.  
 6. Add "hot, new and best indexes".
-7. Make comments optimistic.(not gonna happen)
+7. Make comments optimistic.(not gonna happen).
 8. Make styles the last thing you do, you'll need to style differently on mobile anyways.  
 9. Add categories (Done). Might want to have stories with multiple categories.  
-10. Add hashing password(!).(parth of Auth0 changes)
-11. Consider migration to postgres or dynamodb.(done, not gonna happen)
-12. Add authentication and login. (in progress)
-13. Add seeding method(done)
+10. Add hashing password(!).(parth of Auth0 changes).
+11. Consider migration to postgres or dynamodb.(done, not gonna happen).
+12. Add authentication and login. (in progress).
+13. Add seeding method(done).
 14. Decouple front and backend, build backend with webpack(webpack building done).
-15. Add docker(before deploy)
+15. Add docker(before deploy).
 16. Add dataloader and Node Interface!
 17. Make subscribtions, nice talk about real time apps here: https://www.youtube.com/watch?v=AYbVMNtO-ro&index=7&list=LLU57QGpPY9E2UmOkREPpMYw&t=577s.
 18. Add analytics.
