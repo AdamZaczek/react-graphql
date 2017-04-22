@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class IndexComponent extends React.Component {
+export default class IndexComponent extends Component {
+  static PropTypes = {
+    users: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+      password: PropTypes.string.isRequired,
+    }),
+  }
   render() {
     return (
       <div>
@@ -10,3 +16,9 @@ export default class IndexComponent extends React.Component {
     );
   }
 }
+
+// IndexComponent.PropTypes = {
+//   users: PropTypes.shape({
+//     email: PropTypes.string.isRequired,
+//   })
+// };
