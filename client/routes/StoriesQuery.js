@@ -11,10 +11,10 @@ import Relay from 'react-relay';
 class UsersRoute extends Relay.Route {
   static routeName = 'Users';  // A unique name
   static queries = {
-    greetings: Component => Relay.QL`
-      query UsersQuery {
-        greetings {
-          ${Component.getFragment('Users')},
+    Users: Component => Relay.QL`
+      query usersQuery {
+        users {
+          ${Component.getFragment('users')},
         },
       }
     `,
