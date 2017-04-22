@@ -5,6 +5,7 @@ export default class IndexComponent extends React.Component {
     return (
       <div>
         <span>Handcrafted with ♥ by Adam Żaczek</span>
+        {this.props.users}
       </div>
     );
   }

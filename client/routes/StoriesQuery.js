@@ -1,24 +1,24 @@
-// import Relay from 'react-relay';
-//
-// export default {
-//   viewer: Component => Relay.QL`
-//     query {
-//       viewer {
-//         ${Component.getFragment('viewer')}
-//       }
-//     }
-//   `
-// };
+import Relay from 'react-relay';
 
+/**
+ * #3 - Relay routes
+ * Define a root GraphQL query into which your
+ * containers' query fragments will be composed.
+ *
+ * To learn more about Relay routes, visit:
+ *   https://facebook.github.io/relay/docs/guides-routes.html
+ */
+class UsersRoute extends Relay.Route {
+  static routeName = 'Users';  // A unique name
+  static queries = {
+    greetings: Component => Relay.QL`
+      query UsersQuery {
+        greetings {
+          ${Component.getFragment('Users')},
+        },
+      }
+    `,
+  };
+}
 
-// import Relay from 'react-relay';
-//
-// export default {
-//   stories: Component => Relay.QL`
-//     query {
-//       stories {
-//         ${Component.getFragment('stories')}
-//       }
-//     }
-//   `
-// };
+export default UsersRoute;
