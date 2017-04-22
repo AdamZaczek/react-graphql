@@ -13,7 +13,7 @@ class UsersRoute extends Relay.Route {
   static queries = {
     Users: Component => Relay.QL`
       query usersQuery {
-        users {
+        usersQuery {
           ${Component.getFragment('users')},
         },
       }
