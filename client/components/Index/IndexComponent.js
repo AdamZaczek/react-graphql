@@ -2,12 +2,6 @@ import React, { Component, PropTypes } from 'react';
 
 
 export default class IndexComponent extends Component {
-  static propTypes = {
-    users: PropTypes.arrayOf(PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      password: PropTypes.string.isRequired,
-    })),
-  }
 
   render() {
     return (
@@ -18,3 +12,10 @@ export default class IndexComponent extends Component {
     );
   }
 }
+
+IndexComponent.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+  })),
+};
