@@ -4,6 +4,7 @@ Tasks:
 !-- Integrate With Relay Modern --!
 !-- Make Mutations Work With Relay, Test Relay And Relay Modern Differences --!
 !-- Populate User.stories Array When Creating A Story --!
+!-- Try Some Boilerplate and if that doesn't work migrate to Apollo Client --!
 
 ```
 1. Connect database, chose one option like mongoose (Done), populate database so you can see when queries are working. (Done)  

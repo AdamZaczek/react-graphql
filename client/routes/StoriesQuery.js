@@ -8,7 +8,7 @@ import Relay from 'react-relay';
  * To learn more about Relay routes, visit:
  *   https://facebook.github.io/relay/docs/guides-routes.html
  */
-class UsersRoute extends Relay.Route {
+export default class UsersRoute extends Relay.Route {
   static routeName = 'Users';  // A unique name
   static queries = {
     Users: Component => Relay.QL`
@@ -20,5 +20,3 @@ class UsersRoute extends Relay.Route {
     `,
   };
 }
-
-export default UsersRoute;
