@@ -11,7 +11,7 @@ Tasks:
 2. Make Relay Layer Working. (Connected To Relay, Frontend is not making queries yet). Make sure pagination is working right.
 3. Create Frontend: index, single story, comments. Delete Google Material Design, add React-Bootstrap(Done).   Bootstrap styles should prolly be shipped with webpack and I shouldn't import all of them.  Delete not working hot reload, but first check it is working for relay.  
 4. Add ability to add comments in schema.(Done)
-5. Add ability to log in to comment and add a story on a computer, (may make option to chose username and password on mobile) make one user admin.  
+5. Add ability to log in to comment and add a story, make one user admin.  
 6. Add "hot, new and best indexes".
 7. Make comments optimistic.(not gonna happen).
 8. Make styles the last thing you do, you'll need to style differently on mobile anyways.  
