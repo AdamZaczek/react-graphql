@@ -99,7 +99,6 @@ const User = new GraphQLObjectType({
     id: globalIdField('User', (obj) => { return obj._id; }),
     name: { type: GraphQLString },
     email: { type: GraphQLString },
-    password: { type: GraphQLString },
     createdAt: {
       type: GraphQLString,
       resolve: (user) => {
