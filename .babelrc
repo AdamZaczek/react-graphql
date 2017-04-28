@@ -4,6 +4,7 @@
   "env": {
     "development": {
       "plugins": [
+        ["relay", {"compat": true, "schema": "./schema.graphql"}],
         ["react-transform", {
           "transforms": [{
             "transform": "react-transform-hmr",
