@@ -59,21 +59,21 @@ if (config.env === 'development') {
   graphql.use(bodyParser.json({ type: '*/*' }));
 
   // Launch Relay by using webpack.config.js
-  const relayServer = new WebpackDevServer(webpack(webpackConfig), {
-    contentBase: '/build/',
-    proxy: {
-      '/graphql': `http://localhost:${config.graphql.port}`
-    },
-    stats: {
-      colors: true
-    },
-    hot: true,
-    historyApiFallback: true
-  });
+  // const relayServer = new WebpackDevServer(webpack(webpackConfig), {
+  //   contentBase: '/build/',
+  //   proxy: {
+  //     '/graphql': `http://localhost:${config.graphql.port}`
+  //   },
+  //   stats: {
+  //     colors: true
+  //   },
+  //   hot: true,
+  //   historyApiFallback: true
+  // });
 
   // Serve static resources
-  relayServer.use('/', express.static(path.join(__dirname, '../build')));
-  relayServer.listen(config.port, () => console.log(chalk.green(`Relay is listening on port ${config.port}`)));
+  // relayServer.use('/', express.static(path.join(__dirname, '../build')));
+  // relayServer.listen(config.port, () => console.log(chalk.green(`Relay is listening on port ${config.port}`)));
 } else if (config.env === 'production') {
   // Launch Relay by creating a normal express server
   const relayServer = express();
