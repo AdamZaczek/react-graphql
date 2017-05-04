@@ -11,6 +11,7 @@ Last one's, after app release:
 7. Make subscribtions, nice talk about real time apps here: https://www.youtube.com/watch?v=AYbVMNtO-ro&index=7&list=LLU57QGpPY9E2UmOkREPpMYw&t=577s.
 8. Add analytics.
 9. Update test queries.
+10. Try React-Boilerplate Solution For Facebook Login.
 ```
 
 https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1  
