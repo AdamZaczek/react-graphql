@@ -6,6 +6,7 @@ import historyApiFallback from 'connect-history-api-fallback';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
 import passport from 'passport';
+import expressJwt, { UnauthorizedError as Jwt401Error } from 'express-jwt';
 import { config, auth } from './config/environment/';
 import schema from './appData/schema';
 import myMongoCredentials from './myMongoCredentials';
@@ -28,6 +29,23 @@ if (config.env === 'development') {
   seeder();
   // Launch GraphQL
   const graphql = express();
+  graphql.use(expressJwt({
+    secret: auth.jwt.secret,
+    credentialsRequired: false,
+    getToken: req => req.cookies.id_token,
+  }));
+
+  graphql.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+    if (err instanceof Jwt401Error) {
+      console.error('[express-jwt-error]', req.cookies.id_token);
+      // `clearCookie`, otherwise user can't use web-app until cookie expires
+      res.clearCookie('id_token');
+    } else {
+      next(err);
+    }
+  });
+
+  graphql.use(passport.initialize());
 
   // authentication
   graphql.enable('trust proxy');
@@ -44,6 +62,7 @@ if (config.env === 'development') {
     },
   );
 
+  // I should pass jwt here somewhere
   graphql.use('/', graphQLHTTP({
     graphiql: true,
     pretty: true,
