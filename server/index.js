@@ -77,6 +77,22 @@ if (config.env === 'development') {
   // Launch Relay by creating a normal express server
   const productionServer = express();
 
+  productionServer.use(expressJwt({
+    secret: auth.jwt.secret,
+    credentialsRequired: false,
+    getToken: req => req.cookies.id_token,
+  }));
+
+  productionServer.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+    if (err instanceof Jwt401Error) {
+      console.error('[express-jwt-error]', req.cookies.id_token);
+      // `clearCookie`, otherwise user can't use web-app until cookie expires
+      res.clearCookie('id_token');
+    } else {
+      next(err);
+    }
+  });
+
   productionServer.get('/login/facebook',
     passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
   );
