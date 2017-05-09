@@ -14,6 +14,7 @@ Last one's, after app release:
 10. Try React-Boilerplate Solution For Facebook Login.
 11. Sync With Frontend.
 12. Fix Passport Crash.
+13. After Passport Fix Start Placing Schema Logic Inside React-Starter-Kit.
 ```
 
 https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1  
