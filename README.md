@@ -13,6 +13,7 @@ Last one's, after app release:
 9. Update test queries.
 10. Try React-Boilerplate Solution For Facebook Login.
 11. Sync With Frontend.
+12. Fix Passport Crash.
 ```
 
 https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1  
