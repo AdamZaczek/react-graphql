@@ -15,6 +15,7 @@ Last one's, after app release:
 11. Sync With Frontend.
 12. Fix Passport Crash.
 13. After Passport Fix Start Placing Schema Logic Inside React-Starter-Kit.
+14. Add first queries without care for pagination, just to have them working.
 ```
 
 https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1  
