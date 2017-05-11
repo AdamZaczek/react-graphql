@@ -1,10 +1,21 @@
-import { Strategy } from 'passport-local';
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
-const User = require('mongoose').model('User');
+/**
+ * Passport.js reference implementation.
+ * The database schema used in this sample is available at
+ * https://github.com/membership/membership.db/tree/master/postgres
+ */
 
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
-// import { User, UserLogin, UserClaim, UserProfile } from '../data/models'; <= this one needs to be mongoose
+import { User, UserLogin, UserClaim, UserProfile } from '../data/models';
 import { auth as config } from '../config';
 
 /**
@@ -113,29 +124,3 @@ passport.use(new FacebookStrategy({
 }));
 
 export default passport;
-
-
-
-
-/**
- * Return the Passport Local Strategy object.
- */
-module.exports = new Strategy({
-  usernameField: 'email',
-  passwordField: 'password',
-  session: false,
-  passReqToCallback: true
-}, (req, email, password, done) => {
-  const userData = {
-    email: email.trim(),
-    password: password.trim(),
-    name: req.body.name.trim()
-  };
-
-  const newUser = new User(userData);
-  newUser.save((err) => {
-    if (err) { return done(err); }
-
-    return done(null);
-  });
-});
