@@ -45,9 +45,9 @@ passport.use(new FacebookStrategy({
           },
         }, {
           include: [
-            { model: UserLogin, as: 'logins' }, //
-            { model: UserClaim, as: 'claims' }, //
-            { model: UserProfile, as: 'profile' }, //
+            { model: UserLogin, as: 'logins' },
+            { model: UserClaim, as: 'claims' },
+            { model: UserProfile, as: 'profile' },
           ],
         });
         done(null, {
@@ -93,9 +93,9 @@ passport.use(new FacebookStrategy({
             },
           }, {
             include: [
-              { model: UserLogin, as: 'logins' }, //
-              { model: UserClaim, as: 'claims' }, //
-              { model: UserProfile, as: 'profile' }, //
+              { model: UserLogin, as: 'logins' },
+              { model: UserClaim, as: 'claims' },
+              { model: UserProfile, as: 'profile' },
             ],
           });
           done(null, {
