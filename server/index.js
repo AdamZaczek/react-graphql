@@ -30,21 +30,23 @@ if (config.env === 'development') {
   seeder();
   // Launch GraphQL
   const graphql = express();
+  graphql.use(bodyParser.urlencoded({ extended: true }));
+  graphql.use(bodyParser.json());
   graphql.use(expressJwt({
     secret: auth.jwt.secret,
     credentialsRequired: false,
     getToken: req => req.cookies.id_token,
   }));
 
-  graphql.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-    if (err instanceof Jwt401Error) {
-      console.error('[express-jwt-error]', req.cookies.id_token);
-      // `clearCookie`, otherwise user can't use web-app until cookie expires
-      res.clearCookie('id_token');
-    } else {
-      next(err);
-    }
-  });
+  // graphql.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  //   if (err instanceof Jwt401Error) {
+  //     console.error('[express-jwt-error]', req.cookies.id_token);
+  //     // `clearCookie`, otherwise user can't use web-app until cookie expires
+  //     res.clearCookie('id_token');
+  //   } else {
+  //     next(err);
+  //   }
+  // });
 
   graphql.use(passport.initialize());
 
@@ -77,6 +79,8 @@ if (config.env === 'development') {
 } else if (config.env === 'production') {
   // Launch Relay by creating a normal express server
   const productionServer = express();
+  productionServer.use(bodyParser.urlencoded({ extended: true }));
+  productionServer.use(bodyParser.json());
 
   productionServer.use(expressJwt({
     secret: auth.jwt.secret,
@@ -84,15 +88,15 @@ if (config.env === 'development') {
     getToken: req => req.cookies.id_token,
   }));
 
-  productionServer.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-    if (err instanceof Jwt401Error) {
-      console.error('[express-jwt-error]', req.cookies.id_token);
-      // `clearCookie`, otherwise user can't use web-app until cookie expires
-      res.clearCookie('id_token');
-    } else {
-      next(err);
-    }
-  });
+  // productionServer.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  //   if (err instanceof Jwt401Error) {
+  //     console.error('[express-jwt-error]', req.cookies.id_token);
+  //     // `clearCookie`, otherwise user can't use web-app until cookie expires
+  //     res.clearCookie('id_token');
+  //   } else {
+  //     next(err);
+  //   }
+  // });
 
   productionServer.get('/login/facebook',
     passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
