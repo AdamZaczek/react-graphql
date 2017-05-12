@@ -1,14 +1,9 @@
-/**
- * Passport.js reference implementation.
- * The database schema used in this sample is available at
- * https://github.com/membership/membership.db/tree/master/postgres
- */
-
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
-import { User, UserLogin, UserClaim, UserProfile } from '../data/models';
-import { User, UserLogin, UserClaim, UserProfile } from '../appdata/models';
-import { auth as config } from '../config';
+import USER from '../appData/models/user';
+import UserLogin from '../appData/models/UserLogin';
+import UserClaim from '../appData/models/UserClaim';
+import { auth as config } from '../config/environment';
 
 /**
  * Sign in with Facebook.
