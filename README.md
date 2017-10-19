@@ -1,10 +1,48 @@
-App requires adding myMongoCredentials.js file to main folder with a link to mongolab database. It looks like this:
+App requires adding myMongoCredentials.js file to sever folder with a link to mongolab database. It looks like this:
 
 ```text
 export default 'mongodb://SomeMongoLabUsername:SomeMongoLabPassword@ds129189.mlab.com:29189/stories';  
 ```
 
-Useful queries to test api:  
+Useful queries to test api: 
+
+```javascript
+mutation CreateComment($content: String!, $_author:String!, $_story: String!) {
+  createComment(content: $content, _author: $_author, _story: $_story) {
+    content
+  }
+}
+
+{
+  "_story": "58951027734d1d3956c4289a",
+  "content": "My very first comment yay!",
+  "_author": "58961492734d1d3956c46fd0"
+}
+```
+
+```javascript
+query storiesQuery($limit: Int!) {
+  storiesQuery {
+    edges {
+      node {
+      	id
+        content
+        createdAt
+        comments(limit: $limit) {
+          content
+          _author {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
+{
+  "limit": 2
+}
+``` 
 
 ```javascript
 {storiesQuery(first: 5){
@@ -14,10 +52,6 @@ Useful queries to test api:
       content
     }
   }
-```
-
-```javascript
-{customStoriesQuery{content, _author{email, name, age}, comments{_author{email}, content}, createdAt}}  
 ```
 
 ```javascript
@@ -32,8 +66,8 @@ query getUser($id: String!) {
 }
 ```
 ```javascript
-query getUser($count: Int!) {
-  customRecentStoriesQuery(count: $count) {
+query getStory($count: Int!) {
+  recentStoriesQuery(count: $count) {
     content
   }
 }
@@ -42,28 +76,6 @@ query getUser($count: Int!) {
   "count": 3
 }
 
-```
-
-```javascript
-query getStories($limit: Int!){customStoriesQuery {
-  _id
-  title
-  category
-  summary
-  content
-  createdAt,
-  di
-  comments(limit: $limit) {
-    content,
-    _author{
-      age
-    }
-  }
-}}
-
-{
-  "limit": 1
-}
 ```
 
 ```javascript
@@ -97,26 +109,11 @@ mutation CreateStory($content: String!, $_author: String!) {
 ```
 
 ```javascript
-mutation CreateComment($content: String!, $_author:String!, $_story: String!) {
-  createComment(content: $content, _author: $_author, _story: $_story) {
-    content
-  }
-}
-
 {
-  "_story": "58951027734d1d3956c4289a",
-  "content": "My very first comment yay!",
-  "_author": "58961492734d1d3956c46fd0"
+  node(id: "VXNlcjo1ODk2MTQ5MjczNGQxZDM5NTZjNDZmZDA=") {
+    ... on User {
+      name
+    }
+  }
 }
 ```
-
-```javascript
-{node(id: "VXNlcjo1ODk2MTQ5MjczNGQxZDM5NTZjNDZmZDA=") {
-  ... on User {
-    name
-  }
-}}
-```
-Things to consider:
-Delete ^ marks in dependencies.  
-Adding redux for managing session specific data. Switching react to preact(!).  
