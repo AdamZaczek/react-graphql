@@ -45,13 +45,16 @@ query storiesQuery($limit: Int!) {
 ``` 
 
 ```javascript
-{storiesQuery(first: 5){
-  totalCount,
-  edges {
-    node {
-      content
+{
+  storiesQuery(first: 5) {
+    totalCount
+    edges {
+      node {
+        content
+      }
     }
   }
+}
 ```
 
 ```javascript
